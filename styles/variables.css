@@ -1,0 +1,82 @@
+:root {
+  /* Backgrounds */
+  --bg-primary: #0A0A0A;
+  --bg-surface: #111111;
+  --bg-elevated: #1A1A1A;
+
+  /* Text */
+  --text-primary: #EDEDED;
+  --text-secondary: #999999;
+  --text-muted: #555555;
+
+  /* Accent — Matrix Green */
+  --accent: #00FF41;
+  --accent-dim: #00CC33;
+
+  /* Heatmap — Green scale */
+  --heatmap-0: #161616;
+  --heatmap-1: rgba(0, 255, 65, 0.15);
+  --heatmap-2: rgba(0, 255, 65, 0.35);
+  --heatmap-3: rgba(0, 255, 65, 0.6);
+  --heatmap-4: #00FF41;
+
+  /* Borders / Grid lines */
+  --border: #1F1F1F;
+  --border-subtle: #161616;
+
+  /* Status */
+  --status-active: #00FF41;
+  --status-shutdown: #444444;
+  --status-killed: #444444;
+
+  /* Opacity for shutdown/killed items */
+  --muted-opacity: 0.5;
+
+  /* Font family */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* Type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3.5rem;
+
+  /* Font weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em;
+  --tracking-mono: 0.1em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 5rem;
+  --space-16: 8rem;
+  --space-20: 10rem;
+
+  /* Layout */
+  --container-max: 720px;
+  --container-padding: var(--space-5);
+}
