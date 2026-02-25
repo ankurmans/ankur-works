@@ -22,6 +22,7 @@ async function initHeatmap() {
   renderMonthLabels(data.contributions);
   renderTotal(data.contributions);
   initTooltips(grid);
+  scrollToLatest();
 }
 
 async function fetchContributions() {
@@ -128,6 +129,11 @@ function renderTotal(contributions) {
     .reduce((sum, c) => sum + c.count, 0);
 
   totalEl.textContent = `${count.toLocaleString()} contributions in the last year`;
+}
+
+function scrollToLatest() {
+  const scroller = document.querySelector('.heatmap__main');
+  if (scroller) scroller.scrollLeft = scroller.scrollWidth;
 }
 
 function initTooltips(grid) {
