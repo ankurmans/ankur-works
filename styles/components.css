@@ -373,6 +373,10 @@
    CTA
    ========================================================================== */
 
+.cta {
+  padding-top: 0;
+}
+
 .cta__text {
   font-size: var(--text-base);
   color: var(--text-secondary);
