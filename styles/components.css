@@ -68,7 +68,7 @@
 .section__heading {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
   margin-bottom: var(--space-10);
