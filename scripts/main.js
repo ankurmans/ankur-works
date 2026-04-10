@@ -26,21 +26,42 @@ async function initHeatmap() {
 }
 
 async function fetchContributions() {
-  // Try live data first so the heatmap stays current between deploys
+  let staticData = null;
+  let liveData = null;
+
+  // Static JSON includes private contributions (built with GITHUB_TOKEN)
+  try {
+    const res = await fetch('/data/contributions.json');
+    if (res.ok) staticData = await res.json();
+  } catch (_) { /* ignore */ }
+
+  // Live proxy has latest dates but only public contributions
   try {
     const res = await fetch(
       `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}`
     );
-    if (res.ok) return res.json();
-  } catch (_) { /* fall through */ }
+    if (res.ok) liveData = await res.json();
+  } catch (_) { /* ignore */ }
 
-  // Fallback: static JSON generated at build time
-  try {
-    const res = await fetch('/data/contributions.json');
-    if (res.ok) return res.json();
-  } catch (_) { /* fall through */ }
+  if (!staticData && !liveData) return null;
+  if (!staticData) return liveData;
+  if (!liveData) return staticData;
 
-  return null;
+  // Merge: use static data (has private contribs) for dates it covers,
+  // then append newer dates from live proxy
+  const staticDates = new Set(staticData.contributions.map(d => d.date));
+  const lastStaticDate = staticData.contributions[staticData.contributions.length - 1]?.date;
+  const newerDays = liveData.contributions.filter(d => d.date > lastStaticDate);
+  const merged = [...staticData.contributions, ...newerDays];
+
+  // Rebuild totals from merged data
+  const total = {};
+  for (const d of merged) {
+    const year = d.date.slice(0, 4);
+    total[year] = (total[year] || 0) + d.count;
+  }
+
+  return { total, contributions: merged };
 }
 
 function renderGrid(container, contributions) {
