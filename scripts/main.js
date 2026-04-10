@@ -26,17 +26,17 @@ async function initHeatmap() {
 }
 
 async function fetchContributions() {
-  // Try local static JSON first (generated at build time)
-  try {
-    const res = await fetch('/data/contributions.json');
-    if (res.ok) return res.json();
-  } catch (_) { /* fall through */ }
-
-  // Fallback: fetch live from public proxy
+  // Try live data first so the heatmap stays current between deploys
   try {
     const res = await fetch(
       `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}`
     );
+    if (res.ok) return res.json();
+  } catch (_) { /* fall through */ }
+
+  // Fallback: static JSON generated at build time
+  try {
+    const res = await fetch('/data/contributions.json');
     if (res.ok) return res.json();
   } catch (_) { /* fall through */ }
 
