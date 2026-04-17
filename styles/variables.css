@@ -25,6 +25,8 @@
   --border-subtle: #161616;
 
   /* Status */
+  --status-building: #00FF41;
+  --status-advising: #888888;
   --status-active: #00FF41;
   --status-shutdown: #444444;
   --status-killed: #444444;

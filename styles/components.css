@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .hero {
-  padding-block: var(--space-16) var(--space-8);
+  padding-block: var(--space-16) var(--space-3);
 }
 
 .hero__tag {
@@ -71,7 +71,7 @@
   color: var(--text-secondary);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-4);
   padding-bottom: var(--space-4);
   border-bottom: 1px solid var(--border);
 }
@@ -97,12 +97,22 @@
 .history-item {
   display: grid;
   grid-template-columns: 8px 1fr auto auto auto;
+  grid-template-areas:
+    "dot name metric meta link"
+    ".   note note   note note";
   align-items: center;
-  gap: var(--space-4);
+  column-gap: var(--space-4);
   padding-block: var(--space-4);
   border-bottom: 1px solid var(--border-subtle);
   transition: opacity 0.15s ease;
 }
+
+.history-item__dot { grid-area: dot; }
+.history-item__name { grid-area: name; }
+.history-item__metric { grid-area: metric; }
+.history-item__meta { grid-area: meta; }
+.history-item__link { grid-area: link; }
+.history-item__note { grid-area: note; padding-top: var(--space-2); }
 
 .history-item:last-child {
   border-bottom: none;
@@ -115,6 +125,15 @@
   border-radius: 50%;
   background-color: var(--status-active);
   flex-shrink: 0;
+}
+
+.history-item[data-status="building"] .history-item__dot {
+  background-color: var(--status-building);
+  box-shadow: 0 0 8px var(--status-building);
+}
+
+.history-item[data-status="advising"] .history-item__dot {
+  background-color: var(--status-advising);
 }
 
 .history-item[data-status="shutdown"] .history-item__dot,
@@ -154,8 +173,13 @@
   text-transform: uppercase;
 }
 
-.history-item[data-status="active"] .history-item__status {
+.history-item[data-status="active"] .history-item__status,
+.history-item[data-status="building"] .history-item__status {
   color: var(--accent);
+}
+
+.history-item[data-status="advising"] .history-item__status {
+  color: var(--text-secondary);
 }
 
 /* External link */
@@ -203,7 +227,7 @@
 .history-item__year {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   letter-spacing: var(--tracking-wide);
 }
 
@@ -211,7 +235,7 @@
 .history-item__note {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -290,6 +314,10 @@
   align-items: center;
   justify-content: space-between;
   margin-top: var(--space-3);
+}
+
+.section.activity {
+  padding-bottom: var(--space-4);
 }
 
 .heatmap__total {
