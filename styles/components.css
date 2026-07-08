@@ -141,6 +141,10 @@
   background-color: var(--status-shutdown);
 }
 
+.history-item[data-status="exited"] .history-item__dot {
+  background-color: var(--status-exited);
+}
+
 /* Muted styling for shutdown/killed */
 .history-item[data-status="shutdown"],
 .history-item[data-status="killed"] {
@@ -180,6 +184,10 @@
 
 .history-item[data-status="advising"] .history-item__status {
   color: var(--text-secondary);
+}
+
+.history-item[data-status="exited"] .history-item__status {
+  color: var(--status-exited);
 }
 
 /* External link */

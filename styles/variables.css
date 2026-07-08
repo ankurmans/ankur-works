@@ -30,6 +30,7 @@
   --status-active: #00FF41;
   --status-shutdown: #444444;
   --status-killed: #444444;
+  --status-exited: #6b7280;
 
   /* Opacity for shutdown/killed items */
   --muted-opacity: 0.5;
