@@ -9,11 +9,11 @@
   --text-secondary: #999999;
   --text-muted: #555555;
 
-  /* Accent — Matrix Green */
+  /* Accent – Matrix Green */
   --accent: #00FF41;
   --accent-dim: #00CC33;
 
-  /* Heatmap — Green scale */
+  /* Heatmap – Green scale */
   --heatmap-0: #161616;
   --heatmap-1: rgba(0, 255, 65, 0.15);
   --heatmap-2: rgba(0, 255, 65, 0.35);

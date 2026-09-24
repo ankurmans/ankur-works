@@ -102,7 +102,7 @@ async function main() {
       : await fetchFromProxy();
 
     if (!token) {
-      console.warn('No GITHUB_TOKEN set — using public proxy (private contributions excluded).');
+      console.warn('No GITHUB_TOKEN set – using public proxy (private contributions excluded).');
     }
 
     if (!existsSync(OUTPUT_DIR)) {

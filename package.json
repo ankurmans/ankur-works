@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/fetch-contributions.js",
-    "build": "vite build",
+    "build": "vite build && node scripts/inline-portfolio-css.js",
     "preview": "vite preview"
   },
   "devDependencies": {

@@ -26,7 +26,7 @@ async function initHeatmap() {
 }
 
 async function fetchContributions() {
-  // Live serverless function — always current, includes private contributions.
+  // Live serverless function – always current, includes private contributions.
   try {
     const res = await fetch('/api/contributions');
     if (res.ok) {

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Structural AN monogram logo concept</title>
+  <rect width="256" height="256" rx="34" fill="#171715"/>
+  <path d="M35 190 85 67 135 190M55 146h60M151 190v-79c0-28 15-45 38-45 22 0 37 16 37 43v81" fill="none" stroke="#fffaf2" stroke-width="19" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M151 190h75" stroke="#ef6a45" stroke-width="19" stroke-linecap="square"/>
+</svg>

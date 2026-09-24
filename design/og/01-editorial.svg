@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title">
+  <title id="title">Ankur Works Open Graph concept: editorial</title>
+  <defs>
+    <clipPath id="frame"><rect width="1200" height="630" rx="22"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="630" fill="#f3efe6"/>
+    <rect x="0" y="0" width="12" height="630" fill="#ef6a45"/>
+    <rect x="790" y="0" width="410" height="630" fill="#171715"/>
+    <rect x="66" y="54" width="69" height="69" rx="15" fill="#171715"/>
+    <text x="100" y="105" text-anchor="middle" fill="#fffaf2" font-family="Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="-5">An</text>
+    <text x="155" y="100" fill="#171715" font-family="Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="-2">ankur.works</text>
+    <text x="70" y="188" fill="#666157" font-family="Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="4">FULL-STACK BUILDER</text>
+    <text x="66" y="304" fill="#171715" font-family="Arial,sans-serif" font-size="112" font-weight="700" letter-spacing="-9">I build</text>
+    <text x="66" y="414" fill="#171715" font-family="Arial,sans-serif" font-size="112" font-weight="700" letter-spacing="-9">the thing</text>
+    <path d="M70 465 H715" stroke="#bbb4a8" stroke-width="2"/>
+    <text x="70" y="518" fill="#312e29" font-family="Arial,sans-serif" font-size="27" font-weight="500">Software, brands, and whatever comes next</text>
+    <text x="70" y="578" fill="#777166" font-family="Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="2">ANKUR SHRESTHA  /  FULL-STACK BUILDER</text>
+    <circle cx="998" cy="270" r="159" fill="none" stroke="#5a5850" stroke-width="2"/>
+    <rect x="851" y="142" width="226" height="226" rx="31" fill="#ffbd46" transform="rotate(-11 964 255)"/>
+    <text x="964" y="302" text-anchor="middle" fill="#171715" font-family="Arial,sans-serif" font-size="143" font-weight="700" letter-spacing="-16" transform="rotate(-11 964 255)">An</text>
+    <rect x="1022" y="345" width="139" height="134" rx="18" fill="#e76548" transform="rotate(10 1091 412)"/>
+    <text x="1085" y="401" text-anchor="middle" fill="#fffaf2" font-family="Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="1" transform="rotate(10 1091 412)">BUILD</text>
+    <text x="1085" y="428" text-anchor="middle" fill="#fffaf2" font-family="Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="1" transform="rotate(10 1091 412)">SHIP</text>
+    <text x="1085" y="455" text-anchor="middle" fill="#fffaf2" font-family="Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="1" transform="rotate(10 1091 412)">REPEAT</text>
+    <text x="838" y="566" fill="#aaa79b" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">ALWAYS A WIP</text>
+  </g>
+</svg>

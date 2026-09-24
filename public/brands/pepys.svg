@@ -1,0 +1,10 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pepys">
+  <rect width="64" height="64" rx="14" fill="#122318"></rect>
+  <g transform="translate(10 8.5) scale(0.56)">
+    <path d="M14 70 C26 38 48 18 72 10 C70 36 58 60 32 70 C26 72 19 72 14 70 Z" fill="#CBBFEC" stroke="#FBF8F0" stroke-width="3.9" stroke-linejoin="round"></path>
+    <path d="M22 62 L60 22" fill="none" stroke="#FBF8F0" stroke-width="2.7" stroke-linecap="round" opacity="0.82"></path>
+    <path d="M28 56 L40 60 M36 46 L48 50 M44 36 L56 40" fill="none" stroke="#FBF8F0" stroke-width="2.4" stroke-linecap="round" opacity="0.66"></path>
+    <path d="M14 70 L8 80 L22 74 Z" fill="#FBF8F0"></path>
+    <circle cx="7" cy="80" r="3.6" fill="#E8745A"></circle>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title">
+  <title id="title">Ankur Works Open Graph concept: marigold</title>
+  <defs><clipPath id="frame"><rect width="1200" height="630" rx="22"/></clipPath></defs>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="630" fill="#ffbd46"/>
+    <circle cx="1050" cy="490" r="348" fill="none" stroke="#e89c31" stroke-width="2"/>
+    <circle cx="1050" cy="490" r="278" fill="none" stroke="#e89c31" stroke-width="2"/>
+    <rect x="60" y="60" width="750" height="510" rx="32" fill="#fffaf2" stroke="#171715" stroke-width="3"/>
+    <rect x="72" y="72" width="750" height="510" rx="32" fill="none" stroke="#171715" stroke-width="2"/>
+    <text x="106" y="124" fill="#171715" font-family="Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="2">ANKUR SHRESTHA</text>
+    <circle cx="735" cy="107" r="11" fill="#ef6a45"/>
+    <text x="100" y="283" fill="#171715" font-family="Arial,sans-serif" font-size="100" font-weight="700" letter-spacing="-8">From sketch</text>
+    <text x="100" y="381" fill="#171715" font-family="Arial,sans-serif" font-size="100" font-weight="700" letter-spacing="-8">to shipped</text>
+    <rect x="104" y="420" width="372" height="46" rx="23" fill="#171715"/>
+    <text x="290" y="450" text-anchor="middle" fill="#fffaf2" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2">BUILD / SHIP / REPEAT</text>
+    <text x="105" y="528" fill="#58524b" font-family="Arial,sans-serif" font-size="24">Full-stack builder · software and brands</text>
+    <rect x="889" y="94" width="239" height="239" rx="46" fill="#171715" transform="rotate(8 1008 213)"/>
+    <text x="1009" y="271" text-anchor="middle" fill="#fffaf2" font-family="Arial,sans-serif" font-size="148" font-weight="700" letter-spacing="-17" transform="rotate(8 1008 213)">An</text>
+    <rect x="885" y="373" width="213" height="105" rx="17" fill="#302c68" transform="rotate(-9 991 425)"/>
+    <text x="909" y="419" fill="#fffaf2" font-family="Arial,sans-serif" font-size="23" font-weight="700" transform="rotate(-9 991 425)">Ideas don’t</text>
+    <text x="909" y="448" fill="#fffaf2" font-family="Arial,sans-serif" font-size="23" font-weight="700" transform="rotate(-9 991 425)">wait for notes</text>
+    <text x="897" y="567" fill="#171715" font-family="Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="1">ankur.works</text>
+  </g>
+</svg>
