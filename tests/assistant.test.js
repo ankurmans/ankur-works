@@ -300,6 +300,54 @@ test('a live product that needs buyers to discover it gets search-only context',
   });
 });
 
+test('a product nobody finds selects search without unrelated project cards', async () => {
+  await withModel('I’d start with buyer questions and the pages meant to answer them. What is your site?', ['offer-search-5'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'I already have a product but nobody finds it. What should I do first?' }), res);
+    assert.equal(res.statusCode, 200);
+    const records = JSON.parse(calls[0].messages[1].content).SITE_CONTENT;
+    assert.ok(records.some((record) => record.id === 'offer-search-5'));
+    assert.ok(records.every((record) => record.page === '/seo-ai-search/'));
+  });
+});
+
+test('an MVP starting question stays on the product offer', async () => {
+  await withModel('I’d scope the smallest useful version around one user journey.', ['offer-product-6'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'How would we start building an MVP?' }), res);
+    assert.equal(res.statusCode, 200);
+    const records = JSON.parse(calls[0].messages[1].content).SITE_CONTENT;
+    assert.ok(records.some((record) => record.id === 'offer-product-6'));
+    assert.ok(records.every((record) => record.page === '/product-development/'));
+  });
+});
+
+test('offer and search questions retain useful answers when the model fails', async () => {
+  const original = global.fetch;
+  global.fetch = async () => { throw new Error('model unavailable'); };
+  try {
+    for (const [question, expected, source] of [
+      ['Nobody finds my existing app. Where should I start?', /buyers actually ask/, '/seo-ai-search/'],
+      ['How do you start scoping an MVP build?', /smallest useful version/, '/product-development/'],
+      ['What would you check to help my company appear in ChatGPT answers?', /AI answer visibility needs a separate/, '/seo-ai-search/'],
+    ]) {
+      const res = response();
+      await handler(request({ question }), res);
+      assert.equal(res.statusCode, 200, question);
+      assert.match(res.body.answer, expected);
+      assert.equal(res.body.sources[0].url, source);
+      assert.equal(res.body.cache, 'guard');
+    }
+  } finally { global.fetch = original; }
+});
+
+test('specific proof retrieval excludes unrelated build-page copy', () => {
+  const ids = retrieve('What happened with QuoteSweep Google clicks from April to August 2026?').map((record) => record.id);
+  assert.ok(ids.includes('offer-search-evidence'));
+  assert.ok(!ids.includes('offer-product-proof'));
+  assert.ok(ids.length <= 3);
+});
+
 test('a sales follow-up retries an unsupported metric instead of failing the conversation', async () => {
   const original = global.fetch;
   const calls = [];
