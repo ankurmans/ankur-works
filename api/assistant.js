@@ -167,8 +167,12 @@ function approvedClaimAnswer(question) {
 }
 function validateGrounding(answer, cited) {
   const citedText = cited.map((record) => record.text).join(' ');
-  const numbers = answer.match(/\$?\d[\d,.]*(?:[kKmMbB%])?/g) || [];
-  if (numbers.some((number) => !citedText.includes(number))) throw new Error('Uncited numeric claim');
+  const numbers = (answer.match(/\$?\d[\d,.]*(?:[kKmMbB%])?/g) || []).map((number) => number.replace(/[,.]+$/, ''));
+  const unmatched = numbers.filter((number) => !citedText.includes(number));
+  if (unmatched.length) {
+    if (process.env.NODE_ENV !== 'test') console.warn('assistant_numeric_grounding_reject', JSON.stringify({ unmatched, citedIds: cited.map((record) => record.id) }));
+    throw new Error('Uncited numeric claim');
+  }
   const numberBases = numbers.map((number) => number.match(/\d[\d,.]*/)?.[0].replace(/,/g, ''));
   for (const record of cited) {
     for (const claim of record.claims || []) {
