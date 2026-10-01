@@ -98,7 +98,7 @@ test('booking questions return the in-chat handoff without a model call', async 
 test('sales questions use the model with the relevant offer facts', async () => {
   for (const [question, expectedIds, answer, citation] of [
     ['Can you help me build my app?', ['offer-product-5', 'offer-product-6'], 'I can help scope and build a first version.', 'offer-product-6'],
-    ['Can you help us with SEO and AI search?', ['offer-search-5', 'offer-search-6'], 'I can start with buyer questions and search data.', 'offer-search-6'],
+    ['Can you help us with SEO and AI search?', ['offer-search-5', 'offer-search-6'], 'I can start with buyer questions and search evidence.', 'offer-search-6'],
     ['Which service is right for us?', ['offer-product-5', 'offer-search-5'], 'I work on products and search. What is stuck?', 'offer-product-5'],
   ]) {
     await withModel(answer, [citation], async (calls) => {
@@ -106,6 +106,7 @@ test('sales questions use the model with the relevant offer facts', async () => 
       await handler(request({ question }), res);
       assert.equal(res.statusCode, 200, `${question}: ${res.body.error || ''}`);
       assert.equal(res.body.cache, 'miss');
+      assert.equal(calls[0].model, 'openai/gpt-5-mini');
       const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
       for (const id of expectedIds) assert.ok(ids.includes(id), `${question}: missing ${id}`);
       assert.match(calls[0].messages[0].content, /Do not repeat a previous pitch/);

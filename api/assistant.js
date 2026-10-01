@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v8';
+const PROMPT_VERSION = 'ankur-ai-twin-v9';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -285,7 +285,7 @@ export default async function handler(req, res) {
         const parsed = JSON.parse(raw);
         if (!['answered', 'refused'].includes(parsed.outcome) || typeof parsed.answer !== 'string' || !parsed.answer.trim() || parsed.answer.length > 700 || !Array.isArray(parsed.source_ids)) throw new Error('Invalid model answer');
         const answer = parsed.answer.trim().replace(/\s*—\s*/g, ' – ');
-        if (/https?:\/\/|www\.|\[[^\]]+\]\(|@|\b(?:system prompt|developer message|site_content|source_ids|evidence|source titles?|knowledge entry|public-code section)\b/i.test(answer)) throw new Error('Untrusted model answer');
+        if (/https?:\/\/|www\.|\[[^\]]+\]\(|@|\b(?:system prompt|developer message|site_content|source_ids|knowledge entry|public-code section)\b/i.test(answer)) throw new Error('Untrusted model answer');
         if (searchOnly && /\b(?:full[ -]?stack|product development|product (?:build|improvements?)|rebuild)\b/i.test(answer)) throw new Error('Wrong offer fit');
         if (parsed.source_ids.some((id) => typeof id !== 'string' || !found.some((record) => record.id === id))) throw new Error('Unknown citation');
         if (parsed.outcome === 'refused' && parsed.source_ids.length) throw new Error('Refusal with citations');
