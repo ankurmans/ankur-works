@@ -30,7 +30,8 @@ async function withinLimit(req, action, cached = false) {
   const ipCount = await increment(`ankur-voice:${action}:ip:${ipHash}:${hour}`, 3600);
   const dailyCount = cached ? 0 : await increment(`ankur-voice:${action}:daily:${day}`, 172800);
   const dailyCap = Math.max(1, Number.parseInt(process.env.ASSISTANT_VOICE_DAILY_CAP || '200', 10) || 200);
-  return ipCount <= 12 && (cached || dailyCount <= dailyCap);
+  const hourlyCap = Math.max(1, Number.parseInt(process.env.ASSISTANT_VOICE_HOURLY_CAP || '60', 10) || 60);
+  return ipCount <= hourlyCap && (cached || dailyCount <= dailyCap);
 }
 
 export default async function handler(req, res) {

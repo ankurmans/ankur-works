@@ -358,7 +358,10 @@ async function speak(text, token, button = null) {
     if (controller.signal.aborted) return;
     stopAudio();
     const message = error instanceof Error ? error.message : 'Voice playback failed.';
-    if (voiceModeActive) setVoiceStatus(`${message} Open conversation history or end the call to read my reply.`);
+    if (voiceModeActive) {
+      setVoiceStatus(`${message} The reply is in conversation history.`, 4500);
+      listenAgain('Listening for your next question…');
+    }
     else setVoiceStatus(message);
   }
 }
@@ -400,12 +403,18 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
     const playButton = appendPlayback(reply.parentElement, data.answer, data.voiceToken);
     persistMessage('assistant', data.answer, data.sources, false, chatId, data.voiceToken);
     if (spoken && data.voiceToken) void speak(data.answer, data.voiceToken, playButton);
-    else if (spoken) setVoiceStatus('Voice playback is unavailable. Open conversation history or end the call to read my reply.');
+    else if (spoken) {
+      setVoiceStatus('Voice playback is unavailable. The reply is in conversation history.', 4500);
+      listenAgain('Listening for your next question…');
+    }
   } catch (error) {
     reply.textContent = error instanceof Error ? error.message : "I can't answer right now. You can email me directly.";
     persistMessage('assistant', reply.textContent, [], true, chatId);
     if (voiceModeActive && spoken) addCallHistory('assistant', reply.textContent);
-    if (spoken) setVoiceStatus('I couldn’t answer that right now. Open conversation history or end the call to type.');
+    if (spoken) {
+      setVoiceStatus('I couldn’t answer that right now. You can try another question.', 4500);
+      listenAgain('Listening for your next question…');
+    }
   } finally {
     busy = false;
     send.disabled = false;
