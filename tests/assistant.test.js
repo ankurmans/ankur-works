@@ -223,7 +223,7 @@ test('commerce result is scoped to both brands and its two-year period', async (
   const res = response();
   await handler(request({ question: 'What results did your eCommerce brands achieve?' }), res);
   assert.equal(res.statusCode, 200);
-  assert.match(res.body.answer, /^I founded and operated both brands/);
+  assert.match(res.body.answer, /^I co-founded and operated both brands/);
   assert.match(res.body.answer, /\$3\.76M in combined USD revenue over two years/);
   assert.deepEqual(res.body.sources, [{ title: 'Commerce brands', url: '/#work' }]);
 });
