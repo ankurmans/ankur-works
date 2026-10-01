@@ -132,6 +132,31 @@ test('a buyer asking why Ankur gets both product and discovery proof', async () 
   });
 });
 
+test('a product-build buyer gets Whooshly as concrete build proof', async () => {
+  await withModel('I designed and shipped Whooshly as one connected campaign toolkit across editable links, QR codes, pages and reporting. What are you trying to build?', ['whooshly', 'offer-product-proof'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'Why should I hire you to build my app?' }), res);
+    assert.equal(res.statusCode, 200);
+    const input = JSON.parse(calls[0].messages[1].content);
+    assert.deepEqual(input.SITE_CONTENT.map((record) => record.id), ['whooshly', 'offer-product-proof']);
+    assert.match(input.SITE_CONTENT[0].text, /editable links, QR codes, UTM tags, landing pages and shared measurement/);
+    assert.match(calls[0].messages[0].content, /concrete product I designed and shipped/);
+    assert.equal(res.body.sources[0].url, '/#work');
+  });
+});
+
+test('product-build proof stays useful if the model fails', async () => {
+  const original = global.fetch;
+  global.fetch = async () => { throw new Error('model unavailable'); };
+  try {
+    const res = response();
+    await handler(request({ question: 'Why would I hire you to build software?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body.answer, /Whooshly as a connected campaign toolkit/);
+    assert.equal(res.body.sources[0].url, '/product-development/#proof');
+  } finally { global.fetch = original; }
+});
+
 test('buyer credibility still gets a grounded answer if the model fails', async () => {
   const original = global.fetch;
   global.fetch = async () => { throw new Error('model unavailable'); };

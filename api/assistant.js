@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v30';
+const PROMPT_VERSION = 'ankur-ai-twin-v31';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -108,12 +108,14 @@ const entityAliases = {
 };
 const pepysGrowth = knowledge.find((record) => record.id === 'pepys-product-growth-2026');
 const pepysReferrals = knowledge.find((record) => record.id === 'pepys-chatgpt-referrals-2026');
+const whooshlyProduct = knowledge.find((record) => record.id === 'whooshly');
+const productProof = knowledge.find((record) => record.id === 'offer-product-proof');
 const quoteSweepProof = knowledge.find((record) => record.id === 'offer-search-evidence');
 const quoteSweepClicks = quoteSweepProof?.text.match(/Monthly clicks rose from 96 in April to 988 in August 2026\./)?.[0];
-if (!pepysGrowth || !pepysReferrals || !quoteSweepClicks) throw new Error('Growth story proof is missing');
+if (!pepysGrowth || !pepysReferrals || !whooshlyProduct || !productProof || !quoteSweepClicks) throw new Error('Growth story proof is missing');
 const growthStory = {
   id: 'growth-story', title: 'Growth from products I built', url: null,
-  text: `I build products and help them get found. Pepys and QuoteSweep are my own products. ${pepysGrowth.text} QuoteSweep Search Console observation: ${quoteSweepClicks} These are separate product-use and search-discovery results; neither proves that search caused Pepys signups.`,
+  text: `I build products and help them get found. Pepys, Whooshly and QuoteSweep are my own products. Whooshly is a live campaign toolkit I designed and shipped, joining links, QR codes, pages and reporting in one product. ${pepysGrowth.text} QuoteSweep Search Console observation: ${quoteSweepClicks} These are separate product-use and search-discovery results; neither proves that search caused Pepys signups.`,
 };
 function claimRules(records) {
   return records.flatMap((record) => (record.claims || []).map((claim) =>
@@ -265,6 +267,7 @@ export default async function handler(req, res) {
   const offerFacts = offerContext(question, relevantHistory, page);
   const asksForProof = /\b(?:result|metric|proof|case study|growth|grew|clicks|impressions|revenue)\b/i.test(question);
   const asksWhyAnkur = WHY_ANKUR.test(question);
+  const asksProductProof = asksWhyAnkur && PRODUCT_NEED.test(question) && !SEARCH_NEED.test(question);
   const asksPepysAiTraffic = /\bpepys\b/i.test(question) && /\b(?:chatgpt|ai)\b/i.test(question)
     && /\b(?:referrals?|traffic|sessions?|growth|grew)\b/i.test(question);
   const asksAiSearchApproach = /\b(?:chatgpt|perplexity|ai answers?|ai search)\b/i.test(question)
@@ -277,6 +280,8 @@ export default async function handler(req, res) {
   const offTopic = !TOPIC.test(contextQuestion) && !offerFacts.length && !mentionsProject && !asksForProof && !personalMatch && otherFacts.length <= 1;
   const found = offTopic ? [] : personalMatch && !mentionsProject
     ? [personalMatch]
+    : asksProductProof
+    ? [whooshlyProduct, productProof]
     : asksWhyAnkur
     ? [growthStory]
     : asksPepysAiTraffic ? [pepysReferrals]
@@ -288,7 +293,9 @@ export default async function handler(req, res) {
   const modelContent = found.map(({ id, title, text, page, evidence_type, provenance, claims }) =>
     ({ id, title, text, ...(page ? { page } : {}), ...(evidence_type ? { evidence_type } : {}), ...(provenance ? { provenance } : {}), ...(claims ? { claims } : {}) }));
   const alreadyAskedForSite = /\b(?:site|url)\b/i.test(lastAssistant) && /\b(?:buyer|audience)\b/i.test(lastAssistant);
-  const fitGuidance = asksWhyAnkur
+  const fitGuidance = asksProductProof
+    ? 'The visitor asks why to hire me for product development. Lead with Whooshly as a concrete product I designed and shipped: editable links and QR codes, UTM-tagged destinations, bio and landing pages, and shared reporting. This demonstrates the breadth and coherence of the build, not a measured business outcome. If useful, mention Pepys as another shipped product. Keep it under 65 words and invite a relevant next question or call. Cite the supplied product records.'
+    : asksWhyAnkur
     ? 'The visitor is asking why they should work with me. Lead with one or two concrete before-and-after results from the supplied Pepys and QuoteSweep proof. Prefer Pepys signups rising 8.2× from August to September 2026 alongside about 2.1× growth in completed transcriptions or QuoteSweep Google clicks rising from 96 in April to 988 in August 2026. Cite the matching supplied proof record. Say what those measures are; never imply search or AI referrals caused signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
     : asksPepysAiTraffic
       ? 'Answer in two short sentences. Start with "I tracked". Lead with ChatGPT-entry sessions rising from 190 in July to 1,637 in September 2026, then note the late-September pullback. These are referral sessions, not AI citations or proof that ChatGPT caused signups or revenue. Skip visitor IDs, pageviews, and landing paths unless explicitly asked.'
@@ -375,6 +382,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     if (process.env.NODE_ENV !== 'test') console.warn('assistant_model_failure', error instanceof Error ? error.message.slice(0, 120) : 'unknown');
+    if (asksProductProof) return json(res, 200, outcome("I designed and shipped Whooshly as a connected campaign toolkit – editable links and QR codes, landing pages and measurement in one product. If that kind of end-to-end build is what you need, book a call below and tell me what you're building.", [{ title: 'Whooshly product build', url: '/product-development/#proof' }], 'answered', 'guard'));
     if (asksWhyAnkur) return json(res, 200, outcome("I've built the products I talk about. Pepys signups grew 8.2× from August to September 2026, while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If that mix of building and getting found is what you need, book a call below.", [], 'answered', 'guard'));
     if (asksPepysAiTraffic) return json(res, 200, outcome("I tracked ChatGPT-entry sessions to Pepys rising from 190 in July to 1,637 in September 2026. They peaked early in September, then slowed later that month. That's referral traffic, not proof of AI citations or signup attribution.", [], 'answered', 'guard'));
     if (personalMatch && !mentionsProject) return json(res, 200, outcome(personalMatch.text, [], 'answered', 'guard'));

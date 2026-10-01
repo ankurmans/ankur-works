@@ -15,7 +15,7 @@
     "id": "whooshly",
     "title": "Whooshly",
     "url": "/#work",
-    "text": "Whooshly. Links, QR codes, link-in-bio, and landing pages made for people who actually ship campaigns. Status: ● Live."
+    "text": "Whooshly. A live campaign toolkit I built around editable links, QR codes, UTM tags, landing pages and shared measurement. Status: ● Live."
   },
   {
     "id": "quotesweep",
@@ -130,7 +130,7 @@
     "title": "I built this. Let’s build yours.",
     "url": "/product-development/",
     "page": "/product-development/",
-    "text": "I built this. Let’s build yours. THE PERSON WHO SHIPS IT Pepys makes recordings usable. Whooshly makes campaign links and destinations easier to run. I shaped, designed and shipped both – and can take your product from scope to launch.",
+    "text": "I built this. Let’s build yours. THE PERSON WHO SHIPS IT Pepys makes recordings usable. Whooshly turns links, QR codes, pages and measurement into one campaign toolkit. I shaped, designed and shipped both – and can take your product from scope to launch.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
@@ -146,7 +146,7 @@
     "title": "I've shipped the whole thing",
     "url": "/product-development/#proof",
     "page": "/product-development/",
-    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep BUILT IN THE OPEN These are my own products. Different markets, different problems, the same hands-on work from idea to live software. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. Short links, QR codes, link-in-bio and landing pages in one campaign toolkit. Built for the moments a marketer needs to move. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job. Metrics: Pepys PostHog distinct signup users and people completing a transcription, complete UTC months August–September 2026, test accounts filtered; relative weekly signup chart shows full UTC weeks June 14–September 19 and stops at its September 13 peak. Whooshly: PostHog distinct September signups. QuoteSweep: Search Console complete months April–August 2026. Screenshots show public or demo product views.",
+    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep BUILT IN THE OPEN These are my own products. Different markets, different problems, the same hands-on work from idea to live software. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. I built a connected campaign toolkit: editable short links and QR codes, UTM-tagged destinations, bio and landing pages, and reporting for clicks, scans and leads. One campaign, across the surfaces a marketer actually uses. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job. Metrics: Pepys PostHog distinct signup users and people completing a transcription, complete UTC months August–September 2026, test accounts filtered; relative weekly signup chart shows full UTC weeks June 14–September 19 and stops at its September 13 peak. Whooshly: PostHog distinct September signups. QuoteSweep: Search Console complete months April–August 2026. Screenshots show public or demo product views.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
