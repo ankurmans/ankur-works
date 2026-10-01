@@ -1,4 +1,4 @@
-export function createVoiceTurnDetector({ speechLevel = 0.022, quietLevel = 0.014, minSpeechMs = 220, pauseMs = 1500 } = {}) {
+export function createVoiceTurnDetector({ speechLevel = 0.022, quietLevel = 0.014, minSpeechMs = 220, pauseMs = 1000 } = {}) {
   let startedAt = null;
   let lastSpeechAt = null;
   let heardSpeech = false;
