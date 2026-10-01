@@ -130,7 +130,7 @@
     "title": "I built this. Let’s build yours.",
     "url": "/product-development/",
     "page": "/product-development/",
-    "text": "I built this. Let’s build yours. THE PERSON WHO SHIPS IT Pepys turns recordings into usable text. Whooshly turns one campaign into links, QR codes, and landing pages. I work from product decision through code and launch.",
+    "text": "I built this. Let’s build yours. THE PERSON WHO SHIPS IT Pepys makes recordings usable. Whooshly makes campaign links and destinations easier to run. I shaped, designed and shipped both – and can take your product from scope to launch.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
@@ -151,6 +151,14 @@
   },
   {
     "id": "offer-product-4",
+    "title": "What’s stuck between idea and launch?",
+    "url": "/product-development/",
+    "page": "/product-development/",
+    "text": "What’s stuck between idea and launch? YOUR TURN Send the user, the messy workflow and what exists so far. We can start with a scope sprint or an agreed build.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-5",
     "title": "One builder. The whole loop.",
     "url": "/product-development/",
     "page": "/product-development/",
@@ -158,19 +166,19 @@
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
-    "id": "offer-product-5",
+    "id": "offer-product-6",
     "title": "Start at the right size",
     "url": "/product-development/",
     "page": "/product-development/",
-    "text": "Start at the right size Product scope sprint MVP build HOW WE CAN START Define the user, core workflow, MVP boundary, technical approach and a build plan you can actually act on. Design and build the agreed first version, test its essential paths and get it into the hands of users.",
+    "text": "Start at the right size Product scope sprint MVP build HOW WE CAN START We define the user journey, core workflow, MVP boundary, integrations and acceptance criteria. You leave with a build plan you can act on. I design and build the agreed interface, data, APIs and integrations, test the key paths and ship the first version to real users.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
-    "id": "offer-product-6",
+    "id": "offer-product-7",
     "title": "Tell me the messy version.",
     "url": "/product-development/",
     "page": "/product-development/",
-    "text": "Tell me the messy version. GOT SOMETHING IN MIND? A problem, a sketch, or a half-working prototype is enough to start a useful conversation.",
+    "text": "Tell me the messy version. GOT SOMETHING IN MIND? A problem, a sketch or a half-working prototype is enough. Tell me who it’s for and where you’re stuck.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
@@ -178,7 +186,7 @@
     "title": "I built the products behind the proof.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "I built the products behind the proof. SEARCH WORK ON PRODUCTS I BUILT QuoteSweep’s Google clicks grew 10× from April to August. I work across the whole path – buyer questions, useful pages, AI answers, and what people do after they land.",
+    "text": "I built the products behind the proof. SEO + AI SEARCH, TESTED ON MY OWN PRODUCTS QuoteSweep’s Google clicks grew 10× from April to August. I built the product behind it. I’ll find the buyer questions your site should answer, improve the pages, and measure what happens next.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
@@ -194,11 +202,19 @@
     "title": "Search doesn’t stop at the click.",
     "url": "/seo-ai-search/#evidence",
     "page": "/seo-ai-search/",
-    "text": "Search doesn’t stop at the click. 10× more Google clicks Cited in comparisons Then Pepys took off THE CASE FILE / OWNED PRODUCTS Two products. Three views of visibility and use. Every claim has its own source, date, and limit. Monthly clicks rose from 96 in April to 988 in August 2026. Search impressions rose from 44,149 to 244,510 in the same period. From the June public launch to the week of September 13, the signup curve bent sharply upward. This is product growth, separate from QuoteSweep’s Google result and not attributed to search. Separately, 3,828 distinct users completed 7,913 transcriptions in September. Google Search brought 330 clicks in the Aug 31–Sep 28 window – one piece of the story, not an explanation for all signups. Search Console for Google discovery. Repeated captures for answer context. PostHog for product use. Different instruments, different questions.",
+    "text": "Search doesn’t stop at the click. 10× more Google clicks Cited in comparisons Then Pepys took off THE CASE FILE / OWNED PRODUCTS Two products. Three views of visibility and use. Every claim has its own source, date, and limit. Monthly clicks rose from 96 in April to 988 in August 2026. Search impressions rose from 44,149 to 244,510 in the same period. Commercial rater comparisons EZLynx alternatives Bold Penguin alternatives From the June public launch to the week of September 13, the signup curve bent sharply upward. This is product growth, separate from QuoteSweep’s Google result and not attributed to search. Separately, 3,828 distinct users completed 7,913 transcriptions in September. Google Search brought 330 clicks in the Aug 31–Sep 28 window – one piece of the story, not an explanation for all signups. Search Console for Google discovery. Repeated captures for answer context. PostHog for product use. Different instruments, different questions.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
     "id": "offer-search-4",
+    "title": "What would your case file show?",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "What would your case file show? YOUR SITE, NEXT Send the URL and the buyer question you care about. I’ll tell you where I would look first.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-5",
     "title": "Find the gap. Make the answer better.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
@@ -206,15 +222,15 @@
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
-    "id": "offer-search-5",
+    "id": "offer-search-6",
     "title": "First the evidence. Then the work.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "First the evidence. Then the work. Search evidence review Implementation + measurement HOW WE START We look at your site, query data, competitors and AI answer surfaces. You get a prioritized map of problems and opportunities. Fix the foundations, build useful pages, set a repeatable measurement loop and revisit what the evidence says.",
+    "text": "First the evidence. Then the work. Search evidence review Implementation + measurement HOW WE START We map the technical blockers, buyer questions, source pages and AI answer contexts that matter. You leave with a prioritized list of what to fix or build first. I turn that list into site fixes and useful pages, then track Google visibility, answer context and on-site actions as separate signals.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
-    "id": "offer-search-6",
+    "id": "offer-search-7",
     "title": "Search is part of the product.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
@@ -222,11 +238,11 @@
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
-    "id": "offer-search-7",
+    "id": "offer-search-8",
     "title": "Bring me the hard question.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "Bring me the hard question. LET'S SEE WHAT THE DATA SAYS Tell me what buyers should find, what feels stuck and what you've already tried.",
+    "text": "Bring me the hard question. LET'S SEE WHAT THE DATA SAYS Send the URL and one buyer question you want to win. A rough note is enough.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   }
 ]
