@@ -20,7 +20,7 @@ test('offer copy becomes page-cited knowledge without pricing language', () => {
 test('the shared AI Twin mounts once on a static offer page', () => {
   const portfolio = '<div class="ask-ankur" id="ask-ankur"></div><dialog id="ask-ankur-dialog"></dialog>';
   const mounted = mountAssistantOnOfferPage(fixture, portfolio);
-  assert.match(mounted, /styles\/assistant\.css/);
+  assert.doesNotMatch(mounted, /href="\/styles\/assistant\.css"/);
   assert.match(mounted, /scripts\/assistant-widget\.js/);
   assert.match(mounted, /id="ask-ankur"/);
   assert.equal(mountAssistantOnOfferPage(mounted, portfolio), mounted);

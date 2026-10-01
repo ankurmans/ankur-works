@@ -1,4 +1,5 @@
 @import './portfolio.css';
+@import './assistant.css';
 
 .offer-page{overflow-x:hidden}
 .offer-page .header nav a[aria-current=page]{color:var(--orange)}
