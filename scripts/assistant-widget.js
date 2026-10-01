@@ -339,22 +339,83 @@ async function speak(text, token, button = null) {
   speechAbort = controller;
   setVoiceStatus('One sec…');
   try {
-    const data = await postVoice({ action: 'speak', text, token }, controller.signal);
-    if (speechAbort !== controller) return;
-    speechAbort = null;
-    const binary = atob(data.audio);
-    const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-    currentAudioUrl = URL.createObjectURL(new Blob([bytes], { type: data.mime || 'audio/mpeg' }));
-    currentAudio = new Audio(currentAudioUrl);
-    currentAudio.onended = () => {
-      const continueVoice = voiceModeActive && dialog.open;
-      stopAudio();
-      setVoiceStatus();
-      if (continueVoice) listenAgain();
-    };
-    await currentAudio.play();
-    button?.setAttribute('aria-pressed', 'true');
-    setVoiceStatus('Speaking…');
+    if (window.MediaSource?.isTypeSupported('audio/mpeg')) {
+      const mediaSource = new MediaSource();
+      currentAudioUrl = URL.createObjectURL(mediaSource);
+      currentAudio = new Audio(currentAudioUrl);
+      const audio = currentAudio;
+      audio.onended = () => {
+        const continueVoice = voiceModeActive && dialog.open;
+        stopAudio();
+        setVoiceStatus();
+        if (continueVoice) listenAgain();
+      };
+      audio.onplaying = () => {
+        button?.setAttribute('aria-pressed', 'true');
+        setVoiceStatus('Speaking…');
+      };
+      const ready = new Promise((resolve, reject) => {
+        mediaSource.addEventListener('sourceopen', resolve, { once: true });
+        mediaSource.addEventListener('error', () => reject(new Error('Voice playback failed.')), { once: true });
+      });
+      const responsePromise = fetch('/api/assistant-voice-stream', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, token }), signal: controller.signal,
+      });
+      await ready;
+      const response = await responsePromise;
+      if (!response.ok || !response.body) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'Voice is unavailable right now.');
+      }
+      if (speechAbort !== controller) return;
+      const source = mediaSource.addSourceBuffer('audio/mpeg');
+      const queue = [];
+      let finished = false;
+      let started = false;
+      const flush = () => {
+        if (controller.signal.aborted || mediaSource.readyState !== 'open' || source.updating) return;
+        if (queue.length) {
+          source.appendBuffer(queue.shift());
+          if (!started) {
+            started = true;
+            void audio.play().catch(() => {
+              if (speechAbort !== controller) return;
+              stopAudio();
+              setVoiceStatus('Voice playback could not start. The reply is in conversation history.', 4500);
+              if (voiceModeActive) listenAgain('Listening for your next question…');
+            });
+          }
+        } else if (finished) mediaSource.endOfStream();
+      };
+      source.addEventListener('updateend', flush);
+      const reader = response.body.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        queue.push(value);
+        flush();
+      }
+      finished = true;
+      flush();
+    } else {
+      const data = await postVoice({ action: 'speak', text, token }, controller.signal);
+      if (speechAbort !== controller) return;
+      speechAbort = null;
+      const binary = atob(data.audio);
+      const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+      currentAudioUrl = URL.createObjectURL(new Blob([bytes], { type: data.mime || 'audio/mpeg' }));
+      currentAudio = new Audio(currentAudioUrl);
+      currentAudio.onended = () => {
+        const continueVoice = voiceModeActive && dialog.open;
+        stopAudio();
+        setVoiceStatus();
+        if (continueVoice) listenAgain();
+      };
+      await currentAudio.play();
+      button?.setAttribute('aria-pressed', 'true');
+      setVoiceStatus('Speaking…');
+    }
   } catch (error) {
     if (controller.signal.aborted) return;
     stopAudio();

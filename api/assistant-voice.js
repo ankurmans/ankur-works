@@ -22,7 +22,7 @@ function allowedOrigin(req) {
       || (url.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(url.hostname));
   } catch { return false; }
 }
-async function withinLimit(req, action, cached = false) {
+export async function withinLimit(req, action, cached = false) {
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
   const ipHash = createHash('sha256').update(ip).digest('hex').slice(0, 16);
   const hour = new Date().toISOString().slice(0, 13);
@@ -32,6 +32,12 @@ async function withinLimit(req, action, cached = false) {
   const dailyCap = Math.max(1, Number.parseInt(process.env.ASSISTANT_VOICE_DAILY_CAP || '200', 10) || 200);
   const hourlyCap = Math.max(1, Number.parseInt(process.env.ASSISTANT_VOICE_HOURLY_CAP || '60', 10) || 60);
   return ipCount <= hourlyCap && (cached || dailyCount <= dailyCap);
+}
+
+export function voiceCacheKey(text, voiceId) {
+  return createHash('sha256').update(JSON.stringify({
+    text, voiceId, model: 'eleven_v4_turbo', format: 'mp3_44100_128', stability: 0.5, similarityBoost: 0.8,
+  })).digest('hex');
 }
 
 export default async function handler(req, res) {
@@ -57,9 +63,7 @@ export default async function handler(req, res) {
 
   try {
     const voiceId = process.env.ELEVENLABS_VOICE_ID || '5VWjaX9CdWaweC8OO0dw';
-    const audioKey = body.action === 'speak' ? createHash('sha256').update(JSON.stringify({
-      text: body.text, voiceId, model: 'eleven_v4_turbo', format: 'mp3_44100_128', stability: 0.5, similarityBoost: 0.8,
-    })).digest('hex') : null;
+    const audioKey = body.action === 'speak' ? voiceCacheKey(body.text, voiceId) : null;
     const cachedAudio = audioKey ? await getAssistantCache('audio', audioKey) : null;
     if (!await withinLimit(req, body.action, Boolean(cachedAudio))) return json(res, 429, { error: 'Voice is busy right now. Please type your question instead.' });
     if (cachedAudio) return json(res, 200, { ...cachedAudio, cache: 'hit' });
