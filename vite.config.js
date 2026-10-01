@@ -1,9 +1,19 @@
 import { defineConfig, loadEnv } from 'vite';
 import contributions from './api/contributions.js';
+import { resolve } from 'node:path';
 
 // Vite does not run Vercel functions. Serve this one locally so the preview
 // exercises the same authenticated GitHub endpoint as production.
 export default defineConfig(({ mode }) => ({
+  build: {
+    rollupOptions: {
+      input: {
+        home: resolve(import.meta.dirname, 'index.html'),
+        product: resolve(import.meta.dirname, 'product-development/index.html'),
+        search: resolve(import.meta.dirname, 'seo-ai-search/index.html'),
+      },
+    },
+  },
   plugins: [{
     name: 'local-contributions-api',
     configureServer(server) {
