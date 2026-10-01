@@ -72,6 +72,16 @@ test('Pepys ChatGPT referral proof retains its scope and recent pullback', () =>
   assert.equal(record.url, null);
 });
 
+test('ChatGPT referral replies stay concise and do not cite a generic project card for private PostHog metrics', async () => {
+  await withModel('I tracked Pepys ChatGPT-entry sessions rising from 190 in July to 1,637 in September 2026. They pulled back late in September; those referrals do not prove AI citations or signup growth.', ['pepys-chatgpt-referrals-2026', 'pepys'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'How did ChatGPT referrals to Pepys grow?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(res.body.sources, []);
+    assert.match(calls[0].messages[0].content, /Skip visitor IDs, pageviews, and landing paths/);
+  });
+});
+
 test('Pepys growth proof connects signups with actual use without claiming attribution', () => {
   const record = retrieve('What growth did Pepys achieve?').find((item) => item.id === 'pepys-product-growth-2026');
   assert.ok(record);
