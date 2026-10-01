@@ -191,3 +191,12 @@
 @media(max-width:1050px){.offer-path-body{grid-template-columns:1fr}.offer-path-screen,.offer-path-case{width:min(100% - 20px,300px);margin:16px auto 0}.offer-path{min-height:510px}}
 @media(max-width:760px){.offers-home .section-heading h2{font-size:clamp(37px,9vw,55px)}.offer-path{min-height:0}.offer-path-body{grid-template-columns:1.1fr .9fr;gap:10px}.offer-path-screen,.offer-path-case{width:100%;height:170px;min-height:170px;margin:0}.offer-path-case strong{font-size:70px}.offer-path h3{font-size:clamp(30px,8vw,39px)}}
 @media(max-width:480px){.offer-path-body{grid-template-columns:1fr}.offer-path-screen,.offer-path-case{width:min(100% - 20px,290px);height:180px;min-height:180px;margin:15px auto 0}.offer-path{gap:10px}.offer-path h3{font-size:38px}}
+
+/* Make the shared header and text links comfortable to tap on phones. */
+.contribution-scroll-hint{display:none}
+.contribution-scroll:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media(max-width:760px){
+  .header .logo,.header .nav-cta{display:inline-flex;align-items:center;min-height:44px}
+  .underlink,.offer-path a{display:inline-flex;align-items:center;min-height:44px}
+  .contribution-scroll-hint{display:block;margin:-5px 0 0;color:#716b61;font:700 11px var(--display);letter-spacing:.04em}
+}

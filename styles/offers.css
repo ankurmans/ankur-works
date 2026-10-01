@@ -208,3 +208,26 @@
 
 @media(max-width:760px){.offer-section{padding-top:62px;padding-bottom:66px}.offer-steps article,.search-work-grid article{min-height:0;padding:20px 0 10px}.offer-steps h3,.search-work-grid h3{margin-top:20px}.proof-bridge-section{margin-top:-25px;margin-bottom:68px}.proof-bridge{grid-template-columns:1fr;padding:26px 22px;gap:22px}.proof-bridge .button{justify-self:start}}
 @media(max-width:480px){.proof-bridge .button{width:100%;justify-content:center}.answer-prompts li{font-size:10px}}
+
+/* Keep all three product proofs intentional at tablet widths. */
+@media(min-width:761px) and (max-width:1050px){
+  .proof-quotesweep{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.85fr);grid-template-rows:auto auto 1fr auto;column-gap:28px;min-height:300px}
+  .proof-quotesweep .proof-top{grid-column:1/-1}
+  .proof-quotesweep h3{grid-column:1;grid-row:2}
+  .proof-quotesweep>p{grid-column:1;grid-row:3;min-height:0;max-width:440px}
+  .proof-quotesweep .proof-search{grid-column:2;grid-row:2/5;align-self:center;height:180px;margin:0}
+  .proof-quotesweep>a{grid-column:1;grid-row:4;margin-top:10px}
+}
+
+/* Let phone cards size to their content and keep long offer names inside the grid. */
+@media(max-width:760px){
+  .product-proof-grid,.search-proof-grid,.offer-start-grid{grid-template-columns:minmax(0,1fr)}
+  .product-proof{min-height:0;padding:22px}
+  .product-proof>p{min-height:0}
+  .proof-screen{height:clamp(155px,47vw,220px);margin:19px 0 20px}
+  .proof-search{height:160px;margin:19px 0 20px}
+  .proof-growth{margin:0 0 18px}
+  .product-proof>a,.casefile-ledger-foot a{display:inline-flex;align-items:center;min-height:44px}
+  .offer-start-grid article{min-width:0;padding:24px;min-height:0}
+  .offer-start-grid h3{font-size:clamp(26px,7.5vw,34px);margin-top:25px}
+}

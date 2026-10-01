@@ -101,7 +101,7 @@
   .ask-ankur__dock{gap:7px;width:calc(100vw - 20px);min-height:64px;padding:7px;border-radius:999px}
   .ask-ankur__dock img{width:38px;height:38px}
   .ask-ankur__dock input{font-size:13px}
-  .ask-ankur__dock-send,.ask-ankur__voice-button,.ask-ankur__call-button{width:39px;height:39px}
+  .ask-ankur__dock-send,.ask-ankur__voice-button,.ask-ankur__call-button{width:44px;height:44px}
   .ask-ankur__dialog{inset:auto 0 0 0;width:100%;height:min(88dvh,760px);border-radius:22px 22px 0 0;border-left:0;border-right:0;border-bottom:0;box-shadow:0 -20px 55px #241d183b}
   .ask-ankur__head{padding:10px 15px}
   .ask-ankur__call-screen{padding:17px 17px max(17px,env(safe-area-inset-bottom))}
