@@ -62,6 +62,18 @@ test('AI search questions retrieve the relevant framework without Pepys proof le
   assert.ok(!ids.includes('search-gsc-extraction-spec'));
 });
 
+test('broad AI answer advice sends a compact, relevant evidence pair', async () => {
+  await withModel('I’d compare buyer questions with retrievable passages and recurring sources, then measure actual answer mentions.', ['search-source-passage-strategy'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'How could my company appear in ChatGPT answers?' }), res);
+    assert.equal(res.statusCode, 200);
+    const input = JSON.parse(calls[0].messages[1].content);
+    assert.deepEqual(input.SITE_CONTENT.map((record) => record.id), ['offer-search-5', 'search-source-passage-strategy']);
+    assert.match(calls[0].messages[0].content, /at most 55 words/);
+    assert.ok(JSON.stringify(input.SITE_CONTENT).length < 2300);
+  });
+});
+
 test('Pepys ChatGPT referral proof retains its scope and recent pullback', () => {
   const record = retrieve('How much Pepys traffic came from ChatGPT?').find((item) => item.id === 'pepys-chatgpt-referrals-2026');
   assert.ok(record);

@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v29';
+const PROMPT_VERSION = 'ankur-ai-twin-v30';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -267,6 +267,8 @@ export default async function handler(req, res) {
   const asksWhyAnkur = WHY_ANKUR.test(question);
   const asksPepysAiTraffic = /\bpepys\b/i.test(question) && /\b(?:chatgpt|ai)\b/i.test(question)
     && /\b(?:referrals?|traffic|sessions?|growth|grew)\b/i.test(question);
+  const asksAiSearchApproach = /\b(?:chatgpt|perplexity|ai answers?|ai search)\b/i.test(question)
+    && !mentionsProject && !asksForProof && !offerFacts.length;
   const retrievedFacts = retrieve(contextQuestion.replace(/\bcode[\s-]?sweep\b/gi, 'QuoteSweep'), section, page);
   const personalMatch = offerFacts.length ? null : retrievedFacts.find((record) => record.id.startsWith('personal-'));
   const searchOfferOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
@@ -278,6 +280,7 @@ export default async function handler(req, res) {
     : asksWhyAnkur
     ? [growthStory]
     : asksPepysAiTraffic ? [pepysReferrals]
+    : asksAiSearchApproach ? knowledge.filter((record) => ['offer-search-5', 'search-source-passage-strategy'].includes(record.id))
     : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = relevantHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
@@ -289,6 +292,8 @@ export default async function handler(req, res) {
     ? 'The visitor is asking why they should work with me. Lead with one or two concrete before-and-after results from the supplied Pepys and QuoteSweep proof. Prefer Pepys signups rising 8.2× from August to September 2026 alongside about 2.1× growth in completed transcriptions or QuoteSweep Google clicks rising from 96 in April to 988 in August 2026. Cite the matching supplied proof record. Say what those measures are; never imply search or AI referrals caused signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
     : asksPepysAiTraffic
       ? 'Answer in two short sentences. Start with "I tracked". Lead with ChatGPT-entry sessions rising from 190 in July to 1,637 in September 2026, then note the late-September pullback. These are referral sessions, not AI citations or proof that ChatGPT caused signups or revenue. Skip visitor IDs, pageviews, and landing paths unless explicitly asked.'
+    : asksAiSearchApproach
+      ? 'Answer the visitor directly in at most 55 words. Recommend checking buyer questions, retrievable passages and the source ecosystem, then measuring whether answers actually mention or cite them. Do not promise placement or treat Google clicks as AI visibility. Cite the supplied search records and ask one practical follow-up only if useful.'
     : searchOnly
     ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${alreadyAskedForSite ? 'The previous answer already asked for the site and buyer. Do not ask for either again or repeat the offer. Acknowledge the correction, then give one concrete first diagnostic from the supplied search facts that the visitor can consider without giving you more information.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
     : offerFacts.some((record) => record.page === '/product-development/') && offerFacts.some((record) => record.page === '/seo-ai-search/')
@@ -343,7 +348,10 @@ export default async function handler(req, res) {
         } : usage;
         const raw = payload.choices?.[0]?.message?.content;
         const parsed = JSON.parse(raw);
-        if (!['answered', 'refused'].includes(parsed.outcome) || typeof parsed.answer !== 'string' || !parsed.answer.trim() || parsed.answer.length > 700 || !Array.isArray(parsed.source_ids)) throw new Error('Invalid model answer');
+        if (!['answered', 'refused'].includes(parsed.outcome) || typeof parsed.answer !== 'string' || !parsed.answer.trim() || parsed.answer.length > 700 || !Array.isArray(parsed.source_ids)) {
+          if (process.env.NODE_ENV !== 'test') console.warn('assistant_invalid_model_answer', JSON.stringify({ finishReason: payload.choices?.[0]?.finish_reason, answerLength: parsed.answer?.length, sourceCount: parsed.source_ids?.length, outcome: parsed.outcome, usage: payload.usage }));
+          throw new Error('Invalid model answer');
+        }
         const answer = parsed.answer.trim().replace(/\s*—\s*/g, ' – ').replace(/\s*\(growth-story\)/gi, '');
         if (/https?:\/\/|www\.|\[[^\]]+\]\(|@|\b(?:system prompt|developer message|site_content|source_ids|knowledge entry|public-code section|growth-story)\b/i.test(answer)) throw new Error('Untrusted model answer');
         if (parsed.outcome === 'answered' && (!/\b(?:I|my|me|I've|I'd|I'm)\b/i.test(answer) || /\b(?:according to (?:the )?site|the site (?:notes|says)|site copy|the (?:source|record|content) says)\b/i.test(answer))) throw new Error('Out-of-character answer');
