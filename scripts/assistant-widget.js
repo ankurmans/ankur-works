@@ -698,6 +698,15 @@ async function startRealtimeCall() {
 function stopRecording() {
   if (recorder?.state === 'recording') recorder.stop();
 }
+function microphoneError(error) {
+  if (error?.name === 'NotAllowedError' || error?.name === 'PermissionDeniedError')
+    return 'Microphone access is blocked. Allow it for this site in your browser, then tap the mic again.';
+  if (error?.name === 'NotFoundError' || error?.name === 'DevicesNotFoundError')
+    return 'No microphone was found. Connect one or type your question.';
+  if (error?.name === 'NotReadableError' || error?.name === 'TrackStartError')
+    return 'The microphone is in use by another app. Close it and try again.';
+  return error instanceof Error ? error.message : 'Microphone unavailable. Please type your question.';
+}
 async function startRecording(mode, target) {
   if (busy || startingVoice) return;
   startingVoice = true;
@@ -729,7 +738,7 @@ async function startRecording(mode, target) {
     const microphoneRequest = navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       if (microphoneTimedOut) {
         stream.getTracks().forEach((track) => track.stop());
-        throw new Error('Microphone access took too long. Please try the call again.');
+        throw new Error('Microphone did not start. Check browser and system microphone permissions, then try again.');
       }
       return stream;
     });
@@ -739,12 +748,12 @@ async function startRecording(mode, target) {
       new Promise((_, reject) => {
         microphoneTimeout = setTimeout(() => {
           microphoneTimedOut = true;
-          reject(new Error('Microphone access took too long. Please try the call again.'));
+          reject(new Error('Microphone did not start. Check browser and system microphone permissions, then try again.'));
         }, 20000);
       }),
     ]).finally(() => clearTimeout(microphoneTimeout));
     if (session !== voiceSession || (mode === 'call' && !dialog.open)) { stream.getTracks().forEach((track) => track.stop()); return; }
-    const preferred = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm', 'audio/ogg'].find((type) => MediaRecorder.isTypeSupported(type));
+    const preferred = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm', 'audio/ogg'].find((type) => MediaRecorder.isTypeSupported?.(type));
     const mediaRecorder = preferred ? new MediaRecorder(stream, { mimeType: preferred }) : new MediaRecorder(stream);
     const chunks = [];
     recordingStream = stream;
@@ -762,7 +771,7 @@ async function startRecording(mode, target) {
         else setRecordingStatus(mode, target, 'Please try a shorter question.', 4500);
         return;
       }
-      setRecordingStatus(mode, target, 'One sec…');
+      setRecordingStatus(mode, target, mode === 'dictation' ? 'Turning speech into text…' : 'One sec…');
       try {
         const bytes = new Uint8Array(await recording.arrayBuffer());
         let binary = '';
@@ -786,7 +795,7 @@ async function startRecording(mode, target) {
         recordingMode = null;
         const message = error instanceof Error ? error.message : 'I could not hear that. Please try again or type it.';
         if (mode === 'call') setVoiceStatus(`${message} End the call to type your question.`);
-        else setRecordingStatus(mode, target, message, 4500);
+        else setRecordingStatus(mode, target, message);
       }
     }, { once: true });
     mediaRecorder.start();
@@ -801,7 +810,7 @@ async function startRecording(mode, target) {
     releaseMicrophone();
     recordingMode = null;
     if (mode === 'call') endVoiceMode();
-    setRecordingStatus(mode, target, error instanceof Error ? error.message : 'Microphone unavailable. Please type your question.', 4500);
+    setRecordingStatus(mode, target, microphoneError(error));
   } finally {
     startingVoice = false;
   }
