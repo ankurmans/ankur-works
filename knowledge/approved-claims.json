@@ -1,0 +1,17 @@
+{
+  "claims": [
+    {
+      "id": "commerce-combined-revenue",
+      "source_id": "commerce",
+      "value": "$3.76M",
+      "excerpt": "I founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years.",
+      "aliases": ["commerce", "ecommerce", "e-commerce", "ecomm", "tough trucks", "amped rides"],
+      "intents": ["revenue", "growth", "grow", "grew", "grown", "sales", "built", "result", "results", "founded", "operated"],
+      "provenance": "founder-stated",
+      "scope": "Tough Trucks For Kids and Amped Rides together; combined USD revenue over two years from launch",
+      "required_answer_terms": ["combined", "two years"],
+      "excluded_query_terms": ["annual", "yearly", "per brand", "each brand", "separately", "profit", "margin", "GMV", "calendar", "which year"],
+      "do_not_infer": ["annual revenue", "profit", "GMV", "revenue for either brand separately", "specific calendar dates"]
+    }
+  ]
+}

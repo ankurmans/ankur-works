@@ -1,0 +1,232 @@
+[
+  {
+    "id": "about",
+    "title": "About Ankur",
+    "url": "/#top",
+    "text": "I build the thing. From first sketch to shipped product. I'm Ankur – a full-stack builder making software, brands, and whatever I can't stop thinking about."
+  },
+  {
+    "id": "pepys",
+    "title": "Pepys",
+    "url": "/#work",
+    "text": "Pepys. Turn audio and video into useful text. Transcripts, captions, summaries, and tools that make spoken ideas easier to work with. Status: ● Live."
+  },
+  {
+    "id": "whooshly",
+    "title": "Whooshly",
+    "url": "/#work",
+    "text": "Whooshly. Links, QR codes, link-in-bio, and landing pages made for people who actually ship campaigns. Status: ● Live."
+  },
+  {
+    "id": "quotesweep",
+    "title": "QuoteSweep",
+    "url": "/#work",
+    "text": "QuoteSweep. Building tools for a better commercial insurance workflow, from messy inputs to clearer decisions. Status: ◌ Closed beta."
+  },
+  {
+    "id": "twinsona",
+    "title": "Twinsona",
+    "url": "/#work",
+    "text": "Twinsona. An AI twin that answers your audience in your voice – grounded in your own content. Status: ◌ Closed beta."
+  },
+  {
+    "id": "linnet",
+    "title": "Linnet",
+    "url": "/#work",
+    "text": "Linnet. Send product email. Delegate the operations. Status: ◌ Coming soon."
+  },
+  {
+    "id": "commerce",
+    "title": "Commerce brands",
+    "url": "/#work",
+    "text": "BUILT BEYOND CODE I've also built and operated commerce brands. Products, positioning, storefronts, and the less glamorous work behind them. I founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years. Brands shown: Tough Trucks For Kids, Amped Rides.",
+    "claims": [
+      {
+        "id": "commerce-combined-revenue",
+        "source_id": "commerce",
+        "value": "$3.76M",
+        "excerpt": "I founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years.",
+        "aliases": [
+          "commerce",
+          "ecommerce",
+          "e-commerce",
+          "ecomm",
+          "tough trucks",
+          "amped rides"
+        ],
+        "intents": [
+          "revenue",
+          "growth",
+          "grow",
+          "grew",
+          "grown",
+          "sales",
+          "built",
+          "result",
+          "results",
+          "founded",
+          "operated"
+        ],
+        "provenance": "founder-stated",
+        "scope": "Tough Trucks For Kids and Amped Rides together; combined USD revenue over two years from launch",
+        "required_answer_terms": [
+          "combined",
+          "two years"
+        ],
+        "excluded_query_terms": [
+          "annual",
+          "yearly",
+          "per brand",
+          "each brand",
+          "separately",
+          "profit",
+          "margin",
+          "GMV",
+          "calendar",
+          "which year"
+        ],
+        "do_not_infer": [
+          "annual revenue",
+          "profit",
+          "GMV",
+          "revenue for either brand separately",
+          "specific calendar dates"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "connectors",
+    "title": "Claude connectors",
+    "url": "/#claude-listings",
+    "text": "BUILT TO WORK WITH Pepys and Whooshly are listed in Claude’s Connectors Directory. Find them in Claude, connect your account, and put the tools to work from a conversation. Transcribe recordings and work with the results inside Claude. Create short links, QR codes, and campaign URLs inside Claude."
+  },
+  {
+    "id": "previous-chapters",
+    "title": "Previous chapters",
+    "url": "/#shiplog-title",
+    "text": "01 Luxury Ride On Toys Commerce brand Shut down. 02 Girl Powered Ride On Toys Commerce brand Shut down. 03 Vynci.ai AI writing product Shut down. 04 MateCaps Commerce brand Exited"
+  },
+  {
+    "id": "public-code",
+    "title": "Public code and workshop",
+    "url": "/#shiplog-title",
+    "text": "GTM Commit: Proof-of-work network. Grantflow: Open-source software. Answers Hub Kit: Open-source publishing toolkit. Podcast Kit: Open-source podcast toolkit. Pepys MCP: Transcription tools for AI clients. Whooshly MCP: Links, QR codes & UTMs for AI clients"
+  },
+  {
+    "id": "story",
+    "title": "How Ankur works",
+    "url": "/#story",
+    "text": "UNDER THE HOOD I work across the whole stack: interface, APIs, data, deployment, and distribution. I like finding the problem, shaping the product, writing the code, and learning what happens after launch. My GitHub is a mix of products, developer tools, and experiments. Here is some of the public code behind that work."
+  },
+  {
+    "id": "contact",
+    "title": "Contact Ankur",
+    "url": "/#contact",
+    "text": "NEXT UP I'm always up for a conversation about products, the internet, and things worth making. Contact Ankur at ankur@kmfv.cc."
+  },
+  {
+    "id": "offer-product-1",
+    "title": "I built this. Let’s build yours.",
+    "url": "/product-development/",
+    "page": "/product-development/",
+    "text": "I built this. Let’s build yours. THE PERSON WHO SHIPS IT Pepys turns recordings into usable text. Whooshly turns one campaign into links, QR codes, and landing pages. I work from product decision through code and launch.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-2",
+    "title": "offer-product section 2",
+    "url": "/product-development/",
+    "page": "/product-development/",
+    "text": "THE KIND OF WORK Products people can use. Workflows that stop fighting them. The first version that teaches us something.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-proof",
+    "title": "I've shipped the whole thing",
+    "url": "/product-development/#proof",
+    "page": "/product-development/",
+    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep BUILT IN THE OPEN These are my own products. Different markets, different problems, the same hands-on work from idea to live software. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. Short links, QR codes, link-in-bio and landing pages in one campaign toolkit. Built for the moments a marketer needs to move. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job. Metrics: Pepys PostHog weekly unique signups, full UTC weeks Aug 16–Sep 19, 2026, test accounts filtered; Whooshly PostHog distinct September signups; QuoteSweep Google Search Console, April–August 2026. Screenshots show public or demo product views.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-4",
+    "title": "One builder. The whole loop.",
+    "url": "/product-development/",
+    "page": "/product-development/",
+    "text": "One builder. The whole loop. Find the core Build the loop Ship and learn FROM SKETCH TO SHIPPED Useful products need more than a polished screen. I connect the product decision to the code and the launch. Who is it for? What job matters? What can wait? We turn the idea into a small, testable first version. Interface, data, APIs, integrations and the details that make a workflow feel good to use. Test the important paths, launch the agreed scope, then use real feedback to decide what comes next.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-5",
+    "title": "Start at the right size",
+    "url": "/product-development/",
+    "page": "/product-development/",
+    "text": "Start at the right size Product scope sprint MVP build HOW WE CAN START Define the user, core workflow, MVP boundary, technical approach and a build plan you can actually act on. Design and build the agreed first version, test its essential paths and get it into the hands of users.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-6",
+    "title": "Tell me the messy version.",
+    "url": "/product-development/",
+    "page": "/product-development/",
+    "text": "Tell me the messy version. GOT SOMETHING IN MIND? A problem, a sketch, or a half-working prototype is enough to start a useful conversation.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-1",
+    "title": "I built the products behind the proof.",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "I built the products behind the proof. SEARCH WORK ON PRODUCTS I BUILT QuoteSweep’s Google clicks grew 10× from April to August. I work across the whole path – buyer questions, useful pages, AI answers, and what people do after they land.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-2",
+    "title": "offer-search section 2",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "THE POINT Visibility is useful when it connects a real buyer question to a real next step.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-evidence",
+    "title": "Search doesn’t stop at the click.",
+    "url": "/seo-ai-search/#evidence",
+    "page": "/seo-ai-search/",
+    "text": "Search doesn’t stop at the click. 10× more Google clicks Cited in comparisons Four weeks of signup growth THE CASE FILE / OWNED PRODUCTS Two products. Three views of visibility and use. Every claim has its own source, date, and limit. Monthly clicks rose from 96 in April to 988 in August 2026. Search impressions rose from 44,149 to 244,510 in the same period. Weekly unique signups rose four full weeks running. The following full week eased 11%. This product signal is separate from QuoteSweep’s Google result and is not attributed to search. Separately, 3,828 distinct users completed 7,913 transcriptions in September. Google Search brought 330 clicks in the Aug 31–Sep 28 window – one piece of the story, not an explanation for all signups. Search Console for Google discovery. Repeated captures for answer context. PostHog for product use. Different instruments, different questions.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-4",
+    "title": "Find the gap. Make the answer better.",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "Find the gap. Make the answer better. Can Google reach it? What are buyers asking? Who gets named or cited? Did anything move? WHAT I LOOK AT Search work should be specific enough to ship and measured enough to question. Crawling, indexing, page structure, internal links and the technical problems hiding good work. Map commercial questions to pages and product paths, without filling the site with interchangeable articles. Use a defined set of prompts and repeated checks to see what AI answers use, then trace the source pages. Track dated changes against Search Console, search results and on-site actions. Keep impressions, clicks and revenue separate.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-5",
+    "title": "First the evidence. Then the work.",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "First the evidence. Then the work. Search evidence review Implementation + measurement HOW WE START We look at your site, query data, competitors and AI answer surfaces. You get a prioritized map of problems and opportunities. Fix the foundations, build useful pages, set a repeatable measurement loop and revisit what the evidence says.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-6",
+    "title": "Search is part of the product.",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "Search is part of the product. ONE MORE THING I also founded Caldrin , focused on growth for PE-backed home services. Here at ankur.works, I work directly with founders and teams in other markets. If the site or offer needs building as well, that's part of my wheelhouse .",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-7",
+    "title": "Bring me the hard question.",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "Bring me the hard question. LET'S SEE WHAT THE DATA SAYS Tell me what buyers should find, what feels stuck and what you've already tried.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  }
+]

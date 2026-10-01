@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/assistant.js": { "maxDuration": 30 },
+    "api/assistant-voice.js": { "maxDuration": 60 }
+  },
+  "redirects": [
+    { "source": "/product-development", "destination": "/product-development/", "permanent": true },
+    { "source": "/seo-ai-search", "destination": "/seo-ai-search/", "permanent": true }
+  ]
+}

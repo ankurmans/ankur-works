@@ -24,6 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+.wrangler
+conversation-store/.wrangler
+.dev.vars*
 .env*
 __pycache__/
 *.pyc
