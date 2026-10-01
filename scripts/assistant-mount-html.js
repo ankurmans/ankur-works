@@ -3,6 +3,5 @@ export function mountAssistantOnOfferPage(html, portfolioHtml) {
   const widget = portfolioHtml.match(/<div class="ask-ankur" id="ask-ankur">[\s\S]*?<\/dialog>/)?.[0];
   if (!widget) throw new Error('AI Twin widget markup was not found in the portfolio page');
   if (!html.includes('</head>') || !html.includes('</body>')) throw new Error('Offer page is missing a document closing tag');
-  return html.replace('</head>', '<link rel="stylesheet" href="/styles/assistant.css">\n</head>')
-    .replace('</body>', `${widget}\n<script type="module" src="/scripts/assistant-widget.js"></script>\n</body>`);
+  return html.replace('</body>', `${widget}\n<script type="module" src="/scripts/assistant-widget.js"></script>\n</body>`);
 }

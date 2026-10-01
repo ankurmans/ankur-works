@@ -12,5 +12,8 @@ for (const path of ['index.html', 'product-development/index.html', 'seo-ai-sear
     if (css.includes('</style')) throw new Error('Cannot safely inline a stylesheet containing a closing style tag');
     html = html.replace(match[0], `<style>${css}</style>`);
   }
+  if (path !== 'index.html' && (!/<style>[\s\S]*?\.ask-ankur__dock\{/.test(html) || html.includes('href="/styles/assistant.css"'))) {
+    throw new Error(`The AI Twin styles are missing from ${path}`);
+  }
   writeFileSync(htmlPath, html);
 }
