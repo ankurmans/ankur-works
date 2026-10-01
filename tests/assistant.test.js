@@ -110,6 +110,7 @@ test('sales questions use the model with the relevant offer facts', async () => 
       const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
       for (const id of expectedIds) assert.ok(ids.includes(id), `${question}: missing ${id}`);
       assert.match(calls[0].messages[0].content, /Do not repeat a previous pitch/);
+      if (question === 'Which service is right for us?') assert.match(calls[0].messages[0].content, /at most 45 words/);
     });
   }
 });
