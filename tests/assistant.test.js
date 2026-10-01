@@ -6,8 +6,9 @@ import { verifyVoice } from '../api/assistant-voice-token.js';
 process.env.NODE_ENV = 'test';
 process.env.AI_GATEWAY_API_KEY = 'test-only';
 
+let testRequestSerial = 0;
 function request(body, headers = {}) {
-  return { method: 'POST', headers: { origin: 'http://localhost:5173', 'content-type': 'application/json', ...headers }, body, socket: { remoteAddress: '127.0.0.1' } };
+  return { method: 'POST', headers: { origin: 'http://localhost:5173', 'content-type': 'application/json', ...headers }, body, socket: { remoteAddress: `test-${++testRequestSerial}` } };
 }
 function response() {
   return { statusCode: 200, headers: {}, setHeader(name, value) { this.headers[name] = value; return this; }, status(code) { this.statusCode = code; return this; }, end() { this.ended = true; return this; }, json(body) { this.body = body; return this; } };
@@ -170,6 +171,18 @@ test('existing product and discovery selects search facts and passes corrections
     assert.match(calls[0].messages[0].content, /Never pitch product development/);
     assert.deepEqual(calls[0].response_format.json_schema.schema.properties.source_ids.items.enum,
       input.SITE_CONTENT.map((record) => record.id));
+  });
+});
+
+test('a live product that needs buyers to discover it gets search-only context', async () => {
+  await withModel('I would begin with the buyer question and the pages meant to answer it.', ['offer-search-5'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'I already have a live product. Where would you look first to help buyers discover it?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.body.sources[0].url, '/seo-ai-search/');
+    const records = JSON.parse(calls[0].messages[1].content).SITE_CONTENT;
+    assert.ok(records.some((record) => record.id === 'offer-search-5'));
+    assert.ok(records.every((record) => record.page === '/seo-ai-search/'));
   });
 });
 
