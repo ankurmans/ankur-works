@@ -192,6 +192,19 @@ test('a sales follow-up retries an unsupported metric instead of failing the con
   } finally { global.fetch = original; }
 });
 
+test('a repeated discovery correction asks the model to advance rather than repeat a request', async () => {
+  await withModel('I would first compare your buyer questions with the pages that answer them.', ['offer-search-5'], async (calls) => {
+    const res = response();
+    await handler(request({ question: "Didn't you hear me? I already have a product and need to get discovered", history: [
+      { role: 'user', content: "I already have a product and I'm not getting discovered" },
+      { role: 'assistant', content: 'Got it. What is the site URL and who is the buyer you want to reach?' },
+    ] }), res);
+    assert.equal(res.statusCode, 200);
+    assert.match(calls[0].messages[0].content, /Do not ask for either again or repeat the offer/);
+    assert.equal(res.body.sources[0].url, '/seo-ai-search/');
+  });
+});
+
 test('commerce result is scoped to both brands and its two-year period', async () => {
   const res = response();
   await handler(request({ question: 'What results did your eCommerce brands achieve?' }), res);

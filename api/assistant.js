@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v10';
+const PROMPT_VERSION = 'ankur-ai-twin-v11';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -19,7 +19,7 @@ const SALES_INTENT = /\b(?:which (?:service|offer|product)|right (?:service|offe
 const PRODUCT_NEED = /\b(?:build|develop|ship|shipping|prototype|rebuild|full[ -]?stack|mvp|product development|software development)\b/i;
 const SEARCH_NEED = /\b(?:seo|ai search|ai overviews|chatgpt|perplexity|search visibility|search|aeo|geo|rank|citation|content|traffic|discover(?:ed|y|ability)?|found|google)\b/i;
 const EXISTING_PRODUCT = /\b(?:already have|have an?|existing|live|launched|built)\b.{0,45}\b(?:product|app|software|website|site)\b/i;
-const DISCOVERY_PROBLEM = /\b(?:not|can't|cannot|struggl\w*|need help)\b.{0,45}\b(?:get(?:ting)? (?:found|discovered)|discover(?:ed|y|ability)?|visibility|search)\b/i;
+const DISCOVERY_PROBLEM = /\b(?:not|can't|cannot|struggl\w*|need(?: help| to)?)\b.{0,45}\b(?:get(?:ting)? (?:found|discovered)|discover(?:ed|y|ability)?|visibility|search)\b/i;
 const localStore = new Map();
 
 function hash(value) { return createHash('sha256').update(value).digest('hex'); }
@@ -233,8 +233,9 @@ export default async function handler(req, res) {
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = safeHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
   const selectedOffers = salesOffers.offers.filter((offer) => !offerFacts.length || offerFacts.some((record) => record.page === (offer.id === 'search' ? '/seo-ai-search/' : '/product-development/')));
+  const alreadyAskedForSite = /\b(?:site|url)\b/i.test(lastAssistant) && /\b(?:buyer|audience)\b/i.test(lastAssistant);
   const fitGuidance = searchOnly
-    ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${/seo and ai search|seo\/ai search|search review/i.test(lastAssistant) ? 'The previous answer already described the search offer. In at most two short sentences, acknowledge the correction and ask for the site and target buyer. Do not describe the SEO process, list steps, or repeat the offer.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
+    ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${alreadyAskedForSite ? 'The previous answer already asked for the site and buyer. Do not ask for either again or repeat the offer. Acknowledge the correction, then give one concrete first diagnostic from the supplied search facts that the visitor can consider without giving you more information.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
     : '';
   if (!TOPIC.test(contextQuestion) && !offerFacts.length && found.length === 0) return json(res, 200, outcome("I can answer questions about my work and projects. Try asking what I've built.", [], 'refused'));
   if (!found.length) return json(res, 200, outcome("I haven't covered that here. You can email me using the link below.", [], 'refused'));
