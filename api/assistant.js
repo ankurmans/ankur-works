@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v12';
+const PROMPT_VERSION = 'ankur-ai-twin-v13';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -60,7 +60,8 @@ function injectionAnswer(question) {
 function offerContext(question, history, page) {
   const recentUser = history.filter((turn) => turn.role === 'user').at(-1)?.content || '';
   const inFitConversation = history.some((turn) => turn.role === 'user' && SALES_INTENT.test(turn.content)) && question.length < 180;
-  const isOfferQuestion = SALES_INTENT.test(question) || DISCOVERY_PROBLEM.test(question) || inFitConversation
+  const isOfferQuestion = SALES_INTENT.test(question) || DISCOVERY_PROBLEM.test(question)
+    || (EXISTING_PRODUCT.test(question) && SEARCH_NEED.test(question)) || inFitConversation
     || (page && /\b(?:how|what|start|measure|approach|work|help)\b/i.test(question));
   if (!isOfferQuestion) return [];
   const context = `${recentUser} ${question}`;
