@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/product-development", "destination": "/product-development/", "permanent": true },
+    { "source": "/seo-ai-search", "destination": "/seo-ai-search/", "permanent": true }
+  ]
+}

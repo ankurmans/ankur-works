@@ -152,3 +152,38 @@
 .github-section .section-heading h2{white-space:nowrap}
 .github-section .section-heading>p{max-width:420px;flex:0 1 420px}
 @media(min-width:761px) and (max-width:1000px){.github-section .section-heading h2{font-size:clamp(43px,5.2vw,53px)}}
+
+/* Two clear commercial paths, after the portfolio proof. */
+.offers-home{padding:92px 0 102px}
+.offers-home .section-heading h2{font-size:clamp(48px,5.5vw,82px)}
+.offer-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.offer-path{min-height:320px;border-radius:24px;padding:29px 32px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;transition:transform .25s ease,box-shadow .25s ease}
+.offer-path:hover{transform:translateY(-5px);box-shadow:0 18px 36px #17171517}
+.offer-path-build{background:#ffc451;color:#171715}
+.offer-path-search{background:#d8e9bd;color:#203027}
+.offer-path-top{display:flex;align-items:flex-start;justify-content:space-between;font:700 11px var(--display);letter-spacing:.13em}
+.offer-path-top span:last-child{font-size:35px;line-height:1;letter-spacing:0}
+.offer-path h3{font:700 clamp(34px,3.5vw,51px)/1 var(--display);letter-spacing:-.075em;margin:0 0 12px}
+.offer-path p{max-width:460px;margin:0;font-size:17px;line-height:1.5}
+.offer-path a{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;align-self:flex-start;min-width:225px;padding-bottom:7px;border-bottom:1.5px solid currentColor;font-weight:700;text-decoration:none}
+.offer-path a svg{flex:none;display:block}
+.offer-path a:hover{gap:32px}
+@media(max-width:760px){.offers-home{padding:64px 0 72px}.offers-home .section-heading h2{font-size:clamp(30px,8vw,42px)}.offer-paths{grid-template-columns:1fr}.offer-path{min-height:275px;padding:23px}.offer-path h3{font-size:36px}.offer-path p{font-size:16px}}
+
+/* The homepage offer bridge carries the same owned-product proof as the offer pages. */
+.offers-home .section-heading h2{font-size:clamp(45px,5.5vw,80px)}
+.offer-path{min-height:430px;overflow:hidden}
+.offer-path-top img{width:34px;height:34px;object-fit:contain;border-radius:8px}
+.offer-path-body{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;align-items:center;margin:18px 0 28px}
+.offer-path h3{font-size:clamp(32px,3.2vw,47px)}
+.offer-path p{font-size:15px;line-height:1.45}
+.offer-path-screen{height:210px;position:relative;transform:rotate(6deg);border:6px solid #fffaf1;border-radius:9px;box-shadow:10px 13px 0 #d95e3b,0 20px 30px #17171528;overflow:hidden;background:#302b68}
+.offer-path-screen img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block}
+.offer-path-screen span{position:absolute;bottom:0;left:0;right:0;background:#fffaf1;padding:7px 8px;font:700 9px var(--display);letter-spacing:.08em}
+.offer-path-case{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-height:213px;background:#203c31;color:#f9f5ea;padding:20px;transform:rotate(-5deg);box-shadow:10px 12px 0 #f1a646}
+.offer-path-case strong{font:700 clamp(80px,8vw,125px)/.78 var(--display);letter-spacing:-.12em}
+.offer-path-case span{font:700 16px/1.1 var(--display);margin-top:16px}
+.offer-path-case i{position:absolute;right:19px;bottom:20px;background:#ef6a45;width:58px;height:10px;box-shadow:0 -17px 0 #ffbd46,0 -34px 0 #cce4dc}
+@media(max-width:1050px){.offer-path-body{grid-template-columns:1fr}.offer-path-screen,.offer-path-case{width:min(100% - 20px,300px);margin:16px auto 0}.offer-path{min-height:510px}}
+@media(max-width:760px){.offers-home .section-heading h2{font-size:clamp(37px,9vw,55px)}.offer-path{min-height:0}.offer-path-body{grid-template-columns:1.1fr .9fr;gap:10px}.offer-path-screen,.offer-path-case{width:100%;height:170px;min-height:170px;margin:0}.offer-path-case strong{font-size:70px}.offer-path h3{font-size:clamp(30px,8vw,39px)}}
+@media(max-width:480px){.offer-path-body{grid-template-columns:1fr}.offer-path-screen,.offer-path-case{width:min(100% - 20px,290px);height:180px;min-height:180px;margin:15px auto 0}.offer-path{gap:10px}.offer-path h3{font-size:38px}}

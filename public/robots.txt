@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ankur.works/sitemap.xml
+Sitemap: https://www.ankur.works/sitemap.xml
