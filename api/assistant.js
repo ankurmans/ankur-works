@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v25';
+const PROMPT_VERSION = 'ankur-ai-twin-v26';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -216,9 +216,12 @@ export async function increment(key, ttl) {
   if (count === 1) await redis(['EXPIRE', key, ttl]);
   return count;
 }
-function publicSources(found, ids) {
+function publicSources(found, ids, answer) {
   const allow = new Set(ids);
-  return found.filter((record) => allow.has(record.id) && typeof record.url === 'string').slice(0, 3).map(({ title, url }) => ({ title, url }));
+  const answerNumbers = (answer.match(/\$?\d[\d,.]*(?:[kKmMbB%])?/g) || []).map((number) => number.replace(/[,.]+$/, ''));
+  return found.filter((record) => allow.has(record.id) && typeof record.url === 'string'
+    && (!answerNumbers.length || answerNumbers.some((number) => record.text.includes(number))))
+    .slice(0, 3).map(({ title, url }) => ({ title, url }));
 }
 
 export default async function handler(req, res) {
@@ -258,6 +261,8 @@ export default async function handler(req, res) {
   const offerFacts = offerContext(question, relevantHistory, page);
   const asksForProof = /\b(?:result|metric|proof|case study|growth|grew|clicks|impressions|revenue)\b/i.test(question);
   const asksWhyAnkur = WHY_ANKUR.test(question);
+  const asksPepysAiTraffic = /\bpepys\b/i.test(question) && /\b(?:chatgpt|ai)\b/i.test(question)
+    && /\b(?:referrals?|traffic|sessions?|growth|grew)\b/i.test(question);
   const retrievedFacts = retrieve(contextQuestion.replace(/\bcode[\s-]?sweep\b/gi, 'QuoteSweep'), section, page);
   const searchOfferOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const otherFacts = offerFacts.length && !mentionsProject && !asksForProof && !SEARCH_NEED.test(question) ? []
@@ -272,6 +277,8 @@ export default async function handler(req, res) {
   const alreadyAskedForSite = /\b(?:site|url)\b/i.test(lastAssistant) && /\b(?:buyer|audience)\b/i.test(lastAssistant);
   const fitGuidance = asksWhyAnkur
     ? 'The visitor is asking why they should work with me. Lead with one or two concrete before-and-after results from the supplied Pepys and QuoteSweep proof. Prefer Pepys signups rising 8.2× from August to September 2026 alongside about 2.1× growth in completed transcriptions or QuoteSweep Google clicks rising from 96 in April to 988 in August 2026. Cite the matching supplied proof record. Say what those measures are; never imply search or AI referrals caused signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
+    : asksPepysAiTraffic
+      ? 'Answer in two short sentences. Lead with ChatGPT-entry sessions rising from 190 in July to 1,637 in September 2026, then note the late-September pullback. These are referral sessions, not AI citations or proof that ChatGPT caused signups or revenue. Skip visitor IDs, pageviews, and landing paths unless explicitly asked.'
     : searchOnly
     ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${alreadyAskedForSite ? 'The previous answer already asked for the site and buyer. Do not ask for either again or repeat the offer. Acknowledge the correction, then give one concrete first diagnostic from the supplied search facts that the visitor can consider without giving you more information.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
     : offerFacts.some((record) => record.page === '/product-development/') && offerFacts.some((record) => record.page === '/seo-ai-search/')
@@ -336,7 +343,7 @@ export default async function handler(req, res) {
         if (offTopic && parsed.outcome !== 'refused') throw new Error('Off-topic response invalid');
         const cited = found.filter((record) => parsed.source_ids.includes(record.id));
         validateGrounding(answer, cited);
-        const sources = publicSources(found, parsed.source_ids);
+        const sources = publicSources(found, parsed.source_ids, answer);
         if (parsed.outcome === 'answered' && cited.length === 0) throw new Error('Uncited model answer');
         const result = outcome(answer, parsed.outcome === 'answered' ? sources : [], parsed.outcome, 'miss');
         const cacheValue = { answer: result.answer, sources: result.sources, outcome: result.outcome };
