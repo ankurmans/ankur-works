@@ -89,6 +89,8 @@ test('a buyer asking why Ankur gets both product and discovery proof', async () 
     const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
     assert.ok(ids.includes('pepys-product-growth-2026'));
     assert.ok(ids.includes('offer-search-evidence'));
+    assert.match(calls[0].messages[0].content, /Lead with one or two relevant results/);
+    assert.match(calls[0].messages[0].content, /Do not ask the generic ship-or-get-found question/);
   });
 });
 
