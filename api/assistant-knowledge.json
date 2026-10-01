@@ -191,10 +191,10 @@
   },
   {
     "id": "offer-search-1",
-    "title": "I built the products behind the proof.",
+    "title": "Turn search into a GTM channel.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "I built the products behind the proof. SEARCH-LED GTM / SEO + AI SEARCH QuoteSweep’s Google clicks grew 10.3× from April to August. I built the product behind it. I’ll find the buyer questions your site should answer, improve the pages, and measure what happens next. Starts at $6,000/month 90-day minimum · final scope agreed together",
+    "text": "Turn search into a GTM channel. SEARCH-LED GTM · SEO + AI SEARCH I build SEO + AI Search systems around the searches, comparisons and recommendations that happen before a customer buys. The work connects discovery to a useful page, a clear next step and a way to measure what happened. Starts at $6,000/month 90-day minimum · final scope agreed together",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
@@ -202,7 +202,7 @@
     "title": "offer-search section 2",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "THE POINT Visibility is useful when it connects a real buyer question to a real next step.",
+    "text": "THE POINT Search should operate inside your go-to-market system, not end as a traffic report. Buyer searches → result → click → website Buyer asks → generated answer → sources or recommendations → website or brand search Search-Led GTM means designing for both journeys.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
@@ -223,18 +223,18 @@
   },
   {
     "id": "offer-search-5",
-    "title": "Find the gap. Make the answer better.",
+    "title": "Make discovery lead somewhere.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "Find the gap. Make the answer better. Can Google reach it? What are buyers asking? Who gets named or cited? Did anything move? WHAT I LOOK AT Search work should be specific enough to ship and measured enough to question. Crawling, indexing, page structure, internal links and the technical problems hiding good work. Map commercial questions to pages and product paths, without filling the site with interchangeable articles. Use a defined set of prompts and repeated checks to see what AI answers use, then trace the source pages. Track dated changes against Search Console, search results and on-site actions. Keep impressions, clicks and revenue separate.",
+    "text": "Make discovery lead somewhere. Capture the demand already there. Show up where buyers ask for recommendations. Build assets that keep earning distribution. Measure more than rankings. THE SEARCH-LED GTM SYSTEM Four connected jobs, from a buyer’s question to a commercial next step. SEO remains the foundation; AI Search adds new answer and recommendation surfaces. Commercial and technical SEO, page architecture, internal links and landing pages put you in front of buyers who know what they need. Map comparison questions, AI answers and the sources they use. Improve retrievability and entity clarity, then test actual mentions and citations. Original research, tools, useful comparisons and expert evidence can create reasons to discover, link to and cite your company. Track query classes, commercial clicks, landing-page actions, AI mentions and pipeline where data permits. Visibility matters when it reaches a buyer.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
     "id": "offer-search-6",
-    "title": "First the evidence. Then the work.",
+    "title": "Start with demand. Build what earns it.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "First the evidence. Then the work. Search evidence review Implementation + measurement THE 90-DAY ENGAGEMENT We map the technical blockers, buyer questions, source pages and AI answer contexts that matter. You leave with a prioritized list of what to fix or build first. I turn that list into site fixes and useful pages, then track Google visibility, answer context and on-site actions as separate signals.",
+    "text": "Start with demand. Build what earns it. SEO, tied to acquisition. When search can change the business. HOW I BUILD SEARCH-LED GTM Search strategy is useful when it tells us what to ship, where to distribute it and how we will know whether it helped. 01 / Map demand Find the searches, comparisons and recommendation questions before a purchase. 02 / Reverse engineer winners Inspect the pages, sources, entities and authority already shaping those answers. 03 / Build the assets Ship commercial pages, technical fixes, research or tools that fit the opportunity. 04 / Measure the footprint Separate Google performance, AI answer presence, site actions and pipeline where measurable. 05 / Compound Expand the query classes and assets that prove useful; revise what does not. We agree the first scope together: evidence review, implementation and measurement. No ranking, citation or revenue result is guaranteed. THE SHIFT Rankings, traffic and a content calendar still have their place. I organize the work around a buyer-demand map, commercial visibility, Google + AI discovery, useful search assets and the path to a lead. GOOD FIT Best for founder-led teams, SaaS, marketplaces, high-value B2B and service businesses with a real buyer journey and a willingness to measure it. If you only need inexpensive blog volume or a vanity ranking, I am probably not the right fit.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
@@ -260,6 +260,35 @@
     "page": "/seo-ai-search/",
     "text": "Bring me the hard question. LET'S SEE WHAT THE DATA SAYS Send the URL and one buyer question you want to win. A rough note is enough.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "search-led-gtm-framework",
+    "title": "What Search-Led GTM means",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "Search-Led GTM is Ankur Shrestha's commercial framing for SEO + AI Search strategy and implementation, not a universally established industry category. In first person: “I treat Search as part of the go-to-market system: map buyer demand, improve Google and AI discovery, build reusable search assets, and measure whether visibility reaches qualified buyers.”",
+    "topics": [
+      "Search-Led GTM",
+      "search led GTM",
+      "SEO and AI search",
+      "go-to-market search"
+    ],
+    "evidence_type": "FRAMEWORK",
+    "provenance": "Ankur-approved offer framing, 2026-10-01"
+  },
+  {
+    "id": "search-led-gtm-boundaries",
+    "title": "Search-Led GTM scope and evidence limits",
+    "url": "/seo-ai-search/",
+    "page": "/seo-ai-search/",
+    "text": "The four jobs are demand capture, new discovery surfaces, durable distribution assets and commercial measurement. SEO remains foundational. AI mentions, citations, clicks, leads and revenue are distinct measures. Pipeline attribution needs connected client data; no ranking, citation or revenue result is guaranteed. Product Development builds or improves a product. Search-Led GTM works on discovery for an existing offer. Do not pitch a rebuild to someone who already has a product and needs discovery. QuoteSweep Google clicks and Pepys ChatGPT referrals are separate examples, not client outcomes or proof of causal revenue.",
+    "topics": [
+      "Search-Led GTM proof",
+      "Search-Led GTM results",
+      "Search-Led GTM vs product development"
+    ],
+    "evidence_type": "FRAMEWORK",
+    "provenance": "Ankur-approved offer framing, 2026-10-01"
   },
   {
     "id": "search-ai-operating-model",

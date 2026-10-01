@@ -1,0 +1,10 @@
+cluster,working_topic,reader_question,asset_type,evidence_needed,priority,book_material
+Search-Led GTM,Search as GTM,How does search affect qualified demand?,founder essay,attribution examples and limits,1,yes
+Search-Led GTM,Commercial query mapping,Which searches happen before purchase?,worked framework,anonymized query clusters,1,yes
+AI Search,Source mapping,Which sources shape AI recommendations?,research note,dated fixed prompt captures,1,yes
+AI Search,Retrievable passages,What makes a useful cited passage?,before-and-after example,dated answer checks,2,yes
+SEO,Technical foundations,Can buyers and crawlers reach the right page?,diagnostic guide,site examples with permission,2,yes
+SEO,Content architecture,Which page owns each buyer job?,diagram,query and page evidence,2,yes
+Measurement,Non-brand discovery,Did commercial discovery grow?,case study,GSC query-page exports and baseline,1,yes
+Measurement,AI visibility,Are we named or cited more often?,measurement note,repeatable prompt panel and dates,1,yes
+Measurement,Pipeline connection,Which visits became opportunities?,case study,consented CRM plus analytics join,3,yes
