@@ -91,6 +91,7 @@ test('a buyer asking why Ankur gets both product and discovery proof', async () 
     assert.ok(ids.includes('offer-search-evidence'));
     assert.match(calls[0].messages[0].content, /Lead with one or two relevant results/);
     assert.match(calls[0].messages[0].content, /Do not ask the generic ship-or-get-found question/);
+    assert.match(calls[0].messages[0].content, /Do not state a call duration/);
   });
 });
 
