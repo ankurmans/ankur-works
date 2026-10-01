@@ -4,6 +4,8 @@ import { resolve } from 'node:path';
 import contributions from './api/contributions.js';
 import assistant from './api/assistant.js';
 import assistantVoice from './api/assistant-voice.js';
+import assistantRealtimeToken from './api/assistant-realtime-token.js';
+import assistantRealtimeLog from './api/assistant-realtime-log.js';
 import { offerPages } from './scripts/offer-knowledge.js';
 import { mountAssistantOnOfferPage } from './scripts/assistant-mount-html.js';
 
@@ -105,6 +107,39 @@ export default defineConfig(({ mode }) => ({
           response.statusCode = 503;
           response.end(JSON.stringify({ error: 'Voice is unavailable right now.' }));
         }
+      });
+      server.middlewares.use('/api/assistant-realtime-token', async (request, response) => {
+        for (const key of ['ELEVENLABS_API_KEY', 'ELEVENLABS_REALTIME_AGENT_ID', 'ASSISTANT_REALTIME_ENABLED', 'ASSISTANT_REDIS_REST_URL', 'ASSISTANT_REDIS_REST_TOKEN']) {
+          const value = loadEnv(mode, process.cwd(), key)[key];
+          if (value && !process.env[key]) process.env[key] = value;
+        }
+        const result = {
+          setHeader(name, value) { response.setHeader(name, value); return this; },
+          status(code) { response.statusCode = code; return this; },
+          json(data) { response.setHeader('Content-Type', 'application/json; charset=utf-8'); response.end(JSON.stringify(data)); return this; },
+        };
+        try { await assistantRealtimeToken(request, result); }
+        catch { response.statusCode = 503; response.end(JSON.stringify({ error: 'Real-time voice could not connect.' })); }
+      });
+      server.middlewares.use('/api/assistant-realtime-log', async (request, response) => {
+        for (const key of ['ELEVENLABS_API_KEY', 'ELEVENLABS_REALTIME_AGENT_ID', 'ASSISTANT_LOG_INGEST_URL', 'ASSISTANT_LOG_SECRET']) {
+          const value = loadEnv(mode, process.cwd(), key)[key];
+          if (value && !process.env[key]) process.env[key] = value;
+        }
+        const result = {
+          setHeader(name, value) { response.setHeader(name, value); return this; },
+          status(code) { response.statusCode = code; return this; },
+          json(data) { response.setHeader('Content-Type', 'application/json; charset=utf-8'); response.end(JSON.stringify(data)); return this; },
+        };
+        try {
+          let payload = '';
+          for await (const chunk of request) {
+            payload += chunk;
+            if (payload.length > 1000) { response.statusCode = 413; response.end(); return; }
+          }
+          request.body = payload;
+          await assistantRealtimeLog(request, result);
+        } catch { response.statusCode = 503; response.end(JSON.stringify({ error: 'Call logging unavailable.' })); }
       });
     },
   }],
