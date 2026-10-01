@@ -167,7 +167,7 @@ function approvedClaimAnswer(question) {
 }
 function validateGrounding(answer, cited) {
   const citedText = cited.map((record) => record.text).join(' ');
-  const numbers = answer.match(/\$?\d[\d,.]*(?:[kKmMbB%])?/g) || [];
+  const numbers = (answer.match(/\$?\d[\d,.]*(?:[kKmMbB%])?/g) || []).map((number) => number.replace(/[,.]+$/, ''));
   const unmatched = numbers.filter((number) => !citedText.includes(number));
   if (unmatched.length) {
     if (process.env.NODE_ENV !== 'test') console.warn('assistant_numeric_grounding_reject', JSON.stringify({ unmatched, citedIds: cited.map((record) => record.id) }));
