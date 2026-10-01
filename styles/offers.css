@@ -10,6 +10,25 @@
 .offer-hero h1{font:700 clamp(55px,6.3vw,99px)/.99 var(--display);letter-spacing:-.092em;margin:25px 0 28px}
 .offer-hero h1 span{color:var(--orange)}
 .offer-lede{font-size:clamp(19px,1.8vw,23px);line-height:1.44;letter-spacing:-.025em;max-width:670px;color:#4a453d}
+.offer-inquiry{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(30px,6vw,85px);padding-top:88px;padding-bottom:90px;scroll-margin-top:30px}
+.offer-inquiry-copy h2{margin:18px 0 20px;font:700 clamp(44px,5vw,70px)/.98 var(--display);letter-spacing:-.08em}
+.offer-inquiry-copy>p:not(.eyebrow){max-width:390px;color:#514b42;font:500 17px/1.5 var(--body)}
+.offer-inquiry-copy .offer-inquiry-note{margin-top:22px;font-size:13px!important;color:#756a5e!important}
+.offer-inquiry-form{display:grid;gap:18px;padding:clamp(22px,3vw,35px);border:1px solid #d9cec0;border-radius:24px;background:#fffaf2;box-shadow:8px 9px 0 #17171512}
+.offer-inquiry-form label{display:grid;gap:8px;color:var(--ink);font:700 13px var(--display)}
+.offer-form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.offer-inquiry-form input,.offer-inquiry-form textarea{width:100%;min-width:0;border:1px solid #cfc3b4;border-radius:11px;background:#fff;color:var(--ink);padding:12px 13px;font:500 15px/1.4 var(--body)}
+.offer-inquiry-form textarea{resize:vertical;min-height:120px}
+.offer-inquiry-form input:focus-visible,.offer-inquiry-form textarea:focus-visible{outline:3px solid #ef6c3b66;outline-offset:2px;border-color:var(--orange)}
+.offer-form-trap{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.offer-form-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.offer-form-actions .button{cursor:pointer}
+.offer-form-actions span{color:#665d53;font:500 12px var(--body)}
+.offer-form-actions a{color:inherit;text-underline-offset:3px}
+.offer-form-feedback{min-height:18px;margin:0;color:#564f46;font:600 13px/1.4 var(--body)}
+.offer-form-feedback.is-error{color:#a23120}
+.offer-inquiry-form.is-sent{align-content:center}
+.offer-inquiry-form.is-sent .offer-form-row,.offer-inquiry-form.is-sent>label,.offer-inquiry-form.is-sent .offer-form-actions{display:none}
 .offer-pricing{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 12px;margin-top:18px;color:#4a453d;font:500 14px/1.35 var(--body)}
 .offer-pricing strong{color:var(--ink);font:700 18px/1.2 var(--display);letter-spacing:-.04em}
 .offer-actions{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-top:32px}
@@ -146,6 +165,8 @@
 .offer-note a:hover{color:#ad482b}
 @media(max-width:1050px){.offer-hero{grid-template-columns:1fr;padding:80px 0 50px}.offer-hero-art,.search-hero-art{height:430px;width:min(100%,570px);margin:40px auto 0}.product-proof-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.search-work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.offer-page .header nav{display:none}.offer-hero{padding:62px 0 55px}.offer-hero h1{font-size:clamp(43px,11.2vw,68px)}.offer-lede{font-size:18px}.offer-actions{align-items:flex-start;gap:20px}.offer-hero-art,.search-hero-art{transform:scale(.8);transform-origin:top center;margin:20px auto -70px}.offer-band-inner{display:block;padding:31px 0}.offer-band p:last-child{margin-top:12px}.offer-section{padding-top:70px;padding-bottom:74px}.offer-section-intro{display:block;margin-bottom:30px}.offer-section-intro h2{font-size:clamp(38px,9vw,55px)}.offer-section-intro>p:last-child{margin-top:18px}.product-proof-grid,.search-proof-grid,.offer-steps,.offer-start-grid,.search-work-grid,.offer-note-inner{grid-template-columns:1fr}.product-proof{min-height:460px}.offer-steps article,.search-work-grid article{min-height:220px}.offer-steps h3,.search-work-grid h3{margin-top:35px}.offer-cta-inner{display:block;padding:65px 0 72px}.offer-cta h2{font-size:clamp(40px,9vw,60px)}.offer-cta .button{margin-top:28px}.offer-note{padding:55px 0}.offer-note-inner{gap:20px}}
+@media(max-width:760px){.offer-inquiry{grid-template-columns:1fr;padding-top:65px;padding-bottom:70px}}
+@media(max-width:480px){.offer-form-row{grid-template-columns:1fr}.offer-form-actions .button{width:100%;justify-content:center}}
 @media(max-width:480px){.offer-hero-art,.search-hero-art{transform:scale(.62);width:540px;left:50%;margin-left:-270px;margin-bottom:-140px}.offer-actions .button{width:100%;justify-content:center}.offer-hero h1{font-size:clamp(40px,10vw,52px)}.search-proof>strong{font-size:82px}.offer-page .footer>div{flex-wrap:wrap}}
 
 /* Purple Cow: let owned-product proof carry the visuals and the claim. */

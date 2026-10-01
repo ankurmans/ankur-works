@@ -6,6 +6,7 @@ import assistant from './api/assistant.js';
 import assistantVoice from './api/assistant-voice.js';
 import assistantRealtimeToken from './api/assistant-realtime-token.js';
 import assistantRealtimeLog from './api/assistant-realtime-log.js';
+import offerInquiry from './api/offer-inquiry.js';
 import { offerPages } from './scripts/offer-knowledge.js';
 import { mountAssistantOnOfferPage } from './scripts/assistant-mount-html.js';
 
@@ -30,6 +31,26 @@ export default defineConfig(({ mode }) => ({
     configureServer(server) {
       const { GITHUB_TOKEN } = loadEnv(mode, process.cwd(), 'GITHUB_TOKEN');
       if (GITHUB_TOKEN) process.env.GITHUB_TOKEN = GITHUB_TOKEN;
+      server.middlewares.use('/api/offer-inquiry', async (request, response) => {
+        for (const key of ['SES_REGION', 'AWS_REGION', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'SES_FROM_EMAIL', 'LEAD_NOTIFICATION_EMAIL', 'LEAD_AUTO_REPLY_ENABLED']) {
+          const value = loadEnv(mode, process.cwd(), key)[key];
+          if (value && !process.env[key]) process.env[key] = value;
+        }
+        const result = {
+          setHeader(name, value) { response.setHeader(name, value); return this; },
+          status(code) { response.statusCode = code; return this; },
+          json(data) { response.setHeader('Content-Type', 'application/json; charset=utf-8'); response.end(JSON.stringify(data)); return this; },
+        };
+        try {
+          let payload = '';
+          for await (const chunk of request) {
+            payload += chunk;
+            if (payload.length > 6000) { response.statusCode = 413; response.end(); return; }
+          }
+          request.body = payload;
+          await offerInquiry(request, result);
+        } catch { response.statusCode = 503; response.end(JSON.stringify({ error: 'The form is unavailable.' })); }
+      });
       server.middlewares.use('/api/contributions', async (request, response) => {
         if (request.method !== 'GET') {
           response.statusCode = 405;

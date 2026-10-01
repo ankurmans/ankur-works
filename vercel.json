@@ -1,6 +1,7 @@
 {
   "functions": {
     "api/assistant.js": { "maxDuration": 30 },
+    "api/offer-inquiry.js": { "maxDuration": 15 },
     "api/assistant-voice.js": { "maxDuration": 60 },
     "api/assistant-realtime-log.js": { "maxDuration": 30 }
   },

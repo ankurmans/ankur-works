@@ -174,7 +174,15 @@
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
-    "id": "offer-product-7",
+    "id": "offer-product-inquiry",
+    "title": "A short note is enough.",
+    "url": "/product-development/#inquiry",
+    "page": "/product-development/",
+    "text": "A short note is enough. WORK WITH ME Tell me the messy version. I read every inquiry myself and reply by email. This goes straight to me. I’ll use your details to reply about this project.",
+    "provenance": "Published copy from product-development/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-product-8",
     "title": "Tell me the messy version.",
     "url": "/product-development/",
     "page": "/product-development/",
@@ -238,7 +246,15 @@
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
-    "id": "offer-search-8",
+    "id": "offer-search-inquiry",
+    "title": "A short note is enough.",
+    "url": "/seo-ai-search/#inquiry",
+    "page": "/seo-ai-search/",
+    "text": "A short note is enough. WORK WITH ME Show me the search problem. I read every inquiry myself and reply by email. This goes straight to me. I’ll use your details to reply about this project.",
+    "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "offer-search-9",
     "title": "Bring me the hard question.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
