@@ -36,3 +36,11 @@ test('portfolio and chat controls use stable icons instead of emoji-prone glyphs
   assert.match(widget, /Play voice reply/);
   assert.match(widget, /Play this answer aloud/);
 });
+
+test('voice call shows a booking link and tells the agent not to narrate its URL', () => {
+  const page = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const prompt = readFileSync(new URL('../knowledge/realtime-agent-prompt.txt', import.meta.url), 'utf8');
+  assert.match(page, /ask-ankur__call-after[^>]*><a href="https:\/\/cal\.com\/ankur-kmf\/30min"/);
+  assert.match(prompt, /Never speak, spell, or dictate the booking URL/);
+  assert.match(prompt, /Click the booking link below/);
+});
