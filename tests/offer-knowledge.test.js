@@ -52,8 +52,9 @@ test('voice call shows a booking link and tells the agent not to narrate its URL
   assert.match(prompt, /Click the booking link below/);
 });
 
-test('end call icon stays on one line in the mobile call interface', () => {
+test('end call stays on one line without a redundant icon', () => {
   const css = readFileSync(new URL('../styles/assistant.css', import.meta.url), 'utf8');
+  const page = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.match(css, /\.ask-ankur__end-call\{[^}]*display:inline-flex;align-items:center;[^}]*white-space:nowrap/);
-  assert.match(css, /\.ask-ankur__end-call svg\{display:block;flex:none\}/);
+  assert.match(page, /id="ask-ankur-end-call">End call<\/button>/);
 });
