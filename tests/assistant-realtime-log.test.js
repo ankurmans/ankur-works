@@ -59,3 +59,27 @@ test('server verifies the ElevenLabs agent before logging voice turns to D1', as
     }
   }
 });
+
+test('a processing transcript is not reported as saved', async () => {
+  const oldFetch = global.fetch;
+  const oldTimer = global.setTimeout;
+  const oldKey = process.env.ELEVENLABS_API_KEY;
+  const oldAgent = process.env.ELEVENLABS_REALTIME_AGENT_ID;
+  process.env.ELEVENLABS_API_KEY = 'test-key';
+  process.env.ELEVENLABS_REALTIME_AGENT_ID = 'agent_test';
+  global.fetch = async () => ({ ok: true, json: async () => ({ agent_id: 'agent_test', status: 'processing', transcript: [] }) });
+  global.setTimeout = (callback) => { queueMicrotask(callback); return 1; };
+  try {
+    const res = response();
+    await handler({ method: 'POST', headers: { origin: 'https://www.ankur.works' }, body: {
+      vendorConversationId: 'conv_test12345678', conversationId: '11111111-1111-4111-8111-111111111111', page: '/',
+    } }, res);
+    assert.equal(res.statusCode, 202);
+    assert.equal(res.body.error, 'Transcript is still processing.');
+  } finally {
+    global.fetch = oldFetch;
+    global.setTimeout = oldTimer;
+    if (oldKey === undefined) delete process.env.ELEVENLABS_API_KEY; else process.env.ELEVENLABS_API_KEY = oldKey;
+    if (oldAgent === undefined) delete process.env.ELEVENLABS_REALTIME_AGENT_ID; else process.env.ELEVENLABS_REALTIME_AGENT_ID = oldAgent;
+  }
+});

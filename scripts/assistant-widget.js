@@ -546,12 +546,18 @@ function endVoiceMode() {
   if (session) {
     const vendorConversationId = session.getId();
     const conversationId = currentChat()?.id;
-    void session.endSession().catch(() => {}).finally(() => {
+    void session.endSession().catch(() => {}).finally(async () => {
       if (!vendorConversationId || !conversationId) return;
-      void fetch('/api/assistant-realtime-log', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
-        body: JSON.stringify({ vendorConversationId, conversationId, page: window.location.pathname }),
-      }).catch(() => {});
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const result = await fetch('/api/assistant-realtime-log', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+            body: JSON.stringify({ vendorConversationId, conversationId, page: window.location.pathname }),
+          });
+          if (result.ok && result.status !== 202) return;
+        } catch { /* Retry while the page remains open. */ }
+        if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, 4000));
+      }
     });
   }
   clearInterval(callClock);
