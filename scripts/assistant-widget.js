@@ -70,6 +70,13 @@ let callTurnCount = 0;
 let voiceReady = false;
 let realtimeConversation = null;
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try { return await fetch(url, { ...options, signal: controller.signal }); }
+  finally { clearTimeout(timer); }
+}
+
 function loadChatState() {
   try {
     const stored = JSON.parse(localStorage.getItem(chatsKey) || '{}');
@@ -244,8 +251,8 @@ function appendPlayback(item, text, token) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'ask-ankur__play';
-  button.textContent = '▶ Hear my reply';
-  button.setAttribute('aria-label', 'Hear my reply');
+  button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Play voice reply</span>';
+  button.setAttribute('aria-label', 'Play this answer aloud');
   button.setAttribute('aria-pressed', 'false');
   button.addEventListener('click', () => speak(text, token, button));
   item.append(button);
@@ -453,10 +460,15 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
   if (voiceModeActive && spoken) addCallHistory('user', question);
   const reply = addMessage('Let me think…', 'assistant');
   try {
-    const response = await fetch('/api/assistant', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question, section: sectionNow(), page, history: previous, conversationId: chatId, turnId, channel }),
-    });
+    let response;
+    try {
+      response = await fetchWithTimeout('/api/assistant', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, section: sectionNow(), page, history: previous, conversationId: chatId, turnId, channel }),
+      });
+    } catch {
+      throw new Error('The chat lost its connection. Your question is back in the text box – tap send to retry.');
+    }
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "I can't answer right now. You can email me directly.");
     reply.textContent = data.answer;
@@ -472,6 +484,7 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
     }
   } catch (error) {
     reply.textContent = error instanceof Error ? error.message : "I can't answer right now. You can email me directly.";
+    if (!spoken) input.value = question;
     persistMessage('assistant', reply.textContent, [], true, chatId);
     if (voiceModeActive && spoken) addCallHistory('assistant', reply.textContent);
     if (spoken) {
@@ -583,7 +596,7 @@ async function startRealtimeCall() {
   endCallButton.focus({ preventScroll: true });
   const chatId = currentChat()?.id || createChat().id;
   try {
-    const response = await fetch('/api/assistant-realtime-token', { method: 'POST' });
+    const response = await fetchWithTimeout('/api/assistant-realtime-token', { method: 'POST' }, 15000);
     const data = await response.json();
     if (!response.ok || !data.token) throw new Error(data.error || 'Real-time voice could not connect.');
     if (session !== voiceSession || !voiceModeActive) return;
@@ -616,7 +629,9 @@ async function startRealtimeCall() {
   } catch (error) {
     if (session !== voiceSession) return;
     endVoiceMode();
-    const message = error instanceof Error ? error.message : 'Real-time voice could not connect.';
+    const message = error instanceof TypeError || error?.name === 'AbortError' || /(?:loading failed|failed to fetch|dynamically imported)/i.test(String(error?.message || ''))
+      ? 'The live call could not load on this connection. Try again or switch networks.'
+      : error instanceof Error ? error.message : 'Real-time voice could not connect.';
     if (dialog.open) addMessage(message, 'assistant');
     else setDockStatus(message, 4500);
   } finally {
@@ -644,9 +659,11 @@ async function startRecording(mode, target) {
       endCallButton.focus({ preventScroll: true });
     }
   }
-  setRecordingStatus(mode, target, 'Connecting…');
+  setRecordingStatus(mode, target, mode === 'dictation' ? 'Mic to type: connecting…' : 'Connecting…');
   try {
-    const status = voiceReady ? { ready: true } : await (await fetch('/api/assistant-voice')).json();
+    let status;
+    try { status = voiceReady ? { ready: true } : await (await fetchWithTimeout('/api/assistant-voice', {}, 10000)).json(); }
+    catch { throw new Error('The mic could not load on this connection. Try again or type your question.'); }
     if (session !== voiceSession || (mode === 'call' && !dialog.open)) return;
     if (!status.ready) throw new Error('Voice is being set up. Please type your question for now.');
     voiceReady = true;
@@ -720,7 +737,7 @@ async function startRecording(mode, target) {
     setRecordingUi(true, mode === 'dictation' ? target : null);
     setRecordingStatus(mode, target, mode === 'call'
       ? 'Listening… I’ll respond when you pause.'
-      : 'Listening… I’ll stop after you pause, or tap the mic to finish.');
+      : 'Mic to type: speak now. Pause or tap the mic to finish.');
     recordingTimer = setTimeout(stopRecording, 20000);
   } catch (error) {
     if (session !== voiceSession) return;

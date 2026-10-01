@@ -49,6 +49,9 @@
 .proof-metric{display:flex;align-items:baseline;gap:9px;margin:-2px 0 18px}
 .proof-metric strong{font:700 36px var(--display);letter-spacing:-.07em}
 .proof-metric span{font-size:12px;font-weight:700}
+.proof-system{display:grid;gap:4px;margin:-2px 0 18px;padding:11px 13px;border:1px solid #9b741e;border-radius:11px;background:#ffe09a}
+.proof-system strong{font:700 16px/1.1 var(--display);letter-spacing:-.04em}
+.proof-system span{font-size:11px;line-height:1.3}
 .proof-growth{display:grid;grid-template-columns:minmax(0,1fr) 38%;align-items:center;gap:12px;margin:-2px 0 18px;padding:12px 13px;border:1px solid #716ca5;border-radius:11px;background:#3b3677}
 .proof-growth strong{display:block;font:700 clamp(18px,2vw,23px)/1 var(--display);letter-spacing:-.05em;white-space:nowrap}
 .proof-growth span{display:block;margin-top:5px;font-size:10px;line-height:1.3;color:#e4dcfb}
@@ -181,6 +184,8 @@
 .product-live-bottom span{font-size:13px}
 .product-live-sticker{position:absolute;right:-24px;bottom:-36px;display:flex;align-items:center;gap:9px;padding:10px 15px;background:#fffaf1;border:1px solid #d9cec0;border-radius:40px;box-shadow:0 11px 20px #271a172b;transform:rotate(-6deg);font:700 11px var(--display)}
 .product-live-sticker img{width:30px;height:30px;object-fit:contain}
+.product-live-sticker:hover{transform:rotate(-3deg) translateY(-3px)}
+.product-live-sticker:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
 .casefile-section{padding-top:100px}
 .casefile-ledger{border:1px solid #c8c1b5;background:#fffaf1;box-shadow:10px 10px 0 #d8e9bd}
 .casefile-ledger-head{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#242723;color:#f8f5ec;padding:16px 24px;font:700 11px var(--display);letter-spacing:.1em}

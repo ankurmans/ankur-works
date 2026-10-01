@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { offerRecords, offerPages } from '../scripts/offer-knowledge.js';
 import { mountAssistantOnOfferPage } from '../scripts/assistant-mount-html.js';
 
@@ -24,4 +25,14 @@ test('the shared AI Twin mounts once on a static offer page', () => {
   assert.match(mounted, /scripts\/assistant-widget\.js/);
   assert.match(mounted, /id="ask-ankur"/);
   assert.equal(mountAssistantOnOfferPage(mounted, portfolio), mounted);
+});
+
+test('portfolio and chat controls use stable icons instead of emoji-prone glyphs', () => {
+  for (const path of ['index.html', 'product-development/index.html', 'scripts/assistant-widget.js', 'styles/assistant.css']) {
+    const source = readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(source, /[↘↗▶▸▾✳〰]/u, path);
+  }
+  const widget = readFileSync(new URL('../scripts/assistant-widget.js', import.meta.url), 'utf8');
+  assert.match(widget, /Play voice reply/);
+  assert.match(widget, /Play this answer aloud/);
 });
