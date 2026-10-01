@@ -83,13 +83,21 @@ test('AI search questions retrieve the relevant framework without Pepys proof le
   assert.ok(!ids.includes('search-gsc-extraction-spec'));
 });
 
+test('Search-Led GTM retrieves Ankur-owned positioning with the SEO and AI Search descriptor', () => {
+  const records = retrieve('What is Search-Led GTM?');
+  assert.equal(records[0].id, 'search-led-gtm-framework');
+  assert.match(records[0].text, /Ankur Shrestha's commercial framing for SEO \+ AI Search/);
+  assert.match(records[0].text, /not a universally established industry category/);
+  assert.ok(records.some((record) => record.id === 'search-led-gtm-boundaries'));
+});
+
 test('broad AI answer advice sends a compact, relevant evidence pair', async () => {
   await withModel('I’d compare buyer questions with retrievable passages and recurring sources, then measure actual answer mentions.', ['search-source-passage-strategy'], async (calls) => {
     const res = response();
     await handler(request({ question: 'How could my company appear in ChatGPT answers?' }), res);
     assert.equal(res.statusCode, 200);
     const input = JSON.parse(calls[0].messages[1].content);
-    assert.deepEqual(input.SITE_CONTENT.map((record) => record.id), ['offer-search-5', 'search-source-passage-strategy']);
+    assert.deepEqual(input.SITE_CONTENT.map((record) => record.id), ['search-led-gtm-framework', 'search-source-passage-strategy']);
     assert.match(calls[0].messages[0].content, /at most 55 words/);
     assert.ok(JSON.stringify(input.SITE_CONTENT).length < 2300);
   });

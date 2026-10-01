@@ -308,7 +308,7 @@ export default async function handler(req, res) {
     : asksWhyAnkur
     ? [growthStory]
     : asksPepysAiTraffic ? [pepysReferrals]
-    : asksAiSearchApproach ? knowledge.filter((record) => ['offer-search-5', 'search-source-passage-strategy'].includes(record.id))
+    : asksAiSearchApproach ? knowledge.filter((record) => ['search-led-gtm-framework', 'search-source-passage-strategy'].includes(record.id))
     : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = relevantHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';

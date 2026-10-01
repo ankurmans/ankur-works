@@ -83,6 +83,19 @@ records.push({ id: 'contact', title: 'Contact Ankur', url: '/#contact', text: `$
 // pages are present in this checkout. The site page remains the citation.
 records.push(...loadOfferRecords(resolve(dirname(fileURLToPath(import.meta.url)), '..')));
 
+const searchLedGtm = readFileSync(new URL('../knowledge/SEARCH-LED-GTM-RAG.md', import.meta.url), 'utf8').trim();
+if (!searchLedGtm.includes("Ankur Shrestha's commercial framing") || !searchLedGtm.includes('not a universally established industry category'))
+  throw new Error('Search-Led GTM knowledge must identify the framework and its ownership');
+const [, searchLedGtmPositioning, ...searchLedGtmLimits] = searchLedGtm.split('\n\n');
+records.push({ id: 'search-led-gtm-framework', title: 'What Search-Led GTM means',
+  url: '/seo-ai-search/', page: '/seo-ai-search/', text: searchLedGtmPositioning,
+  topics: ['Search-Led GTM', 'search led GTM', 'SEO and AI search', 'go-to-market search'],
+  evidence_type: 'FRAMEWORK', provenance: 'Ankur-approved offer framing, 2026-10-01' });
+records.push({ id: 'search-led-gtm-boundaries', title: 'Search-Led GTM scope and evidence limits',
+  url: '/seo-ai-search/', page: '/seo-ai-search/', text: searchLedGtmLimits.join(' '),
+  topics: ['Search-Led GTM proof', 'Search-Led GTM results', 'Search-Led GTM vs product development'],
+  evidence_type: 'FRAMEWORK', provenance: 'Ankur-approved offer framing, 2026-10-01' });
+
 // These are Ankur-provided public frameworks, not measured outcomes. Behaviour
 // and example files shape the prompts separately; the extraction spec is
 // engineering guidance and must never be presented as a completed analysis.
