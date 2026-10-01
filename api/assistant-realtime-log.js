@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   if (!key || !agentId) return reply(res, 503, { error: 'Call logging is unavailable.' });
   try {
     let details;
-    for (let attempt = 0; attempt < 3; attempt++) {
+    for (let attempt = 0; attempt < 8; attempt++) {
       const upstream = await fetch(`https://api.elevenlabs.io/v1/convai/conversations/${encodeURIComponent(body.vendorConversationId)}`, {
         headers: { 'xi-api-key': key }, signal: AbortSignal.timeout(10000),
       });
@@ -71,9 +71,12 @@ export default async function handler(req, res) {
       details = await upstream.json();
       if (details.agent_id !== agentId) return reply(res, 403, { error: 'Unknown agent.' });
       if (details.status === 'done' || details.status === 'failed') break;
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      if (attempt < 7) await new Promise((resolve) => setTimeout(resolve, 1200));
     }
     const turns = pairedTurns(details.transcript, body.vendorConversationId);
+    if (!turns.length || !['done', 'failed'].includes(details.status)) {
+      return reply(res, 202, { error: 'Transcript is still processing.' });
+    }
     for (const turn of turns) {
       await recordConversationTurn({
         conversationId: body.conversationId, turnId: turn.id, channel: 'voice_call', siteHost,
