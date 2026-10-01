@@ -71,6 +71,36 @@ test('scheduled cleanup removes turns older than the configured retention', asyn
   assert.ok(Math.abs(binding.value - (now - 90 * 86400000)) < 1000);
 });
 
+test('private report requires a separate read credential and bounds queries', async () => {
+  const calls = [];
+  const env = { INGEST_SECRET: 'ingest-only', READ_SECRET: 'read-only', DB: { prepare(sql) {
+    return { bind(...values) {
+      calls.push({ sql, values });
+      return { first: async () => ({ turns: 1, conversations: 1, input_tokens: 20, output_tokens: 10 }),
+        all: async () => ({ results: [{ conversation_id: conversationId }] }) };
+    } };
+  } } };
+  const url = 'https://example.workers.dev/report/overview?assistant=ai_twin&channel=voice_call&days=7&page=1';
+  for (const authorization of [undefined, 'Bearer ingest-only']) {
+    const denied = await worker.fetch(new Request(url, { headers: authorization ? { authorization } : {} }), env);
+    assert.equal(denied.status, 401);
+  }
+  const headers = { authorization: 'Bearer read-only' };
+  const bad = await worker.fetch(new Request(url.replace('days=7', 'days=1000'), { headers }), env);
+  assert.equal(bad.status, 400);
+  const allowed = await worker.fetch(new Request(url, { headers }), env);
+  assert.equal(allowed.status, 200);
+  assert.equal(allowed.headers.get('Cache-Control'), 'private, no-store');
+  assert.equal((await allowed.json()).conversations[0].conversation_id, conversationId);
+  assert.equal(calls.length, 2);
+  assert.match(calls[1].sql, /LIMIT 25 OFFSET \?/);
+  assert.equal(calls[1].values.at(-1), 25);
+  const detail = await worker.fetch(new Request(`https://example.workers.dev/report/conversation/${conversationId}?days=7`, { headers }), env);
+  assert.equal(detail.status, 200);
+  assert.equal(calls[2].values[0], conversationId);
+  assert.match(calls[2].sql, /LIMIT 200/);
+});
+
 test('the private shared cache stores validated chat and audio with separate expiry', async () => {
   const values = new Map();
   const env = { INGEST_SECRET: 'test-only-store-secret', ANSWER_CACHE: {
