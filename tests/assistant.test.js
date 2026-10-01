@@ -129,7 +129,7 @@ test('offer-page questions carry the page-specific facts into the model', async 
       assert.ok(JSON.parse(calls[0].messages[1].content).SITE_CONTENT.some((record) => record.id === cited));
     });
   }
-  await withModel('For QuoteSweep, monthly clicks rose from 96 in April to 988 in August 2026. Those are search clicks.', ['offer-search-evidence'], async () => {
+  await withModel('I saw QuoteSweep search clicks rise from 96 in April to 988 in August 2026.', ['offer-search-evidence'], async () => {
     const res = response();
     await handler(request({ question: 'What were QuoteSweep Google clicks in April and August?', page: '/seo-ai-search/' }), res);
     assert.equal(res.statusCode, 200);
@@ -315,7 +315,7 @@ test('business guarantees are refused without inventing a result', async () => {
 test('metric words reach grounded evidence and the model', async () => {
   for (const [question, answer, sourceId] of [
     ['How fast has QuoteSweep grown?', 'My Search Console clicks rose from 96 in April to 988 in August 2026 for QuoteSweep.', 'offer-search-evidence'],
-    ['How many people used Pepys in September?', 'In September, 3,828 distinct users completed transcriptions in Pepys.', 'offer-search-evidence'],
+    ['How many people used Pepys in September?', 'I saw 3,828 distinct users complete transcriptions in Pepys in September.', 'offer-search-evidence'],
     ['What is Pepys revenue?', 'I have not shared Pepys revenue. Pepys is live and turns audio and video into useful text.', 'pepys'],
   ]) {
     await withModel(answer, [sourceId], async (calls) => {
@@ -327,6 +327,26 @@ test('metric words reach grounded evidence and the model', async () => {
       assert.equal(calls.length, 1);
     });
   }
+});
+
+test('voice calls retry report-like answers in first-person conversational style', async () => {
+  const original = global.fetch;
+  const calls = [];
+  global.fetch = async (_url, options) => {
+    calls.push(JSON.parse(options.body));
+    const answer = calls.length === 1
+      ? 'According to the site copy, Pepys turns audio into text.'
+      : 'I built Pepys to turn recordings into useful text.';
+    return { ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify({ answer, source_ids: ['pepys'], outcome: 'answered' }) } }] }) };
+  };
+  try {
+    const res = response();
+    await handler(request({ question: 'What problem does Pepys solve when I send a recording?', channel: 'voice_call' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.body.answer, 'I built Pepys to turn recordings into useful text.');
+    assert.equal(calls.length, 2);
+    assert.match(calls[0].messages[0].content, /spoken call.*at most 55 words/);
+  } finally { global.fetch = original; }
 });
 
 test('invalid requests and untrusted origins are rejected', async () => {
