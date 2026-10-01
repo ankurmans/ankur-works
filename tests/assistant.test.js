@@ -82,14 +82,14 @@ test('Pepys growth proof connects signups with actual use without claiming attri
 });
 
 test('a buyer asking why Ankur gets both product and discovery proof', async () => {
-  await withModel('I have shipped products and grown their use and discovery. Tell me where yours is stuck.', ['pepys-product-growth-2026', 'offer-search-evidence'], async (calls) => {
+  await withModel('I built Pepys and grew distinct signups 8.2× from August to September 2026 while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If you are trying to build and get found, book a call below.', ['pepys-product-growth-2026', 'offer-search-evidence'], async (calls) => {
     const res = response();
     await handler(request({ question: 'Why should I work with you?' }), res);
     assert.equal(res.statusCode, 200);
     const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
     assert.ok(ids.includes('pepys-product-growth-2026'));
     assert.ok(ids.includes('offer-search-evidence'));
-    assert.match(calls[0].messages[0].content, /Lead with one or two relevant results/);
+    assert.match(calls[0].messages[0].content, /Lead with one or two concrete before-and-after results/);
     assert.match(calls[0].messages[0].content, /Do not ask the generic ship-or-get-found question/);
     assert.match(calls[0].messages[0].content, /Do not state a call duration/);
   });

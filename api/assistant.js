@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v22';
+const PROMPT_VERSION = 'ankur-ai-twin-v23';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -252,13 +252,15 @@ export default async function handler(req, res) {
     : searchOfferOnly && !mentionsProject && !asksForProof ? retrievedFacts.filter((record) => record.page === '/seo-ai-search/') : retrievedFacts;
   const offTopic = !TOPIC.test(contextQuestion) && !offerFacts.length && !mentionsProject && !asksForProof && otherFacts.length <= 1;
   const proofFacts = asksWhyAnkur ? knowledge.filter((record) => ['pepys-product-growth-2026', 'offer-search-evidence'].includes(record.id)) : [];
-  const found = offTopic ? [] : [...new Map([...offerFacts, ...proofFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
+  const found = offTopic ? [] : asksWhyAnkur
+    ? [...proofFacts, ...knowledge.filter((record) => ['about', 'story'].includes(record.id))]
+    : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = relevantHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
   const selectedOffers = projectTurn ? [] : salesOffers.offers.filter((offer) => !offerFacts.length || offerFacts.some((record) => record.page === (offer.id === 'search' ? '/seo-ai-search/' : '/product-development/')));
   const alreadyAskedForSite = /\b(?:site|url)\b/i.test(lastAssistant) && /\b(?:buyer|audience)\b/i.test(lastAssistant);
   const fitGuidance = asksWhyAnkur
-    ? 'The visitor is asking why they should work with me. Lead with one or two relevant results from the supplied Pepys and QuoteSweep proof: show that I have built products, grown actual product use, and helped my own work get found. Preserve each metric and time window; never imply search or AI referrals caused the signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
+    ? 'The visitor is asking why they should work with me. Lead with one or two concrete before-and-after results from the supplied Pepys and QuoteSweep proof. Prefer Pepys signups rising 8.2× from August to September 2026 alongside about 2.1× growth in completed transcriptions or QuoteSweep Google clicks rising from 96 in April to 988 in August 2026. Cite the matching supplied proof record. Say what those measures are; never imply search or AI referrals caused signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
     : searchOnly
     ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${alreadyAskedForSite ? 'The previous answer already asked for the site and buyer. Do not ask for either again or repeat the offer. Acknowledge the correction, then give one concrete first diagnostic from the supplied search facts that the visitor can consider without giving you more information.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
     : offerFacts.some((record) => record.page === '/product-development/') && offerFacts.some((record) => record.page === '/seo-ai-search/')
