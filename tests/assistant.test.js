@@ -166,6 +166,9 @@ test('existing product and discovery selects search facts and passes corrections
     assert.ok(input.SITE_CONTENT.some((record) => record.id === 'offer-search-6'));
     assert.ok(!input.SITE_CONTENT.some((record) => record.id === 'offer-product-6'));
     assert.match(calls[0].messages[0].content, /acknowledge a correction/);
+    assert.match(calls[0].messages[0].content, /Never pitch product development/);
+    assert.deepEqual(calls[0].response_format.json_schema.schema.properties.source_ids.items.enum,
+      input.SITE_CONTENT.map((record) => record.id));
   });
 });
 
