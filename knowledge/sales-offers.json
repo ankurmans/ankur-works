@@ -3,15 +3,19 @@
   "offers": [
     {
       "id": "product",
-      "name": "Full-stack product development",
+      "name": "Product Development Sprint",
       "fit": "A product, app, workflow, or website needs to be designed, built, improved, or shipped.",
-      "boundary": "Do not promise a timeline, price, availability, or business result."
+      "starting_price_per_month_usd": 6000,
+      "minimum_months": 3,
+      "boundary": "The published $6,000/month starting price has a 90-day minimum. Exact scope is agreed before work begins. Do not promise availability or a business result. Mention price only when asked."
     },
     {
       "id": "search",
-      "name": "SEO and AI search",
+      "name": "Search-led GTM",
       "fit": "An existing business needs to understand and improve how buyers find it through search and AI answers.",
-      "boundary": "Do not claim a ranking, citation, traffic, lead, or revenue result without specific evidence."
+      "starting_price_per_month_usd": 6000,
+      "minimum_months": 3,
+      "boundary": "The published $6,000/month starting price has a 90-day minimum. Exact scope is agreed before work begins. Do not claim a ranking, citation, traffic, lead, or revenue result without specific evidence. Mention price only when asked."
     }
   ],
   "handoff": "The booking link is displayed inside the chat. The rest of the portfolio keeps its existing mailto contact routes."

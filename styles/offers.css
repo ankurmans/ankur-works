@@ -10,6 +10,8 @@
 .offer-hero h1{font:700 clamp(55px,6.3vw,99px)/.99 var(--display);letter-spacing:-.092em;margin:25px 0 28px}
 .offer-hero h1 span{color:var(--orange)}
 .offer-lede{font-size:clamp(19px,1.8vw,23px);line-height:1.44;letter-spacing:-.025em;max-width:670px;color:#4a453d}
+.offer-pricing{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 12px;margin-top:18px;color:#4a453d;font:500 14px/1.35 var(--body)}
+.offer-pricing strong{color:var(--ink);font:700 18px/1.2 var(--display);letter-spacing:-.04em}
 .offer-actions{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-top:32px}
 .offer-actions .button{gap:12px}
 .offer-hero-art,.search-hero-art{position:relative;height:480px;min-width:0}

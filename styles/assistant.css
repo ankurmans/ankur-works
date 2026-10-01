@@ -49,8 +49,8 @@
 .ask-ankur__call-history p{margin:0 0 9px;color:#534b44;font:12px/1.4 var(--body);overflow-wrap:anywhere}
 .ask-ankur__call-history p:last-child{margin-bottom:0}
 .ask-ankur__call-history strong{display:block;margin-bottom:2px;font:700 10px var(--display)}
-.ask-ankur__end-call{min-width:165px;margin-top:auto;padding:13px 19px;border:0;border-radius:999px;background:#b53627;color:#fff;font:700 13px var(--display);cursor:pointer}
-.ask-ankur__end-call svg{margin-left:11px;vertical-align:middle}
+.ask-ankur__end-call{display:inline-flex;align-items:center;justify-content:center;gap:11px;flex:none;min-width:165px;margin-top:auto;padding:13px 19px;border:0;border-radius:999px;background:#b53627;color:#fff;font:700 13px/1 var(--display);white-space:nowrap;cursor:pointer}
+.ask-ankur__end-call svg{display:block;flex:none}
 .ask-ankur__end-call:hover{background:#95291c}
 .ask-ankur__call-after{display:grid;gap:7px;justify-items:center;margin:9px 0 0;color:#766b60;font:11px/1.3 var(--body)}
 .ask-ankur__call-after a{color:var(--ink);font:700 12px var(--display);text-underline-offset:3px}

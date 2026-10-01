@@ -24,9 +24,10 @@ export function offerRecords(html, page) {
   return sections.map((match, index) => {
     const id = match[1].match(/\bid="([a-z][a-z0-9-]*)"/i)?.[1];
     const headings = [...match[2].matchAll(/<h[1-4]\b[^>]*>([\s\S]*?)<\/h[1-4]>/gi)].map((item) => plain(item[1]));
-    const paragraphs = [...match[2].matchAll(/<(?:p|li)\b[^>]*>([\s\S]*?)<\/(?:p|li)>/gi)]
-      .map((item) => plain(item[1]))
-      .filter((text) => text && !/\b(?:price|pricing|rates?|budget)\b/i.test(text));
+    const paragraphs = [...match[2].matchAll(/<(?:p|li)\b([^>]*)>([\s\S]*?)<\/(?:p|li)>/gi)]
+      .filter((item) => /\bdata-approved-offer-price\b/i.test(item[1]) || !/\b(?:price|pricing|rates?|budget)\b/i.test(plain(item[2])))
+      .map((item) => plain(item[2]))
+      .filter(Boolean);
     const text = [...new Set([...headings, ...paragraphs])].join(' ').slice(0, 3400);
     if (!text) throw new Error(`Offer page ${page.file} has an empty section ${index + 1}`);
     return {

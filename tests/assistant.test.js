@@ -45,6 +45,27 @@ test('product question retrieves all published software cards', () => {
   for (const id of ['pepys', 'whooshly', 'quotesweep', 'twinsona', 'linnet', 'commerce']) assert.ok(ids.includes(id), `${id} was not retrieved`);
 });
 
+test('published starting prices answer product, search, and general pricing questions with their minimum', async () => {
+  for (const [question, page, name, source] of [
+    ['How much does the product development sprint cost?', '', 'Product Development Sprint', '/product-development/'],
+    ['What is your rate for Search-led GTM?', '', 'Search-led GTM', '/seo-ai-search/'],
+    ['What is your pricing?', '', 'Product Development Sprint and Search-led GTM', null],
+    ['What does this cost?', '/seo-ai-search/', 'Search-led GTM', '/seo-ai-search/'],
+  ]) {
+    const res = response();
+    await handler(request({ question, page }), res);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body.answer, new RegExp(name));
+    assert.match(res.body.answer, /\$6,000 per month with a 90-day minimum/);
+    if (source) assert.equal(res.body.sources[0].url, source);
+    else assert.equal(res.body.sources.length, 2);
+  }
+  const followUp = response();
+  await handler(request({ question: 'How much?', history: [{ role: 'user', content: 'I have a live product and need search visibility.' }] }), followUp);
+  assert.match(followUp.body.answer, /^Search-led GTM starts/);
+  assert.equal(followUp.body.sources[0].url, '/seo-ai-search/');
+});
+
 test('named-entity retrieval keeps its own card and approved claim metadata', () => {
   const records = retrieve('What did you build with Amped Rides?');
   assert.equal(records[0].id, 'commerce');
