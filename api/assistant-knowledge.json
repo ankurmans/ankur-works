@@ -244,5 +244,114 @@
     "page": "/seo-ai-search/",
     "text": "Bring me the hard question. LET'S SEE WHAT THE DATA SAYS Send the URL and one buyer question you want to win. A rough note is enough.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
+  },
+  {
+    "id": "search-ai-operating-model",
+    "title": "AI search operating model",
+    "url": null,
+    "page": "/seo-ai-search/",
+    "text": "# AI Search — Public-Safe Operating Model\n\nAI Search is best treated as SEO with a different last mile: systems may retrieve documents, extract passages, synthesise answers, cite sources and recommend entities.\n\n## Four layers\n1. Model layer — what is already baked into training.\n2. Retrieval layer — what can be found/fetched now.\n3. Answer layer — what retrieved material gets synthesised/cited.\n4. Recommendation layer — which brands/entities get named.\n\n## Two games\nSlow game: training/entity associations, broad corroboration, durable co-occurrence.\nFast game: retrieval/grounding, rankings, crawlability, passages, freshness, authority, source inclusion.\n\n## Practical framework\n- Build a commercial query/prompt universe.\n- Measure mention/citation/competitor/source overlap.\n- Map recurring cited sources.\n- Improve retrievability: explicit entities, direct passages, clean structure, crawl/indexability.\n- Add information gain: data, tests, benchmarks, tools, first-hand evidence.\n- Strengthen third-party corroboration and remeasure repeatedly.\n\n## Public positions\n- One chatbot screenshot is not measurement.\n- Schema is identity/disambiguation hygiene, not a magic citation switch.\n- Ranking #1 does not guarantee citation/recommendation.\n- AI Search does not make classic SEO irrelevant; retrieval still matters.",
+    "topics": [
+      "AI search",
+      "GEO",
+      "AEO",
+      "ChatGPT ranking",
+      "retrieval",
+      "citations"
+    ],
+    "evidence_type": "FRAMEWORK",
+    "provenance": "Ankur-provided SEO and AI Search RAG pack"
+  },
+  {
+    "id": "search-seo-operating-knowledge",
+    "title": "SEO, content, entities and links",
+    "url": null,
+    "page": "/seo-ai-search/",
+    "text": "# SEO Operating Knowledge\n\n## SERP-first reasoning\nInspect: intent, buyer stage, dominant page type, SERP features, structural/entity consensus, authority consensus, freshness, information gaps, commercial weaknesses and AI overlap.\n\nAsk: why are these pages winning? Not: how many words do they have?\n\n## Content\nPrioritise correct intent, useful structure, evidence, internal links, conversion and distribution. Commodity prose is cheap.\n\n## Entities\nMachines should clearly understand who/what the entity is, products/services, people, relationships, locations, expertise and category membership. Cross-web consistency matters.\n\n## Internal links\nClarify hierarchy, page ownership, entity relationships and authority flow. Avoid exact-match spam and orphaned scaled pages.\n\n## Links\nEvaluate relevance, real visibility, placement, context, indexation, persistence, anchor opportunity, cost and risk. DR/DA are shorthand, not strategy.\n\n## Brand demand\nTrack branded impressions/clicks, query breadth and brand+category demand. Brand and SEO should reinforce each other.\n\n## Technical triage\nFix what affects discovery, crawl, indexation, canonicals, rendering, page ownership, authority flow, presentation and conversion before cosmetic warnings.",
+    "topics": [
+      "SEO",
+      "SERP",
+      "content",
+      "entities",
+      "links",
+      "technical SEO"
+    ],
+    "evidence_type": "FRAMEWORK",
+    "provenance": "Ankur-provided SEO and AI Search RAG pack"
+  },
+  {
+    "id": "search-source-passage-strategy",
+    "title": "AI search sources and passages",
+    "url": null,
+    "page": "/seo-ai-search/",
+    "text": "# AI Search — Source + Passage Strategy\n\n## Think in source ecosystems\nMap recurring publishers, comparison pages, directories, research, UGC, product pages, reviews and niche authorities.\n\nOften the problem is not \"rewrite our page\"; it is \"be present in the sources answer systems already retrieve.\"\n\n## Passage quality\nStrong passages:\n- answer one clear question;\n- name the entity explicitly;\n- lead with the answer;\n- contain concrete facts;\n- can stand alone;\n- avoid ambiguous pronouns;\n- support claims with evidence.\n\n## Consensus + differentiation\nMatch the factual consensus required by the query, then differentiate with data, experiments, tools, stronger examples or first-hand evidence.\n\n## Third-party validation\nAsk: which external pages would make this recommendation unsurprising?\n\n## Monitoring\nUse a stable prompt set, query class, engine/surface, date, geography where relevant, mention, recommendation, citations and competitor presence. Repeat over time.\n\n## Free-chat boundary\nThe twin can identify the likely bottleneck and 1–3 tests, but should not give away the complete source-acquisition campaign.",
+    "topics": [
+      "AI search",
+      "sources",
+      "passages",
+      "citations",
+      "corroboration"
+    ],
+    "evidence_type": "FRAMEWORK",
+    "provenance": "Ankur-provided SEO and AI Search RAG pack"
+  },
+  {
+    "id": "search-gsc-analysis",
+    "title": "Search Console measurement",
+    "url": null,
+    "page": "/seo-ai-search/",
+    "text": "# Search Console Analysis Knowledge\n\nGSC is strongest for clicks, impressions, CTR, average position, queries, pages, countries, devices, search appearance and time trends. It is not revenue attribution by itself.\n\n## Comparisons\nPrefer matched windows:\n- last 28 vs previous 28\n- last 28 vs same period YoY\n- last 90 vs previous 90\n- post-intervention vs matched pre-intervention\n\n## Always segment\n- brand vs non-brand\n- commercial vs informational\n- query cluster\n- page type\n- device/country where material\n\n## Richest unit\nStore date × query × page, then optionally country/device/search appearance.\n\n## Proof hierarchy\n1. clicks\n2. non-brand clicks\n3. commercial-intent clicks\n4. qualified landing-page growth\n5. query breadth\n6. impressions\n7. position\n8. CTR\n\n## Strong proof phrasing\nPrefer raw numbers plus multiple:\n\"38 → 402 clicks across matched 28-day windows (10.6x)\"\nover a naked \"+958%\".\n\n## Tiny-base guardrail\nDo not headline 10x from 1→10. For strong public multiple claims, require a meaningful baseline and show the raw values.",
+    "topics": [
+      "GSC",
+      "Search Console",
+      "clicks",
+      "impressions",
+      "measurement"
+    ],
+    "evidence_type": "FRAMEWORK",
+    "provenance": "Ankur-provided SEO and AI Search RAG pack"
+  },
+  {
+    "id": "pepys-chatgpt-referrals-2026",
+    "title": "Pepys ChatGPT referral sessions, July to September 2026",
+    "approved_for_chatbot": true,
+    "public_safe": true,
+    "evidence_type": "OBSERVED",
+    "authority_level": "PostHog session entry referrer",
+    "last_verified": "2026-10-01",
+    "source_url": "https://us.posthog.com/project/472190/dashboard/1727396",
+    "topics": [
+      "Pepys",
+      "ChatGPT referrals",
+      "AI search discovery",
+      "AI traffic",
+      "PostHog",
+      "traffic growth"
+    ],
+    "text": "In Pepys PostHog, sessions with a pageview and an entry referring domain of chatgpt.com or chat.openai.com numbered 190 in July 2026, 948 in August 2026, and 1,637 in September 2026. September's ChatGPT-entry sessions involved 1,394 distinct visitor IDs and 4,207 pageviews. The largest September landing paths included /tools/transcribe-arabic-video and /tools/instagram-reel-transcript, each with 138 ChatGPT-entry sessions. This is observed referral traffic, not a direct AI answer citation test, a signup attribution study, or proof that AI referrals caused revenue. Daily ChatGPT-entry sessions peaked around 100 per day in early September and were mostly around 20–40 per day late in September; do not describe the growth as uninterrupted. The dashboard's broader AI channel includes some direct sessions, so use the explicit entry-referrer counts for this observation.",
+    "url": null,
+    "page": "/seo-ai-search/",
+    "provenance": "Pepys PostHog; inspected 2026-10-01"
+  },
+  {
+    "id": "pepys-product-growth-2026",
+    "title": "Pepys signup and product use growth, August to September 2026",
+    "approved_for_chatbot": true,
+    "public_safe": true,
+    "evidence_type": "OBSERVED",
+    "authority_level": "PostHog product events",
+    "last_verified": "2026-10-01",
+    "source_url": "https://us.posthog.com/project/472190/dashboard/1727396",
+    "topics": [
+      "Pepys",
+      "signups",
+      "product use",
+      "transcriptions",
+      "growth story"
+    ],
+    "text": "Pepys PostHog events show that distinct people signing up grew 8.2× from August to September 2026. In the same complete-month comparison, completed transcriptions and the distinct number of people completing a transcription each grew about 2.1×. This is a product adoption and use story: signups rose and actual use rose too. The signups and completed-transcription events are separate measures; it is unknown whether every new signup used the product. The hard signup count is not approved for publication. This analysis does not attribute the signup or use growth to Google Search or ChatGPT referrals, and it does not establish revenue growth.",
+    "url": null,
+    "page": "/seo-ai-search/",
+    "provenance": "Pepys PostHog; inspected 2026-10-01"
   }
 ]

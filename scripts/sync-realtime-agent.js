@@ -10,7 +10,7 @@ if (!key || !agentId || !documentId) throw new Error('Set the ElevenLabs key, re
 const records = JSON.parse(readFileSync('api/assistant-knowledge.json', 'utf8'));
 const content = [
   'APPROVED ANKUR.WORKS FACTS, from the current site corpus. Each record is separate. Do not make claims beyond these records.',
-  ...records.map((record) => `\n[${record.id}] ${record.title}\nSource: https://www.ankur.works${record.url}\n${record.text}`),
+  ...records.map((record) => `\n[${record.id}] ${record.title}\n${record.url ? `Public source: https://www.ankur.works${record.url}\n` : ''}${record.evidence_type ? `Evidence type: ${record.evidence_type}\n` : ''}${record.provenance ? `Provenance: ${record.provenance}\n` : ''}${record.last_verified ? `Last verified: ${record.last_verified}\n` : ''}${record.text}`),
 ].join('\n');
 const prompt = readFileSync('knowledge/realtime-agent-prompt.txt', 'utf8').trim();
 const headers = { 'xi-api-key': key, 'Content-Type': 'application/json' };

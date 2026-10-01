@@ -1,0 +1,28 @@
+{
+  "observations": [
+    {
+      "id": "pepys-chatgpt-referrals-2026",
+      "title": "Pepys ChatGPT referral sessions, July to September 2026",
+      "approved_for_chatbot": true,
+      "public_safe": true,
+      "evidence_type": "OBSERVED",
+      "authority_level": "PostHog session entry referrer",
+      "last_verified": "2026-10-01",
+      "source_url": "https://us.posthog.com/project/472190/dashboard/1727396",
+      "topics": ["Pepys", "ChatGPT referrals", "AI search discovery", "AI traffic", "PostHog", "traffic growth"],
+      "text": "In Pepys PostHog, sessions with a pageview and an entry referring domain of chatgpt.com or chat.openai.com numbered 190 in July 2026, 948 in August 2026, and 1,637 in September 2026. September's ChatGPT-entry sessions involved 1,394 distinct visitor IDs and 4,207 pageviews. The largest September landing paths included /tools/transcribe-arabic-video and /tools/instagram-reel-transcript, each with 138 ChatGPT-entry sessions. This is observed referral traffic, not a direct AI answer citation test, a signup attribution study, or proof that AI referrals caused revenue. Daily ChatGPT-entry sessions peaked around 100 per day in early September and were mostly around 20–40 per day late in September; do not describe the growth as uninterrupted. The dashboard's broader AI channel includes some direct sessions, so use the explicit entry-referrer counts for this observation."
+    },
+    {
+      "id": "pepys-product-growth-2026",
+      "title": "Pepys signup and product use growth, August to September 2026",
+      "approved_for_chatbot": true,
+      "public_safe": true,
+      "evidence_type": "OBSERVED",
+      "authority_level": "PostHog product events",
+      "last_verified": "2026-10-01",
+      "source_url": "https://us.posthog.com/project/472190/dashboard/1727396",
+      "topics": ["Pepys", "signups", "product use", "transcriptions", "growth story"],
+      "text": "Pepys PostHog events show that distinct people signing up grew 8.2× from August to September 2026. In the same complete-month comparison, completed transcriptions and the distinct number of people completing a transcription each grew about 2.1×. This is a product adoption and use story: signups rose and actual use rose too. The signups and completed-transcription events are separate measures; it is unknown whether every new signup used the product. The hard signup count is not approved for publication. This analysis does not attribute the signup or use growth to Google Search or ChatGPT referrals, and it does not establish revenue growth."
+    }
+  ]
+}
