@@ -137,7 +137,7 @@ function setVoiceStatus(text = '', clearAfter = 0) {
   dialog.classList.toggle('is-calling', voiceModeActive);
   callScreen.dataset.phase = /playing|speaking/i.test(text) ? 'speaking'
     : /listening/i.test(text) ? 'listening'
-    : /transcrib|answer|preparing/i.test(text) ? 'thinking' : 'connecting';
+    : /moment|sec|thinking|answer/i.test(text) ? 'thinking' : 'connecting';
   endVoiceButton.hidden = !voiceModeActive;
   voiceControls.hidden = !text && !voiceModeActive;
   for (const button of [call, dockCall]) {
@@ -243,7 +243,7 @@ function appendPlayback(item, text, token) {
   button.type = 'button';
   button.className = 'ask-ankur__play';
   button.textContent = '▶ Hear my reply';
-  button.setAttribute('aria-label', 'Hear this AI-generated reply in Ankur’s voice');
+  button.setAttribute('aria-label', 'Hear my reply');
   button.setAttribute('aria-pressed', 'false');
   button.addEventListener('click', () => speak(text, token, button));
   item.append(button);
@@ -336,7 +336,7 @@ async function speak(text, token, button = null) {
   stopAudio();
   const controller = new AbortController();
   speechAbort = controller;
-  setVoiceStatus('Preparing my voice…');
+  setVoiceStatus('One sec…');
   try {
     const data = await postVoice({ action: 'speak', text, token }, controller.signal);
     if (speechAbort !== controller) return;
@@ -353,7 +353,7 @@ async function speak(text, token, button = null) {
     };
     await currentAudio.play();
     button?.setAttribute('aria-pressed', 'true');
-    setVoiceStatus('Playing an AI-generated reply in my voice.');
+    setVoiceStatus('Speaking…');
   } catch (error) {
     if (controller.signal.aborted) return;
     stopAudio();
@@ -497,7 +497,7 @@ async function startRecording(mode, target) {
       endCallButton.focus({ preventScroll: true });
     }
   }
-  setRecordingStatus(mode, target, 'Checking microphone…');
+  setRecordingStatus(mode, target, 'Connecting…');
   try {
     const status = await (await fetch('/api/assistant-voice')).json();
     if (session !== voiceSession || (mode === 'call' && !dialog.open)) return;
@@ -540,7 +540,7 @@ async function startRecording(mode, target) {
         else setRecordingStatus(mode, target, 'Please try a shorter question.', 4500);
         return;
       }
-      setRecordingStatus(mode, target, 'Transcribing your question…');
+      setRecordingStatus(mode, target, 'One sec…');
       try {
         const bytes = new Uint8Array(await recording.arrayBuffer());
         let binary = '';
@@ -549,7 +549,7 @@ async function startRecording(mode, target) {
         if (session !== voiceSession || (mode === 'call' ? !voiceModeActive || !dialog.open : recordingMode !== 'dictation')) return;
         if (mode === 'call') {
           input.value = data.text;
-          setVoiceStatus('Question heard. Getting my answer…');
+          setVoiceStatus('Got it. One sec…');
           await ask(data.text, true);
         } else {
           const transcript = data.text?.trim();
