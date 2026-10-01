@@ -26,4 +26,6 @@ wrangler d1 execute ankur-ai-twin-conversations --remote -c conversation-store/w
 wrangler d1 execute ankur-ai-twin-conversations --remote -c conversation-store/wrangler.jsonc --command "SELECT turn_id, question, answer, outcome, model, input_tokens, output_tokens FROM conversation_turns WHERE conversation_id = '<conversation-id>' ORDER BY created_at_ms"
 ```
 
-The chat's **Clear on this device** control removes only that browser's local copy. A server-side deletion workflow and owner dashboard are separate work; the current retention job removes stored turns automatically. For a manual deletion request, identify the conversation ID and use a scoped D1 delete.
+The Worker exposes a separate read-only report API for the private Ops dashboard: `GET /report/overview` and `GET /report/conversation/{id}`. It requires `READ_SECRET`, distinct from `INGEST_SECRET`, and returns no-store JSON. The overview supports bounded `assistant`, `host`, `channel`, `days` (1–90), and `page` filters. The Ops server holds the read secret and renders these records only after its existing login. Never put the secret in browser code or a public analytics export. Configure `AI_TWIN_REPORT_URL` and `AI_TWIN_REPORT_SECRET` on the Ops service.
+
+The chat's **Clear on this device** control removes only that browser's local copy. A server-side deletion workflow is separate work; the current retention job removes stored turns automatically. For a manual deletion request, identify the conversation ID and use a scoped D1 delete.
