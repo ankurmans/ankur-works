@@ -68,6 +68,7 @@ let activityInterval = null;
 let scrollTimer = null;
 let callTurnCount = 0;
 let voiceReady = false;
+let realtimeConversation = null;
 
 function loadChatState() {
   try {
@@ -540,12 +541,81 @@ function cancelRecording() {
 }
 function endVoiceMode() {
   voiceModeActive = false;
+  const session = realtimeConversation;
+  realtimeConversation = null;
+  if (session) {
+    const vendorConversationId = session.getId();
+    const conversationId = currentChat()?.id;
+    void session.endSession().catch(() => {}).finally(() => {
+      if (!vendorConversationId || !conversationId) return;
+      void fetch('/api/assistant-realtime-log', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+        body: JSON.stringify({ vendorConversationId, conversationId, page: window.location.pathname }),
+      }).catch(() => {});
+    });
+  }
   clearInterval(callClock);
   callClock = null;
   cancelRecording();
   stopAudio();
   setVoiceStatus();
   setDockStatus();
+}
+async function startRealtimeCall() {
+  if (voiceModeActive || startingVoice) return;
+  startingVoice = true;
+  const session = ++voiceSession;
+  voiceModeActive = true;
+  callHistory.replaceChildren();
+  callTurnCount = 0;
+  callHistoryLabel.textContent = 'Conversation history';
+  callCaptions.open = false;
+  callCaptions.hidden = true;
+  startCallClock();
+  openChat();
+  setVoiceStatus('Connecting…');
+  endCallButton.focus({ preventScroll: true });
+  const chatId = currentChat()?.id || createChat().id;
+  try {
+    const response = await fetch('/api/assistant-realtime-token', { method: 'POST' });
+    const data = await response.json();
+    if (!response.ok || !data.token) throw new Error(data.error || 'Real-time voice could not connect.');
+    if (session !== voiceSession || !voiceModeActive) return;
+    const { Conversation } = await import('@elevenlabs/client');
+    if (session !== voiceSession || !voiceModeActive) return;
+    const connection = Conversation.startSession({
+      conversationToken: data.token,
+      onConnect: () => { if (session === voiceSession) setVoiceStatus('Listening…'); },
+      onModeChange: ({ mode }) => { if (session === voiceSession) setVoiceStatus(mode === 'speaking' ? 'Speaking…' : 'Listening…'); },
+      onMessage: ({ role, message }) => {
+        if (session !== voiceSession || !message?.trim()) return;
+        const kind = role === 'user' ? 'user' : 'assistant';
+        addCallHistory(kind, message);
+        addMessage(message, kind);
+        persistMessage(kind, message, [], false, chatId);
+        welcome.hidden = true;
+      },
+      onError: (message) => { if (session === voiceSession) setVoiceStatus(message || 'The call lost its connection.'); },
+      onDisconnect: () => { if (session === voiceSession && voiceModeActive) endVoiceMode(); },
+    });
+    void connection.then((lateSession) => {
+      if (session !== voiceSession || !voiceModeActive) return lateSession.endSession();
+    }).catch(() => {});
+    const conversation = await Promise.race([
+      connection,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Microphone connection timed out. Please check browser permission and try again.')), 15000)),
+    ]);
+    if (session !== voiceSession || !voiceModeActive) await conversation.endSession();
+    else realtimeConversation = conversation;
+  } catch (error) {
+    if (session !== voiceSession) return;
+    endVoiceMode();
+    const message = error instanceof Error ? error.message : 'Real-time voice could not connect.';
+    if (dialog.open) addMessage(message, 'assistant');
+    else setDockStatus(message, 4500);
+  } finally {
+    startingVoice = false;
+  }
 }
 function stopRecording() {
   if (recorder?.state === 'recording') recorder.stop();
@@ -667,7 +737,7 @@ function toggleCall() {
   if (recordingMode === 'dictation') cancelRecording();
   setDockStatus();
   stopAudio();
-  void startRecording('call', input);
+  void startRealtimeCall();
 }
 function onScroll() {
   if (dialog.open || recordingMode === 'dictation') return;

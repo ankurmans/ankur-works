@@ -88,6 +88,26 @@ test('CodeSweep voice transcription retrieves QuoteSweep for the model', async (
   });
 });
 
+test('a harmless tangent gets a short model-generated reply without unrelated facts', async () => {
+  const original = global.fetch;
+  global.fetch = async (url, options) => {
+    assert.equal(url, 'https://ai-gateway.vercel.sh/v1/chat/completions');
+    const payload = JSON.parse(options.body);
+    assert.match(payload.messages[0].content, /harmless off-topic tangent/);
+    assert.deepEqual(JSON.parse(payload.messages[1].content).SITE_CONTENT, []);
+    return { ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify({
+      answer: 'Only if the crust files a complaint.', source_ids: [], outcome: 'refused',
+    }) } }] }) };
+  };
+  try {
+    const res = response();
+    await handler(request({ question: 'Is pineapple on pizza a crime?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.body.answer, 'Only if the crust files a complaint.');
+    assert.deepEqual(res.body.sources, []);
+  } finally { global.fetch = original; }
+});
+
 test('booking questions return the in-chat handoff without a model call', async () => {
   const res = response();
   await handler(request({ question: 'How can I get in touch?' }), res);

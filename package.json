@@ -10,12 +10,14 @@
     "build": "vite build && node scripts/inline-portfolio-css.js",
     "pretest": "node scripts/generate-assistant-knowledge.js",
     "test": "node --test tests/*.test.js",
+    "sync:realtime-agent": "node scripts/generate-assistant-knowledge.js && node scripts/sync-realtime-agent.js",
     "preview": "vite preview"
   },
   "devDependencies": {
     "vite": "^7.3.1"
   },
   "dependencies": {
+    "@elevenlabs/client": "^1.26.0",
     "@vercel/functions": "^3.9.9"
   }
 }
