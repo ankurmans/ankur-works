@@ -82,17 +82,31 @@ test('Pepys growth proof connects signups with actual use without claiming attri
 });
 
 test('a buyer asking why Ankur gets both product and discovery proof', async () => {
-  await withModel('I built Pepys and grew distinct signups 8.2× from August to September 2026 while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If you are trying to build and get found, book a call below.', ['pepys-product-growth-2026', 'offer-search-evidence'], async (calls) => {
+  await withModel('I built Pepys and grew distinct signups 8.2× from August to September 2026 while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If you are trying to build and get found, book a call below.', ['growth-story'], async (calls) => {
     const res = response();
     await handler(request({ question: 'Why should I work with you?' }), res);
     assert.equal(res.statusCode, 200);
     const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
-    assert.ok(ids.includes('pepys-product-growth-2026'));
-    assert.ok(ids.includes('offer-search-evidence'));
+    assert.deepEqual(ids, ['growth-story']);
+    assert.match(JSON.parse(calls[0].messages[1].content).SITE_CONTENT[0].text, /8\.2×/);
+    assert.match(JSON.parse(calls[0].messages[1].content).SITE_CONTENT[0].text, /96 in April to 988 in August 2026/);
     assert.match(calls[0].messages[0].content, /Lead with one or two concrete before-and-after results/);
     assert.match(calls[0].messages[0].content, /Do not ask the generic ship-or-get-found question/);
     assert.match(calls[0].messages[0].content, /Do not state a call duration/);
   });
+});
+
+test('buyer credibility still gets a grounded answer if the model fails', async () => {
+  const original = global.fetch;
+  global.fetch = async () => { throw new Error('model unavailable'); };
+  try {
+    const res = response();
+    await handler(request({ question: 'Why would I hire you?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body.answer, /Pepys signups grew 8\.2×/);
+    assert.match(res.body.answer, /QuoteSweep Google clicks rose from 96 in April to 988 in August 2026/);
+    assert.match(res.body.answer, /book a call below/);
+  } finally { global.fetch = original; }
 });
 
 test('featured-work question reaches the model with published project records', async () => {

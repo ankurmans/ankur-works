@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v23';
+const PROMPT_VERSION = 'ankur-ai-twin-v24';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -104,6 +104,14 @@ function tokens(value) {
 const entityAliases = {
   pepys: ['pepys'], whooshly: ['whooshly'], quotesweep: ['quotesweep'], twinsona: ['twinsona'], linnet: ['linnet'],
   commerce: ['commerce', 'ecommerce', 'e-commerce', 'ecomm', 'tough trucks', 'amped rides'],
+};
+const pepysGrowth = knowledge.find((record) => record.id === 'pepys-product-growth-2026');
+const quoteSweepProof = knowledge.find((record) => record.id === 'offer-search-evidence');
+const quoteSweepClicks = quoteSweepProof?.text.match(/Monthly clicks rose from 96 in April to 988 in August 2026\./)?.[0];
+if (!pepysGrowth || !quoteSweepClicks) throw new Error('Growth story proof is missing');
+const growthStory = {
+  id: 'growth-story', title: 'Growth from products I built', url: null,
+  text: `I build products and help them get found. Pepys and QuoteSweep are my own products. ${pepysGrowth.text} QuoteSweep Search Console observation: ${quoteSweepClicks} These are separate product-use and search-discovery results; neither proves that search caused Pepys signups.`,
 };
 function claimRules(records) {
   return records.flatMap((record) => (record.claims || []).map((claim) =>
@@ -251,9 +259,8 @@ export default async function handler(req, res) {
   const otherFacts = offerFacts.length && !mentionsProject && !asksForProof && !SEARCH_NEED.test(question) ? []
     : searchOfferOnly && !mentionsProject && !asksForProof ? retrievedFacts.filter((record) => record.page === '/seo-ai-search/') : retrievedFacts;
   const offTopic = !TOPIC.test(contextQuestion) && !offerFacts.length && !mentionsProject && !asksForProof && otherFacts.length <= 1;
-  const proofFacts = asksWhyAnkur ? knowledge.filter((record) => ['pepys-product-growth-2026', 'offer-search-evidence'].includes(record.id)) : [];
   const found = offTopic ? [] : asksWhyAnkur
-    ? [...proofFacts, ...knowledge.filter((record) => ['about', 'story'].includes(record.id))]
+    ? [growthStory]
     : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = relevantHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
@@ -339,6 +346,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     if (process.env.NODE_ENV !== 'test') console.warn('assistant_model_failure', error instanceof Error ? error.message.slice(0, 120) : 'unknown');
+    if (asksWhyAnkur) return json(res, 200, outcome("I've built the products I talk about. Pepys signups grew 8.2× from August to September 2026, while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If that mix of building and getting found is what you need, book a call below.", [], 'answered', 'guard'));
     return json(res, 503, { error: 'I could not check that answer right now. Please email me directly.' });
   }
 }
