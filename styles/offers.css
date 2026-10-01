@@ -48,6 +48,13 @@
 .proof-metric{display:flex;align-items:baseline;gap:9px;margin:-2px 0 18px}
 .proof-metric strong{font:700 36px var(--display);letter-spacing:-.07em}
 .proof-metric span{font-size:12px;font-weight:700}
+.proof-growth{display:grid;grid-template-columns:minmax(0,1fr) 38%;align-items:center;gap:12px;margin:-2px 0 18px;padding:12px 13px;border:1px solid #716ca5;border-radius:11px;background:#3b3677}
+.proof-growth strong{display:block;font:700 clamp(18px,2vw,23px)/1 var(--display);letter-spacing:-.05em;white-space:nowrap}
+.proof-growth span{display:block;margin-top:5px;font-size:10px;line-height:1.3;color:#e4dcfb}
+.proof-growth svg{display:block;width:100%;height:68px;overflow:visible}
+.proof-growth-base{fill:none;stroke:#7771aa;stroke-width:1.5;stroke-dasharray:5 8}
+.proof-growth-line{fill:none;stroke:#ffc451;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.proof-growth-peak{fill:#f27348;stroke:#3b3677;stroke-width:2;vector-effect:non-scaling-stroke}
 .product-proof>a,.search-proof>a{margin-top:auto;align-self:flex-start;border-bottom:1px solid currentColor;padding-bottom:5px;font-weight:700;font-size:13px}
 .proof-disclaimer{font-size:12px;line-height:1.45;color:#716b61;margin-top:20px}
 .offer-dark{background:#242723;color:#f8f5ec;width:100%;max-width:none}
@@ -94,12 +101,16 @@
 .growth-bars i{display:block;width:100%;height:calc(90px * var(--bar));min-height:7px;border-radius:5px 5px 2px 2px;background:#447967}
 .growth-bars span:last-child i{background:#eb744d}
 .growth-bars b{font:700 9px var(--display);letter-spacing:.04em;color:#496557}
-.weekly-growth{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:23px;border-block:1px solid #c7bfb2}
-.weekly-growth>div{display:flex;flex-direction:column;gap:3px;min-width:0;padding:12px 4px;border-right:1px solid #c7bfb2}
-.weekly-growth>div:last-child{border-right:0}
-.weekly-growth b{font:700 clamp(13px,1.7vw,21px) var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.05em}
-.weekly-growth span{font:700 9px var(--display);white-space:nowrap}
-.weekly-growth-down b{color:#9c4f3e}
+.signup-chart{max-width:650px;margin:24px 0 0;padding:16px 18px 14px;border:1px solid #c5b8d4;border-radius:13px;background:#faf7ff;overflow:hidden}
+.signup-chart-heading,.signup-chart-axis{display:flex;align-items:center;justify-content:space-between;gap:12px;font:700 10px var(--display);letter-spacing:.075em}
+.signup-chart-heading strong{color:#643e9d;white-space:nowrap}
+.signup-chart svg{display:block;width:100%;height:190px;margin-top:15px;overflow:visible}
+.signup-grid{fill:none;stroke:#dfd5e8;stroke-width:1;stroke-dasharray:4 5}
+.signup-area{fill:url(#signup-fill)}
+.signup-line{fill:none;stroke:#6a3da3;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.signup-peak{fill:#f27348;stroke:#faf7ff;stroke-width:2;vector-effect:non-scaling-stroke}
+.signup-chart-axis{margin:4px 0 10px;color:#5b5062}
+.signup-chart figcaption{font-size:11px;line-height:1.35;color:#62566e}
 .proof-extra{margin-top:18px;padding-top:17px;border-top:1px solid #b8c8b6;font-size:15px;line-height:1.45;font-weight:700}
 .search-work-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
 .search-work-grid article{min-height:300px;padding:23px}
@@ -170,8 +181,6 @@
 .ledger-answers h3{color:#a6472c}
 .ledger-product-name{display:flex;align-items:center;gap:9px;font:700 15px var(--display);margin-bottom:12px}
 .ledger-product-name img{width:36px;height:36px;border-radius:8px}
-.ledger-pepys .weekly-growth{max-width:600px;border-color:#c5b8d4}
-.ledger-pepys .weekly-growth>div{border-color:#c5b8d4}
 .ledger-usage{font-size:13px!important;color:#5d5363;margin-top:18px}
 .casefile-ledger-foot{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:22px 26px}
 .casefile-ledger-foot p{max-width:610px;font-size:13px;line-height:1.45;margin:0}
@@ -179,4 +188,4 @@
 .casefile-ledger-foot a{font-size:12px;font-weight:700;border-bottom:1px solid currentColor;white-space:nowrap}
 @media(max-width:1050px){.offer-hero-cow{grid-template-columns:1fr;min-height:0;padding-top:74px}.casefile-hero,.product-live-visual{width:min(100% - 16px,680px);margin:45px auto 0}.casefile-hero{min-height:500px}.product-live-visual{margin-bottom:35px}}
 @media(max-width:760px){.offer-hero-cow{padding:59px 0 64px}.offer-hero-cow h1{font-size:clamp(43px,10vw,66px);margin:16px 0 22px}.hero-proof-note{margin-top:27px}.casefile-hero{min-height:0;margin-top:43px;transform:none;padding:20px;box-shadow:8px 9px 0 #ffc451}.casefile-hero:hover{transform:translateY(-3px);box-shadow:8px 9px 0 #ffc451}.casefile-hero-main{margin:34px 0 20px}.casefile-hero-main strong{font-size:clamp(94px,22vw,132px)}.casefile-hero-main span{font-size:clamp(24px,6vw,34px)}.casefile-hero-lines{gap:7px}.casefile-hero-lines div{padding-left:7px}.casefile-hero-lines b{font-size:8px}.casefile-hero-lines span{font-size:10px}.product-live-visual{transform:none;margin:45px auto 26px;padding:16px;box-shadow:-8px 9px 0 #e96e49}.product-live-screen{height:clamp(205px,60vw,350px);border-width:5px}.product-live-sticker{right:0;bottom:-30px}.casefile-section{padding-top:68px}.casefile-ledger-head{padding:13px 15px}.casefile-ledger-head>span:last-child{display:none}.ledger-entry{grid-template-columns:1fr;gap:15px;padding:25px 18px}.ledger-kind{flex-direction:row;align-items:baseline;justify-content:space-between}.ledger-kind strong{font-size:17px}.ledger-entry>small{border-top:1px solid #b7b0a5;padding-top:12px}.casefile-ledger-foot{display:block;padding:20px 18px}.casefile-ledger-foot div{margin-top:12px}}
-@media(max-width:390px){.casefile-hero-main{gap:13px}.casefile-hero-main strong{font-size:86px}.casefile-hero-main span{font-size:23px}.casefile-hero-top{font-size:9px}.casefile-hero-top img{width:42px;height:42px}.casefile-mark{width:30px;height:30px}.product-live-bottom span{font-size:11px}.ledger-pepys .weekly-growth b{font-size:12px}.ledger-pepys .weekly-growth span{font-size:8px}}
+@media(max-width:390px){.casefile-hero-main{gap:13px}.casefile-hero-main strong{font-size:86px}.casefile-hero-main span{font-size:23px}.casefile-hero-top{font-size:9px}.casefile-hero-top img{width:42px;height:42px}.casefile-mark{width:30px;height:30px}.product-live-bottom span{font-size:11px}.signup-chart{padding:13px 12px}.signup-chart-heading{font-size:8px}.signup-chart svg{height:150px}}
