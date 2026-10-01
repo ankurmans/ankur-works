@@ -274,6 +274,11 @@ export default async function handler(req, res) {
       .map(({ title, url }) => ({ title, url }));
     return json(res, 200, outcome(`${name} ${search && !product || product && !search ? 'starts' : 'start'} at $6,000 per month with a 90-day minimum. I'll agree the exact scope with you before we start.`, sources));
   }
+  if (/\b(?:book|booking|schedule|meeting|calendar)\b/i.test(question)
+    || /\b(?:call|talk)\s+(?:with|to)\s+(?:you|ankur)\b/i.test(question)
+    || /\b(?:have|set up|arrange)\s+(?:a\s+)?call\b/i.test(question)
+    || /\bcan\s+we\s+(?:call|talk)\b/i.test(question))
+    return json(res, 200, { ...outcome("Of course. Choose a time in the calendar here, and you'll book directly with me.", [], 'answered'), action: 'booking' });
   if (UNAPPROVED_STORY.test(question) && !knowledge.some((record) => record.id.startsWith('personal-') && record.topics?.some((topic) => hasPhrase(question, topic))))
     return json(res, 200, outcome("I haven't shared that story here yet. Ask me directly using the links below – I'd rather tell it properly than make something up.", [], 'refused'));
   if (PERSONAL.test(question) && !WHY_ANKUR.test(question)) return json(res, 200, outcome('You can book a 30-minute call with me using the link below, or email me directly.', [], 'refused'));

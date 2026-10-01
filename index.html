@@ -55,7 +55,13 @@
     <p class="ask-ankur__call-status" id="ask-ankur-call-status" role="status" aria-live="polite">Connecting…</p>
     <details class="ask-ankur__call-captions" id="ask-ankur-call-captions" hidden><summary id="ask-ankur-call-history-label">Conversation history</summary><div class="ask-ankur__call-history" id="ask-ankur-call-history"></div></details>
     <button type="button" class="ask-ankur__end-call" id="ask-ankur-end-call">End call <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 5 19 19M10 19h9v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <p class="ask-ankur__call-after"><a href="https://cal.com/ankur-kmf/30min" target="_blank" rel="noopener noreferrer">Book a call with me</a><span>Your conversation stays in this chat when the call ends.</span></p>
+    <p class="ask-ankur__call-after"><a href="https://cal.com/ankur-kmf/30min" data-chat-booking>Book a call with me</a><span>Your conversation stays in this chat when the call ends.</span></p>
+  </section>
+  <section class="ask-ankur__booking" id="ask-ankur-booking" aria-label="Book a call with Ankur" hidden>
+    <div class="ask-ankur__booking-head"><button type="button" id="ask-ankur-booking-back">Back to chat</button><strong>Pick a time with me</strong></div>
+    <p id="ask-ankur-booking-status" role="status">Choose a time to meet with me.</p>
+    <div class="ask-ankur__booking-calendar" id="ask-ankur-cal-inline"></div>
+    <p class="ask-ankur__booking-fallback">Calendar not loading? <a href="https://cal.com/ankur-kmf/30min" target="_blank" rel="noopener noreferrer">Open my booking page</a>.</p>
   </section>
   <div class="ask-ankur__body" id="ask-ankur-body">
     <div class="ask-ankur__welcome" id="ask-ankur-welcome">
@@ -77,6 +83,6 @@
     <button type="submit" id="ask-ankur-send" aria-label="Send question"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </form>
   <div class="ask-ankur__voice-controls" id="ask-ankur-voice-controls" hidden><span id="ask-ankur-voice-status" role="status" aria-live="polite"></span><button type="button" id="ask-ankur-end-voice" hidden>End voice</button></div>
-  <div class="ask-ankur__foot"><span><a href="https://cal.com/ankur-kmf/30min" target="_blank" rel="noopener noreferrer">Book a 30-minute call</a> · <a href="mailto:ankur@kmfv.cc">Email Ankur</a></span><small>Mic to type · Phone to talk. I may review chat and call transcripts. This site doesn't keep raw audio.</small><div class="ask-ankur__actions"><button type="button" id="ask-ankur-show-history" aria-expanded="false" aria-controls="ask-ankur-history">History</button><button type="button" id="ask-ankur-new-chat">New chat</button><button type="button" id="ask-ankur-hide">Minimize</button></div></div>
+  <div class="ask-ankur__foot"><span><a href="https://cal.com/ankur-kmf/30min" data-chat-booking>Book a 30-minute call</a> · <a href="mailto:ankur@kmfv.cc">Email Ankur</a></span><small>Mic to type · Phone to talk. I may review chat and call transcripts. This site doesn't keep raw audio.</small><div class="ask-ankur__actions"><button type="button" id="ask-ankur-show-history" aria-expanded="false" aria-controls="ask-ankur-history">History</button><button type="button" id="ask-ankur-new-chat">New chat</button><button type="button" id="ask-ankur-hide">Minimize</button></div></div>
 </dialog>
 <script type="module" src="/scripts/contributions.js"></script><script type="module" src="/scripts/offer-intent.js"></script><script type="module" src="/scripts/assistant-widget.js"></script></body></html>
