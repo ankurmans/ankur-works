@@ -91,7 +91,8 @@ test('the AI Twin qualifies product and search fit without inventing results', a
     assert.equal(res.statusCode, 200);
     assert.equal(res.body.outcome, 'answered');
     assert.match(res.body.answer, expected);
-    assert.match(res.body.answer, /book a call/i);
+    assert.ok(res.body.sources.length > 0);
+    assert.doesNotMatch(res.body.answer, /book a call/i);
     assert.doesNotMatch(res.body.answer, /guarantee|ranking|revenue result/i);
   }
 });
@@ -123,6 +124,35 @@ test('a short sales follow-up stays in the fit conversation', async () => {
   ] }), res);
   assert.equal(res.statusCode, 200);
   assert.match(res.body.answer, /SEO and AI search is my lane/);
+});
+
+test('an existing product with a discovery problem routes to search and acknowledges a correction', async () => {
+  const direct = response();
+  await handler(request({ question: 'I have a product and need help getting discovered' }), direct);
+  assert.equal(direct.statusCode, 200);
+  assert.equal(direct.body.sources[0].url, '/seo-ai-search/');
+  assert.match(direct.body.answer, /already have a product/i);
+
+  const first = response();
+  await handler(request({ question: "I already have a product and I'm not getting discovered", history: [
+    { role: 'user', content: 'What other services do you offer?' },
+    { role: 'assistant', content: "I work across two connected problems: full-stack product development and SEO and AI search. What's the immediate bottleneck?" },
+  ] }), first);
+  assert.equal(first.statusCode, 200);
+  assert.match(first.body.answer, /already have a product.*getting it found/i);
+  assert.equal(first.body.sources[0].url, '/seo-ai-search/');
+  assert.doesNotMatch(first.body.answer, /product built or improved|book a call/i);
+
+  const correction = response();
+  await handler(request({ question: "Didn't you hear that? I already have a product. I'm struggling to get discovered", history: [
+    { role: 'user', content: "I already have a product and I'm not getting discovered" },
+    { role: 'assistant', content: 'If you need a product built or improved, full-stack product development is my lane – from the interface through APIs, data, and shipping.' },
+  ] }), correction);
+  assert.equal(correction.statusCode, 200);
+  assert.match(correction.body.answer, /You're right – I missed that/);
+  assert.match(correction.body.answer, /SEO and AI search/);
+  assert.equal(correction.body.sources[0].url, '/seo-ai-search/');
+  assert.notEqual(correction.body.answer, first.body.answer);
 });
 
 test('commerce result is scoped to both brands and its two-year period', async () => {

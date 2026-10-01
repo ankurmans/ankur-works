@@ -16,8 +16,10 @@ const INJECTION = /(?:ignore|disregard|override|reveal|print|show|repeat|bypass|
 const TOPIC = /\b(?:ankur|site|portfolio|project|product|build|builder|pepys|whooshly|quotesweep|linnet|twinsona|software|brand|commerce|code|search|seo|mvp|offer|service|consulting)\b/i;
 const UNAPPROVED_STORY = /\b(?:ryan reynolds|hobb(?:y|ies)|family|spouse|partner|children|where (?:do you|does ankur) live|where (?:were you|was ankur) born)\b/i;
 const SALES_INTENT = /\b(?:which (?:service|offer|product)|right (?:service|offer|product)|what (?:do you|does ankur) do|what can you (?:do|help)|what (?:kind of )?(?:products?|apps?|websites?) can you build|can you (?:help|build)|could you (?:help|build)|help (?:me|us|our)|do you (?:offer|do)|need (?:help|someone)|looking for (?:help|someone)|hire (?:you|ankur)|your services?|your offers?|work with you|build (?:my|our) (?:app|product|site|website)|improve (?:my|our) (?:seo|search|visibility))\b/i;
-const PRODUCT_NEED = /\b(?:build|develop|ship|shipping|shipped|prototype|app|software|product|website|full[ -]?stack|mvp|api|automation)\b/i;
-const SEARCH_NEED = /\b(?:seo|ai search|ai overviews|chatgpt|perplexity|search visibility|search|aeo|geo|rank|citation|content|traffic|discoverability|discover|found|google)\b/i;
+const PRODUCT_NEED = /\b(?:build|develop|ship|shipping|prototype|rebuild|full[ -]?stack|mvp|product development|software development)\b/i;
+const SEARCH_NEED = /\b(?:seo|ai search|ai overviews|chatgpt|perplexity|search visibility|search|aeo|geo|rank|citation|content|traffic|discover(?:ed|y|ability)?|found|google)\b/i;
+const EXISTING_PRODUCT = /\b(?:already have|have an?|existing|live|launched|built)\b.{0,45}\b(?:product|app|software|website|site)\b/i;
+const DISCOVERY_PROBLEM = /\b(?:not|can't|cannot|struggl\w*|need help)\b.{0,45}\b(?:get(?:ting)? (?:found|discovered)|discover(?:ed|y|ability)?|visibility|search)\b/i;
 const localStore = new Map();
 
 function hash(value) { return createHash('sha256').update(value).digest('hex'); }
@@ -82,14 +84,26 @@ function offerPageAnswer(question, page) {
 function salesAnswer(question, history = []) {
   const lastAnswer = history.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
   const continuingFit = /\b(?:my lane|two connected problems)\b/i.test(lastAnswer) && question.length < 180;
-  if (!SALES_INTENT.test(question) && !continuingFit) return null;
+  if (!SALES_INTENT.test(question) && !continuingFit && !DISCOVERY_PROBLEM.test(question)) return null;
   if (/\b(?:pepys|whooshly|quotesweep|twinsona|linnet)\b/i.test(question) && !/\b(?:service|work with you|hire|help (?:me|us))\b/i.test(question)) return null;
   const product = PRODUCT_NEED.test(question);
   const search = SEARCH_NEED.test(question);
+  const existingProduct = EXISTING_PRODUCT.test(question);
+  const previousProductPitch = /\bfull-stack product development is my lane\b/i.test(lastAnswer);
+  const previousSearchPitch = /\bSEO and AI search is my lane\b/i.test(lastAnswer);
   const offers = Object.fromEntries(salesOffers.offers.map((offer) => [offer.id, offer]));
-  if (product && !search) return outcome(`If you need a product built or improved, ${offers.product.name.toLowerCase()} is my lane – from the interface through APIs, data, and shipping. What are you trying to launch, and what already exists? You can book a call using the link below.`, offerSource('product'), 'answered');
-  if (search && !product) return outcome(`If your product already exists but getting found is the bottleneck, ${offers.search.name} is my lane. I'd start with what your buyers ask, what your site answers, and what we can actually measure. What site and audience are we talking about? You can book a call below.`, offerSource('search'), 'answered');
-  return outcome(`I work across two connected problems: ${offers.product.name.toLowerCase()} and ${offers.search.name}. What's the immediate bottleneck – getting something shipped, getting found, or connecting the two? You can book a call using the link below.`, [...offerSource('product'), ...offerSource('search')], 'answered');
+  if (search && (existingProduct || !product)) {
+    if (previousProductPitch) return outcome(`${existingProduct ? "You're right – I missed that. You already have a product; getting it found is the problem." : "You're right – I misread what you need. Let's focus on getting found."} I'd focus on SEO and AI search, starting with your site, buyers, and current search data. What's the site?`, offerSource('search'));
+    if (previousSearchPitch) return outcome("I hear you. This is a discovery problem. Tell me the site and who should be finding it, and I'll explain the first checks I'd run.", offerSource('search'));
+    return outcome(`${existingProduct ? 'You already have a product, so the job is getting it found.' : 'If getting found is the bottleneck,'} ${offers.search.name} is my lane. I'd start with what your buyers ask, what your site answers, and what we can measure. What site and audience are we talking about?`, offerSource('search'));
+  }
+  if (product && !search) {
+    if (previousProductPitch) return outcome("I can help with the build. Tell me what already exists and what's blocking the next release, and I'll suggest a sensible first step.", offerSource('product'));
+    return outcome(`If you need a product built or improved, ${offers.product.name.toLowerCase()} is my lane – from the interface through APIs, data, and shipping. What are you trying to launch, and what already exists?`, offerSource('product'));
+  }
+  if (continuingFit && previousSearchPitch) return outcome("That helps. I'd look at the buyer questions, your current search data, and what AI answers actually surface. What site and audience should I focus on?", offerSource('search'));
+  if (continuingFit && previousProductPitch) return outcome("Got it. What exists today, and what's the next thing you need to ship?", offerSource('product'));
+  return outcome(`I work across two connected problems: ${offers.product.name.toLowerCase()} and ${offers.search.name}. What's the immediate bottleneck – getting something shipped, getting found, or connecting the two?`, [...offerSource('product'), ...offerSource('search')]);
 }
 function allowedOrigin(req) {
   const origin = req.headers.origin;
