@@ -82,10 +82,11 @@ test('Pepys growth proof connects signups with actual use without claiming attri
 });
 
 test('a buyer asking why Ankur gets both product and discovery proof', async () => {
-  await withModel('I built Pepys and grew distinct signups 8.2× from August to September 2026, while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If you are trying to build and get found, book a call below.', ['growth-story'], async (calls) => {
+  await withModel('I built Pepys and grew distinct signups 8.2× from August to September 2026 (growth-story), while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If you are trying to build and get found, book a call below.', ['growth-story'], async (calls) => {
     const res = response();
     await handler(request({ question: 'Why should I work with you?' }), res);
     assert.equal(res.statusCode, 200);
+    assert.doesNotMatch(res.body.answer, /growth-story/);
     const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
     assert.deepEqual(ids, ['growth-story']);
     assert.match(JSON.parse(calls[0].messages[1].content).SITE_CONTENT[0].text, /8\.2×/);
