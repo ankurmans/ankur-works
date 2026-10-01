@@ -72,11 +72,11 @@ function offerPageAnswer(question, page) {
     && (/\b(?:how|what)\b.{0,45}\b(?:approach|work|look at|measure)\b.{0,45}\b(?:seo|search|ai)\b/i.test(question)
       || (page === '/seo-ai-search/' && /\b(?:what would you look at first|how do you measure progress)\b/i.test(question))))
     return outcome('I check whether search engines can reach the right pages, map buyer questions to useful answers, inspect where AI answers name or cite the site, and measure dated changes in Search Console and on-site actions. I keep impressions, clicks, and business outcomes separate.', [{ title: 'How I approach search', url: searchProcess.url }]);
-  const productStart = knowledge.find((record) => record.page === '/product-development/' && record.text.includes('Define the user, core workflow, MVP boundary'));
-  if (productStart?.text.includes('Define the user, core workflow, MVP boundary')
+  const productStart = knowledge.find((record) => record.page === '/product-development/' && record.text.includes('Product scope sprint') && record.text.includes('MVP boundary'));
+  if (productStart
     && /\b(?:how|where|what)\b.{0,45}\b(?:start|begin|scope|mvp)\b/i.test(question)
     && (page === '/product-development/' || /\b(?:mvp|product|app|build)\b/i.test(question)))
-    return outcome('I start by defining the user, core workflow, MVP boundary, and technical approach. If that is already clear, I can design and build the agreed first version, test its essential paths, and get it into users’ hands.', [{ title: 'How a product project starts', url: productStart.url }]);
+    return outcome('I start by defining the user journey, core workflow, MVP boundary, integrations, and acceptance criteria. If that is already clear, I can design and build the agreed first version, test its key paths, and ship it to users.', [{ title: 'How a product project starts', url: productStart.url }]);
   return null;
 }
 function salesAnswer(question, history = []) {
