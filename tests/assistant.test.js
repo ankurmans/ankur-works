@@ -168,6 +168,26 @@ test('existing product and discovery selects search facts and passes corrections
   });
 });
 
+test('a sales follow-up retries an unsupported metric instead of failing the conversation', async () => {
+  const original = global.fetch;
+  const calls = [];
+  global.fetch = async (_url, options) => {
+    calls.push(JSON.parse(options.body));
+    const answer = calls.length === 1 ? 'I can grow your search traffic by 10×.' : 'I would start with the buyer questions and your current search data.';
+    return { ok: true, json: async () => ({ model: 'openai/gpt-5-nano', usage: { prompt_tokens: 100, completion_tokens: 20, total_tokens: 120 }, choices: [{ message: { content: JSON.stringify({ answer, source_ids: ['offer-search-6'], outcome: 'answered' }) } }] }) };
+  };
+  try {
+    const res = response();
+    await handler(request({ question: 'I have a product and need help getting discovered' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.equal(calls.length, 2);
+    assert.equal(res.body.usage.totalTokens, 240);
+    assert.equal(res.body.sources[0].url, '/seo-ai-search/');
+    assert.ok(!JSON.parse(calls[0].messages[1].content).SITE_CONTENT.some((record) => record.id === 'offer-search-evidence'));
+    assert.match(calls[1].messages[0].content, /Avoid all numbers/);
+  } finally { global.fetch = original; }
+});
+
 test('commerce result is scoped to both brands and its two-year period', async () => {
   const res = response();
   await handler(request({ question: 'What results did your eCommerce brands achieve?' }), res);
