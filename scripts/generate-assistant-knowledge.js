@@ -7,6 +7,7 @@ const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const output = new URL('../api/assistant-knowledge.json', import.meta.url);
 const approvedClaims = JSON.parse(readFileSync(new URL('../knowledge/approved-claims.json', import.meta.url), 'utf8'));
 const personalStories = JSON.parse(readFileSync(new URL('../knowledge/personal-stories.json', import.meta.url), 'utf8'));
+const searchObservations = JSON.parse(readFileSync(new URL('../knowledge/search-observations.json', import.meta.url), 'utf8'));
 
 function plain(value = '') {
   return value
@@ -81,6 +82,32 @@ records.push({ id: 'contact', title: 'Contact Ankur', url: '/#contact', text: `$
 // Offer-page copy becomes available as soon as the separately built static
 // pages are present in this checkout. The site page remains the citation.
 records.push(...loadOfferRecords(resolve(dirname(fileURLToPath(import.meta.url)), '..')));
+
+// These are Ankur-provided public frameworks, not measured outcomes. Behaviour
+// and example files shape the prompts separately; the extraction spec is
+// engineering guidance and must never be presented as a completed analysis.
+const searchPack = [
+  ['01-AI-SEARCH-OPERATING-MODEL.md', 'search-ai-operating-model', 'AI search operating model', ['AI search', 'GEO', 'AEO', 'ChatGPT ranking', 'retrieval', 'citations']],
+  ['02-SERP-CONTENT-ENTITY-LINKS.md', 'search-seo-operating-knowledge', 'SEO, content, entities and links', ['SEO', 'SERP', 'content', 'entities', 'links', 'technical SEO']],
+  ['03-AI-SOURCE-PASSAGE-STRATEGY.md', 'search-source-passage-strategy', 'AI search sources and passages', ['AI search', 'sources', 'passages', 'citations', 'corroboration']],
+  ['04-GSC-ANALYSIS-KNOWLEDGE.md', 'search-gsc-analysis', 'Search Console measurement', ['GSC', 'Search Console', 'clicks', 'impressions', 'measurement']],
+];
+for (const [filename, id, title, topics] of searchPack) {
+  const text = readFileSync(new URL(`../knowledge/seo-ai-search-pack/${filename}`, import.meta.url), 'utf8').trim();
+  if (!text.startsWith('# ') || text.length < 100) throw new Error(`Search knowledge ${filename} is incomplete`);
+  records.push({ id, title, url: null, page: '/seo-ai-search/', text, topics,
+    evidence_type: 'FRAMEWORK', provenance: 'Ankur-provided SEO and AI Search RAG pack' });
+}
+
+if (!Array.isArray(searchObservations.observations)) throw new Error('Search observations must be an array');
+for (const item of searchObservations.observations) {
+  if (!/^[-a-z0-9]+$/.test(item.id || '') || records.some((record) => record.id === item.id)
+    || item.approved_for_chatbot !== true || item.public_safe !== true || item.evidence_type !== 'OBSERVED'
+    || !item.title || !item.text || !item.source_url?.startsWith('https://us.posthog.com/project/')
+    || !/^\d{4}-\d{2}-\d{2}$/.test(item.last_verified || '') || !Array.isArray(item.topics) || !item.topics.length)
+    throw new Error(`Invalid search observation ${item?.id || '(missing id)'}`);
+  records.push({ ...item, url: null, page: '/seo-ai-search/', provenance: 'Pepys PostHog; inspected 2026-10-01' });
+}
 
 if (!Array.isArray(personalStories.stories)) throw new Error('Personal stories must be an array');
 const storyIds = new Set();

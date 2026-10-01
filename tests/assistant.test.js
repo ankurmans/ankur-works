@@ -55,6 +55,43 @@ test('named-entity retrieval keeps its own card and approved claim metadata', ()
   assert.equal(claim.provenance, 'founder-stated');
 });
 
+test('AI search questions retrieve the relevant framework without Pepys proof leaking into generic advice', () => {
+  const ids = retrieve('How do I get cited by ChatGPT?').map((record) => record.id);
+  assert.ok(ids.includes('search-source-passage-strategy'));
+  assert.ok(!ids.includes('pepys-chatgpt-referrals-2026'));
+  assert.ok(!ids.includes('search-gsc-extraction-spec'));
+});
+
+test('Pepys ChatGPT referral proof retains its scope and recent pullback', () => {
+  const record = retrieve('How much Pepys traffic came from ChatGPT?').find((item) => item.id === 'pepys-chatgpt-referrals-2026');
+  assert.ok(record);
+  assert.equal(record.evidence_type, 'OBSERVED');
+  assert.match(record.text, /190 in July 2026, 948 in August 2026, and 1,637 in September 2026/);
+  assert.match(record.text, /mostly around 20–40 per day late in September/);
+  assert.match(record.text, /not a direct AI answer citation test/);
+  assert.equal(record.url, null);
+});
+
+test('Pepys growth proof connects signups with actual use without claiming attribution', () => {
+  const record = retrieve('What growth did Pepys achieve?').find((item) => item.id === 'pepys-product-growth-2026');
+  assert.ok(record);
+  assert.match(record.text, /8\.2× from August to September 2026/);
+  assert.match(record.text, /about 2\.1×/);
+  assert.match(record.text, /does not attribute the signup or use growth to Google Search or ChatGPT referrals/);
+  assert.doesNotMatch(record.text, /601|4939/);
+});
+
+test('a buyer asking why Ankur gets both product and discovery proof', async () => {
+  await withModel('I have shipped products and grown their use and discovery. Tell me where yours is stuck.', ['pepys-product-growth-2026', 'offer-search-evidence'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'Why should I work with you?' }), res);
+    assert.equal(res.statusCode, 200);
+    const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
+    assert.ok(ids.includes('pepys-product-growth-2026'));
+    assert.ok(ids.includes('offer-search-evidence'));
+  });
+});
+
 test('featured-work question reaches the model with published project records', async () => {
   await withModel('I built Pepys and Whooshly.', ['pepys', 'whooshly'], async (calls) => {
     const res = response();
