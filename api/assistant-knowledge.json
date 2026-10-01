@@ -3,7 +3,7 @@
     "id": "about",
     "title": "About Ankur",
     "url": "/#top",
-    "text": "I build the thing. From first sketch to shipped product. I'm Ankur – a full-stack builder making software, brands, and whatever I can't stop thinking about."
+    "text": "I build products. Then get them found. I design and ship software, then help the right people discover it through SEO and AI search. Pepys, Whooshly and QuoteSweep are my own products – the work is right here."
   },
   {
     "id": "pepys",
@@ -39,13 +39,13 @@
     "id": "commerce",
     "title": "Commerce brands",
     "url": "/#work",
-    "text": "BUILT BEYOND CODE I've also built and operated commerce brands. Products, positioning, storefronts, and the less glamorous work behind them. I founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years. Brands shown: Tough Trucks For Kids, Amped Rides.",
+    "text": "BUILT BEYOND CODE I've also co-founded and operated commerce brands. Products, positioning, storefronts, and the less glamorous work behind them. I co-founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years. Brands shown: Tough Trucks For Kids, Amped Rides.",
     "claims": [
       {
         "id": "commerce-combined-revenue",
         "source_id": "commerce",
         "value": "$3.76M",
-        "excerpt": "I founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years.",
+        "excerpt": "I co-founded and operated both brands, growing them from launch to $3.76M in combined USD revenue over two years.",
         "aliases": [
           "commerce",
           "ecommerce",
@@ -123,7 +123,7 @@
     "id": "contact",
     "title": "Contact Ankur",
     "url": "/#contact",
-    "text": "NEXT UP I'm always up for a conversation about products, the internet, and things worth making. Contact Ankur at ankur@kmfv.cc."
+    "text": "NEXT UP Need a product built, or want the right people to find one you already have? Tell me what you're working on and where you're stuck. Contact Ankur at ankur@kmfv.cc?subject=Ankur.works%20project%20inquiry&body=What%20I%27m%20working%20on%3A%0AWhere%20I%27m%20stuck%3A."
   },
   {
     "id": "offer-product-1",

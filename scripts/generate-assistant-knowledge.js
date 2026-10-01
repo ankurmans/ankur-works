@@ -32,7 +32,9 @@ function paragraphs(block) {
 const records = [];
 const hero = html.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1];
 if (!hero) throw new Error('Portfolio hero not found');
-records.push({ id: 'about', title: 'About Ankur', url: '/#top', text: [first(hero, 'h1'), first(hero, 'p', 'lede')].filter(Boolean).join('. ') });
+const heroTitle = first(hero, 'h1');
+const heroLede = first(hero, 'p', 'lede');
+records.push({ id: 'about', title: 'About Ankur', url: '/#top', text: `${heroTitle}${/[.!?]$/.test(heroTitle) ? ' ' : '. '}${heroLede}` });
 
 const projects = [...html.matchAll(/<article class="project [^"]+">([\s\S]*?)<\/article>/g)];
 if (projects.length < 5) throw new Error('Expected the five featured software projects');
