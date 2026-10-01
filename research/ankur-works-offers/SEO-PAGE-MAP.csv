@@ -1,0 +1,5 @@
+route,role,primary_intent,primary_cta,status,notes
+/,portfolio and offer selection,who is Ankur and what can he do,offer-page links,live,Keep builder identity primary
+/seo-ai-search/,Search-Led GTM commercial offer,SEO and AI Search consultant,Talk search,updated,Keep indexed route and canonical stable
+/product-development/,product development commercial offer,build or improve a product,product inquiry,live,No positioning rewrite in this task
+/seo-ai-search/#evidence,owned-product proof,verify Ankur search examples,Talk search,updated section,Separate GSC AI captures and PostHog measures

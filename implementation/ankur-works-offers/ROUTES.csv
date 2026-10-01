@@ -1,0 +1,4 @@
+route,action,canonical,status
+/,copy update,https://www.ankur.works/,unchanged route
+/seo-ai-search/,positioning and layout update,https://www.ankur.works/seo-ai-search/,unchanged route
+/product-development/,no change,https://www.ankur.works/product-development/,unchanged route

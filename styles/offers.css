@@ -230,6 +230,40 @@
 @media(max-width:390px){.ai-referral-chart{padding:13px 12px}.ai-referral-heading{font-size:8px}.ai-referral-bars{gap:8px}.proof-velocity strong{font-size:23px}}
 
 @media(max-width:760px){.offer-section{padding-top:62px;padding-bottom:66px}.offer-steps article,.search-work-grid article{min-height:0;padding:20px 0 10px}.offer-steps h3,.search-work-grid h3{margin-top:20px}.proof-bridge-section{margin-top:-25px;margin-bottom:68px}.proof-bridge{grid-template-columns:1fr;padding:26px 22px;gap:22px}.proof-bridge .button{justify-self:start}}
+
+/* Search-Led GTM uses the site's editorial type and proof colors. */
+.search-journeys{padding:32px 0 38px}
+.search-journeys .offer-band-inner{padding:0 0 22px}
+.search-journey-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.search-journey-grid>div{padding:20px 22px;border:1px solid #757d68;border-radius:10px;background:#30382f}
+.search-journey-grid>div:nth-child(2){background:#344d41}
+.search-journey-grid span,.search-method-foot span{font:700 10px var(--display);letter-spacing:.11em;color:#cad9b2}
+.search-journeys .search-journey-grid p{margin:13px 0 0;font:700 clamp(15px,1.5vw,20px)/1.25 var(--display);letter-spacing:-.03em;max-width:none}
+.search-journey-grid b{color:#ffc451;padding:0 3px}
+.search-journeys .search-journey-close{margin:19px 0 0;font:700 13px var(--display);color:#e9eedc}
+.search-gtm-flow{display:flex;align-items:stretch;gap:5px;margin:0 0 23px;color:#fffaf1}
+.search-gtm-flow span{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:90px;padding:15px;background:#446c59;border:1px solid #7b9c86;border-radius:9px;font:700 12px/1.2 var(--display);letter-spacing:.06em}
+.search-gtm-flow span:nth-of-type(2){background:#5a7151}.search-gtm-flow span:nth-of-type(3){background:#786d50}.search-gtm-flow span:nth-of-type(4){background:#a5583f}
+.search-gtm-flow small{margin-top:7px;font:500 11px/1.25 var(--body);letter-spacing:0}
+.search-gtm-flow i{align-self:center;font:700 19px var(--display);font-style:normal;color:#ffc451}
+.offer-search .search-work-grid article{min-height:315px}
+.offer-search .search-work-grid h3{font-size:clamp(23px,2.35vw,33px);margin-top:33px;line-height:1.05}
+.offer-search .search-work-grid p{margin-top:18px;font-size:14px;line-height:1.45}
+.search-method-list{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;padding:0;margin:0;border-top:1px solid #bcb4a8;border-bottom:1px solid #bcb4a8}
+.search-method-list li{padding:20px 17px 25px;border-left:1px solid #bcb4a8}
+.search-method-list li:first-child{border-left:0;padding-left:0}
+.search-method-list b{display:block;font:700 15px/1.2 var(--display)}
+.search-method-list span{display:block;margin-top:14px;font-size:13px;line-height:1.45}
+.search-method-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:24px 0 50px;padding:22px 25px;background:#e8e0d2;border-radius:11px}
+.search-method-foot span{color:#805238}.search-method-foot p{max-width:680px;margin:7px 0 0;font-size:14px;line-height:1.45}
+.search-method-foot a{flex:none;font:700 13px var(--display);border-bottom:1px solid currentColor}
+.search-fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.search-fit-grid>div{padding:24px;background:#dce9d6;border:1px solid #a9baa4;border-radius:10px}
+.search-fit-grid>div:nth-child(2){background:#f5e8ce;border-color:#d9c8aa}
+.search-fit-grid h3{font:700 clamp(24px,2.4vw,34px)/1.05 var(--display);letter-spacing:-.05em;margin:18px 0 12px}
+.search-fit-grid p:last-child{font-size:14px;line-height:1.5;max-width:520px}
+@media(max-width:1050px){.search-method-list{grid-template-columns:repeat(3,minmax(0,1fr))}.search-method-list li:nth-child(4){border-left:0;padding-left:0}}
+@media(max-width:760px){.search-journey-grid,.search-fit-grid{grid-template-columns:1fr}.search-gtm-flow{display:grid;grid-template-columns:1fr;gap:4px}.search-gtm-flow span{min-height:0;padding:14px 17px}.search-gtm-flow i{transform:rotate(90deg);line-height:1}.search-method-list{grid-template-columns:1fr}.search-method-list li,.search-method-list li:first-child,.search-method-list li:nth-child(4){border-left:0;border-bottom:1px solid #bcb4a8;padding:17px 0}.search-method-list li:last-child{border-bottom:0}.search-method-list span{margin-top:7px}.search-method-foot{display:block;padding:20px}.search-method-foot a{display:inline-block;margin-top:20px}}
 @media(max-width:480px){.proof-bridge .button{width:100%;justify-content:center}.answer-prompts li{font-size:10px}}
 
 /* Keep all three product proofs intentional at tablet widths. */
