@@ -146,7 +146,7 @@
     "title": "I've shipped the whole thing",
     "url": "/product-development/#proof",
     "page": "/product-development/",
-    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep BUILT IN THE OPEN These are my own products. Different markets, different problems, the same hands-on work from idea to live software. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. Short links, QR codes, link-in-bio and landing pages in one campaign toolkit. Built for the moments a marketer needs to move. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job. Metrics: Pepys PostHog weekly unique signups, full UTC weeks Jun 14–Sep 19, 2026, test accounts filtered; historical launch-to-peak period; Whooshly PostHog distinct September signups; QuoteSweep Google Search Console, April–August 2026. Screenshots show public or demo product views.",
+    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep BUILT IN THE OPEN These are my own products. Different markets, different problems, the same hands-on work from idea to live software. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. Short links, QR codes, link-in-bio and landing pages in one campaign toolkit. Built for the moments a marketer needs to move. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job. Metrics: Pepys PostHog distinct signup users and people completing a transcription, complete UTC months August–September 2026, test accounts filtered; relative weekly signup chart shows full UTC weeks June 14–September 19 and stops at its September 13 peak. Whooshly: PostHog distinct September signups. QuoteSweep: Search Console complete months April–August 2026. Screenshots show public or demo product views.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
@@ -186,7 +186,7 @@
     "title": "I built the products behind the proof.",
     "url": "/seo-ai-search/",
     "page": "/seo-ai-search/",
-    "text": "I built the products behind the proof. SEO + AI SEARCH, TESTED ON MY OWN PRODUCTS QuoteSweep’s Google clicks grew 10× from April to August. I built the product behind it. I’ll find the buyer questions your site should answer, improve the pages, and measure what happens next.",
+    "text": "I built the products behind the proof. SEO + AI SEARCH, TESTED ON MY OWN PRODUCTS QuoteSweep’s Google clicks grew 10.3× from April to August. I built the product behind it. I’ll find the buyer questions your site should answer, improve the pages, and measure what happens next.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {
@@ -202,7 +202,7 @@
     "title": "Search doesn’t stop at the click.",
     "url": "/seo-ai-search/#evidence",
     "page": "/seo-ai-search/",
-    "text": "Search doesn’t stop at the click. 10× more Google clicks Cited in comparisons Then Pepys took off THE CASE FILE / OWNED PRODUCTS Two products. Three views of visibility and use. Every claim has its own source, date, and limit. Monthly clicks rose from 96 in April to 988 in August 2026. Search impressions rose from 44,149 to 244,510 in the same period. Commercial rater comparisons EZLynx alternatives Bold Penguin alternatives From the June public launch to the week of September 13, the signup curve bent sharply upward. This is product growth, separate from QuoteSweep’s Google result and not attributed to search. Separately, 3,828 distinct users completed 7,913 transcriptions in September. Google Search brought 330 clicks in the Aug 31–Sep 28 window – one piece of the story, not an explanation for all signups. Search Console for Google discovery. Repeated captures for answer context. PostHog for product use. Different instruments, different questions.",
+    "text": "Search doesn’t stop at the click. 10.3× as many Google clicks Cited in comparisons 8.6× ChatGPT-referred sessions THE CASE FILE / OWNED PRODUCTS Two products. Google discovery, observed answer context, and AI-referred visits. Each has its own source and limit. Monthly clicks rose from 96 in April to 988 in August 2026. Search impressions grew 5.5×, from 44,149 to 244,510, in the same period. Commercial rater comparisons EZLynx alternatives Bold Penguin alternatives Pepys sessions with a pageview and an entry referrer of chatgpt.com or chat.openai.com rose from 190 in July to 1,637 in September. That is observed referral traffic, not a count of AI citations or proof that a particular answer drove a visit. Separately, 3,828 distinct people completed 7,913 transcriptions in September – about 2.1× August on both measures. Signups were 8.2× August. These are product measures, not conversions attributed to ChatGPT referrals. Search Console for Google discovery. Repeated captures for answer context. PostHog for ChatGPT referrals and product use. Different instruments, different questions.",
     "provenance": "Published copy from seo-ai-search/index.html; verify live publication separately"
   },
   {

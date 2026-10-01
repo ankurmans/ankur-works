@@ -145,7 +145,7 @@ export function retrieve(question, section = '', page = '') {
     if (record.id.startsWith('search-') && SEARCH_NEED.test(question)) score += 2;
     if (record.id === 'pepys-chatgpt-referrals-2026' && /\b(?:pepys|chatgpt|ai)\b/i.test(question) && /\b(?:traffic|referral|sessions?|growth|discovery|found)\b/i.test(question)) score += 12;
     if (record.id === 'pepys-product-growth-2026' && /\b(?:pepys|growth|results?|proof|traction|signups?|transcriptions?)\b/i.test(question)) score += 12;
-    if (record.id === 'offer-search-evidence' && /\b(?:pepys|quotesweep)\b/i.test(question) && /\b(?:how many|clicks|users?|used|transcriptions?)\b/i.test(question)) score += 15;
+    if (record.id === 'offer-search-evidence' && /\b(?:pepys|quotesweep)\b/i.test(question) && /\b(?:how many|clicks|users?|used|transcriptions?|growth|grew|grown|results?|proof)\b/i.test(question)) score += 15;
     if (record.id === 'search-source-passage-strategy' && /\b(?:cited|citation|sources?|passages?|recommendation)\b/i.test(question)) score += 10;
     if (record.id === 'search-gsc-analysis' && /\b(?:measure|measurement|gsc|search console|clicks|impressions|growth)\b/i.test(question)) score += 10;
     if (/\b(?:who|about|background)\b/i.test(question) && record.id === 'about') score += 4;
