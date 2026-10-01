@@ -117,6 +117,9 @@
 .claude-listings{padding:78px 0}
 .github-section{padding:88px 0 94px}
 .commerce{padding:88px 0 56px}
+.commerce-proof{display:flex;align-items:center;gap:34px;margin:-10px 0 28px;padding:22px 28px;border-radius:20px;background:var(--ink);color:var(--paper)}
+.commerce-proof strong{font:700 clamp(42px,5vw,66px)/1 var(--display);letter-spacing:-.08em;color:#ffbd46;white-space:nowrap}
+.commerce-proof p{max-width:570px;margin:0;font:500 16px/1.5 var(--body)}
 .shiplog{padding:56px 0 92px}
 .story{padding:88px 0 96px}
 .contact{padding:88px 0 96px}
@@ -128,6 +131,7 @@
   .claude-listings{padding:62px 0}
   .github-section{padding:64px 0}
   .commerce{padding:64px 0 42px}
+  .commerce-proof{display:block;margin:0 0 20px;padding:19px 21px}.commerce-proof p{margin-top:8px;font-size:14px}
   .shiplog{padding:42px 0 66px}
   .story{padding:66px 0 72px}
   .contact{padding:66px 0 74px}

@@ -1,0 +1,5 @@
+url,status,final_url,bytes,sha256,body
+https://www.outlever.com/,200,https://www.outlever.com/,37973,09de48810fb63f71d49476a81dd7d347340ba31f1b705322f2b1aaac38f7ce1c,
+https://www.outlever.com/robots.txt,200,https://www.outlever.com/robots.txt,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,
+https://www.outlever.com/sitemap.xml,404,https://www.outlever.com/sitemap.xml,906,90c032f35272ba1a7aa93027ab635e6610d4f24cf9e53c0624d00f065d7c7e7d,
+https://www.thestateofbrand.com/robots.txt,200,https://www.thestateofbrand.com/robots.txt,52,7de0fd43e2fadef5e0d767c707c3b08ad555aa8f76d4c8414bdf1835da34b76b,Sitemap: https://www.thestateofbrand.com/sitemap.xml

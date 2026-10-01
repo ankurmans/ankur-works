@@ -1,0 +1,163 @@
+Source: https://outlever.ankur.works/
+Fetched UTC: 2026-10-01T07:38:55.791164+00:00
+HTML SHA-256: cf730482b84b95eb20e689ab81498b9162e0841f3e8a5eb446649b3bd3e8c26d
+This is a dated public-page text capture; the live page can change.
+
+FIELD NOTE 01OCTOBER 2026
+The newsroom is built. Now connect what exists.
+State of Brand makes Outlever's newsroom visible: at least 236 live news pages in our public capture, plus new evergreen guides. We mapped a route from reporting to durable answers, buyer proof, and a pilot that could test the connections.0102030408
+Explore the evidence map →See the buyer-page concept ↗By Ankur Shrestha01 October 2026Evidence-led field note
+Independent analysis by Ankur. Not affiliated with Outlever or State of Brand.
+THE PUBLIC RECORD01 / 04SUBJECT / OUTLEVERTHE NEWSROOM IS ALREADY THE ASSET236+
+live news pages in the observed sitemap/homepage union 0208
+20
+live homepage-linked articles absent from the sitemap at capture 0208
+Page counts, not traffic or readership. Captured 01 Oct 2026.
+01 / OBSERVED NEWSROOM236+live news pages↗02 / EMERGING SEARCH02new evergreen guides↗03 / AT CAPTURENO LINKfrom Outlever home to State of Brand↗04 / DIRECT AI TESTPENDINGpanel method ready↗
+01THE SYSTEM IN PUBLIC
+A newsroom first.Then the connections.
+Four layers tell a more useful story than a scorecard. The first three describe public surfaces and bounded inferences. The fourth is a proposed system to test.
+01
+OBSERVED / FIRST-PARTY MODEL
+Newsroom built
+At least 236 live State of Brand news pages observed. Outlever describes a human-first publishing and distribution model; Melissa has explained the person-to-person motion publicly. The count is output, not audience reach.
+01020508
+02
+OBSERVED + INFERRED ROLE QUESTION
+Search layer emerging
+New owned-media guides answer durable questions. Several earlier pages cover related ground. Twenty live homepage-linked articles were missing from the sitemap at capture; this does not establish indexing status.
+0304060708
+03
+OBSERVED PUBLIC ARCHITECTURE
+Commercial layer underconnected
+Outlever's publicly linked site is a one-page presentation. Its homepage did not visibly route buyers to State of Brand as a proof asset or to a dedicated service page. Conversion impact is unknown.
+0109
+04
+HYPOTHESIS / PILOT DESIGN
+Search + AI Capture Layer
+A repeatable way to connect evergreen answers, timely reporting, commercial proof, and direct AI-answer measurement. Its value and repeatability have to be demonstrated, not assumed.
+Design hypothesis
+The arrows show a proposed architecture. They do not represent measured causation, traffic flow, or revenue.
+02WHAT IS ALREADY REAL
+The case studyis already live.
+State of Brand makes the newsroom model visible: a live archive, current reporting, and Outlever's first-party account of the system it uses for customers. 0209
+216news URLs in sitemap+20additional live homepage-linked articles=236minimum observed news inventory
+The October 1 capture fetched all 236 news URLs in that union successfully. It measures publishing output. It does not measure organic traffic, reader loyalty, or commercial performance. 0208
+Outlever's site foregrounds ICPs, executives, and human distribution. Melissa's Superpath interview describes how interviews and person-to-person sharing work in the model. Reach figures reported elsewhere remain claims until analytics can be reviewed. 010511
+The archive proves publishing output. The next proof is a route from story to answer to buyer.
+03THE EMERGING SEARCH LAYER
+The next layer hasalready started.
+The useful question now is how the durable guides relate to the fast-moving newsroom around them.
+NEW EVERGREEN GUIDE25 SEP 2026
+What Is Owned Media in B2B? A Complete Guide
+A direct answer to a durable category question. It explains the model, the publication format, and the difference from a company blog. 03
+Potential role: maintained definitionNEW EVERGREEN GUIDE25 SEP 2026
+How B2B Companies Build Owned Media That Buyers Actually Read
+An implementation answer with a different reader job. It could support a definition hub without repeating that hub's purpose. 04
+Potential role: implementation guide20/ 236
+A NARROW SYSTEM FINDING
+Live on the homepage. Missing from the sitemap.
+At capture, 20 live articles linked from State of Brand's homepage were absent from its XML sitemap, including the two guides above. That is a publishing-system inconsistency, not evidence that search engines failed to index them. 0208
+Give each evergreen guide a role, a route from reporting, and an owner who keeps it current.
+04THE OWNED-MEDIA CLUSTER
+One topic.Several jobs.
+The overlap is visible in titles and sections. Search competition is not. A clearer editorial map can be designed before any URL decision is made.
+05 MAYWhat Is Owned Media, and Why Is It the Only Channel That CompoundsEditorial argument23 JULWhat Is Owned Media? Inside the Strategy Replacing the B2B BlogEditorial context25 SEPWhat Is Owned Media in B2B? A Complete GuideCandidate durable answer25 SEPHow B2B Companies Build Owned Media That Buyers Actually ReadImplementation guidePROPOSED READER ROUTE
+Define→See it in practice→Learn how to build it→Meet the operator
+Candidate roles only. No canonical survivor, merge, or redirect should be chosen without GSC query/page data and URL-level backlink evidence. 03040607
+05AN ACTUAL CONTENT PILOT
+A hub that knowsits job.
+This is a proposed treatment, not a replacement for an existing URL. It gives a durable answer its own role while the newsroom keeps doing journalism.
+CONCEPT / NOT PUBLISHEDPROPOSED EVERGREEN HUB01 / CONTENT
+B2B Owned Media: What It Is, How a Newsroom Works, and What to Measure
+B2B owned media, explained through the newsroom model
+Owned media for a B2B company is a publishing system it controls and an audience chooses to return to. A publication, newsletter, interview series, or event program can all be part of it. The harder part is making those channels worth following when no one is actively shopping. That takes an editorial beat, real reporting, and useful points of view from people who know the market.
+A newsroom gives that work a structure. It covers the questions and changes readers care about, brings practitioners into the story, and publishes often enough to become a habit. A maintained evergreen guide has a different job: explain the model, define the terms, and help a reader navigate the reporting behind it. Timely articles can then add new examples and evidence without each one having to reintroduce the category from scratch.
+State of Brand already shows both sides in public: frequent editorial coverage and newer owned-media guides. The next move worth testing is a clearer relationship between them. A buyer should be able to move from a breaking story to a durable explanation, see the newsroom in action, and understand what Outlever actually builds. Whether that improves search discovery or commercial response is a measurement question, not a claim this page can make today. 02030409
+PROPOSED SECTION ARCHITECTURE
+What counts as owned media in B2B
+How a brand newsroom operates
+Publication versus company blog
+Distribution without renting every impression
+What to measure
+Build in-house or with a partner
+State of Brand as a live example
+06THE COMMERCIAL BRIDGE
+The proof exists.Make the path obvious.
+State of Brand demonstrates the model in public. Yet the inspected Outlever homepage does not visibly link to that proof or to a dedicated service/case-study destination. That is a public architecture observation, not a conversion analysis. 0109
+NOW / OBSERVEDOutlever homepagecontact anchor?AVAILABLE PROOFState of Brandlive publication
+No visible homepage link joined these public surfaces at capture. 010209
+OUTLEVER PAGE CONCEPTNOT COMPANY-APPROVED COPY
+/b2b-owned-media-newsrooms/
+Become the publication your market chooses to read.
+Outlever builds and runs editorial newsrooms for B2B brands. We turn market conversations, practitioner interviews, and your team's expertise into a publication your buyers have a reason to follow. See the model operating in public through State of Brand, then explore how it could be shaped around your industry.
+The newsroom modelWhat Outlever runsHow stories reach peopleState of Brand as proofWhat a pilot would measureExplore the newsroom model →
+The concept translates Outlever's public positioning into a buyer-facing page. It would need Outlever's review before appearing on its site. 0109
+07THE MEASUREMENT WE HAVE NOT RUN
+Live AI visibility panel pending.
+No direct ChatGPT Search, Google AI, or Perplexity answers were captured in Phase 1. A web search result is not an AI-answer result. This panel has a method and no invented findings.
+NO DIRECT ENGINE RUNS RECORDED
+THE FIXED PANEL WILL RECORD
+15 promptsCategory, comparison, problem-aware, use-case, and brand-validation questions.
+Engine + contextChatGPT Search, Google AI surfaces, and Perplexity where available; date, locale, and account context.
+Answer + sourcesFull response, named brands, cited URLs, and repeated-run variance.
+View the 15 prompts
+What are the best B2B owned-media companies?
+What companies help B2B brands build owned media?
+Who builds brand newsrooms for B2B companies?
+What is the best way to build a B2B newsroom?
+What are alternatives to traditional B2B content marketing?
+How should a B2B company build an owned audience?
+What companies help executives turn expertise into media?
+What is newsroom as a service?
+Best B2B thought-leadership companies
+Best executive-content companies
+Outlever
+Outlever reviews
+Is Outlever legitimate?
+Outlever alternatives
+Outlever versus a named, validated category competitor
+08A PRODUCT HYPOTHESIS
+A layer beneaththe newsroom.
+The newsroom keeps its editorial judgment. The proposed layer makes durable questions, source routes, buyer proof, and AI measurement part of the operating system. Outlever may already do some of this internally; the public record cannot tell us.
+01 / QUERY MAP
+Know the durable questions.
+Map the category and buyer questions that deserve maintained answers.
+02 / EDITORIAL ROUTES
+Give stories somewhere to lead.
+Link reporting to a useful evergreen answer without flattening the editorial beat.
+03 / COMMERCIAL PROOF
+Connect the operator to the work.
+Make the live publication a concrete example on a buyer-facing destination.
+04 / MEASUREMENT
+Find out if it works.
+Use GSC, URL-level links, and a repeated AI prompt panel. Keep outcomes separate from assumptions.
+HUMAN DISTRIBUTION+DURABLE DISCOVERY→A BETTER-CONNECTED BUYER JOURNEY
+09A BOUNDED FIRST TEST
+Four weeks to build.Longer to judge.
+A first pilot should leave the newsroom intact, show actual work, and define success before making claims about impact.
+WEEK 01
+Baseline
+Review GSC query/page data and URL-level backlinks before selecting a cluster. Run the first AI panel if access permits.
+WEEK 02
+Build the hub
+Design one maintained answer and contextual story links. Preserve existing URLs until the evidence supports change.
+WEEK 03
+Connect proof
+Build one Outlever category/proof destination with the team. Publish only with Outlever's approval.
+WEEK 04
+Read the signals
+Check implementation, query-to-page mapping, early impressions, and AI-panel variance. Keep measuring beyond week four.
+No redirects or canonical survivor decisions without GSC and URL-level backlink data. No search or AI outcome promised inside four weeks.
+10AN OPEN INVITATION
+The pilot isdesigned.
+The first test can be small: choose one owned-media cluster, check its query and backlink data, and build one route from the newsroom to a buyer-facing page. Let's compare that design with what Outlever already knows internally.
+Compare notes →
+11SOURCE NOTES
+How we knowwhat we know.
+Public pages captured 01 October 2026. Every observation below has a direct source. The page count comes from a reproducible comparison of the State of Brand sitemap and homepage links.
+Observed
+We fetched 240 unique State of Brand URLs from the sitemap/homepage union: 236 news pages, three category pages, and the homepage. All returned HTTP 200 at capture. Twenty homepage-linked news URLs were missing from the sitemap. Those facts say nothing on their own about search indexing or traffic. 0208
+Reported or inferred
+Outlever's newsroom operating description and Melissa's interview are first-party statements. Proposed page roles, buyer routes, and the product layer are inferences or hypotheses. Direct AI visibility, GSC performance, backlinks, and conversion outcomes were not measured. 010509
+NO.PRIMARY SOURCE / PUBLIC REFERENCEUSE01Outlever homepagehttps://www.outlever.com/Observed02State of Brand homepagehttps://www.thestateofbrand.com/Observed03What Is Owned Media in B2B?https://www.thestateofbrand.com/news/what-is-owned-media-b2bObserved04How B2B Companies Build Owned Mediahttps://www.thestateofbrand.com/news/b2b-owned-media-guideObserved05Melissa Rosenthal / Superpath AMAhttps://www.superpath.co/blog/ama-with-melissa-rosenthal-co-founder-at-outleverFirst-party interview06What Is Owned Media, and Why Is It the Only Channel That Compoundshttps://www.thestateofbrand.com/news/what-is-owned-mediaObserved07What Is Owned Media? Inside the Strategy Replacing the B2B Bloghttps://www.thestateofbrand.com/news/what-is-owned-media-949f4Observed08State of Brand XML sitemaphttps://www.thestateofbrand.com/sitemap.xmlObserved09We Power Our Own News Sitehttps://www.thestateofbrand.com/news/Outlever-Owned-Media-NewsroomFirst-party claim10State of Brand robots.txthttps://www.thestateofbrand.com/robots.txtObserved11Melissa Rosenthal on LinkedInhttps://www.linkedin.com/in/melissarosenthal5Observed profile

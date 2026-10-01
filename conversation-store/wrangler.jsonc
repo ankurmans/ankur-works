@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "ankur-ai-twin-log",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-10-01",
+  "vars": {
+    "RETENTION_DAYS": "90"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ankur-ai-twin-conversations",
+      "database_id": "8dc160d0-e73c-4995-99e4-5246a29011a0",
+      "migrations_dir": "./migrations"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "ANSWER_CACHE",
+      "id": "56169997c8fd4e048a86326b5c94b876"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  }
+}
