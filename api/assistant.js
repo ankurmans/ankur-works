@@ -7,10 +7,11 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v31';
+const PROMPT_VERSION = 'ankur-ai-twin-v32';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
+const PRICING = /\b(?:price|pricing|rates?|cost|budget|fees?|how much)\b|\$6(?:,?000|k)\b/i;
 const WHY_ANKUR = /\b(?:why (?:should|would) (?:i|we) (?:work with|hire)|what (?:have you|has ankur) (?:achieved|delivered)|why (?:you|ankur))\b/i;
 const GUARANTEE_REQUEST = /\b(?:guarantee|guaranteed|promise|promised)\b/i;
 const INJECTION = /(?:ignore|disregard|override|reveal|print|show|repeat|bypass|forget|encode|decode).{0,70}(?:prompt|instructions?|rules?|system|developer|above|previous|safety)|(?:act as|pretend to be|you are now|new system prompt|roleplay as).{0,55}(?:unrestricted|uncensored|developer|system|another ai|different assistant)|\b(?:jailbreak|developer mode|api key|secret key|system prompt|hidden instructions|do anything now|DAN mode)\b|<\|im_start\|>\s*system/i;
@@ -110,6 +111,12 @@ const pepysGrowth = knowledge.find((record) => record.id === 'pepys-product-grow
 const pepysReferrals = knowledge.find((record) => record.id === 'pepys-chatgpt-referrals-2026');
 const whooshlyProduct = knowledge.find((record) => record.id === 'whooshly');
 const productProof = knowledge.find((record) => record.id === 'offer-product-proof');
+const offerPriceRecords = {
+  product: knowledge.find((record) => record.id === 'offer-product-1'),
+  search: knowledge.find((record) => record.id === 'offer-search-1'),
+};
+if (Object.values(offerPriceRecords).some((record) => !record?.text.includes('Starts at $6,000/month') || !record.text.includes('90-day minimum')))
+  throw new Error('Approved offer pricing is missing from the published offer pages');
 const quoteSweepProof = knowledge.find((record) => record.id === 'offer-search-evidence');
 const quoteSweepClicks = quoteSweepProof?.text.match(/Monthly clicks rose from 96 in April to 988 in August 2026\./)?.[0];
 if (!pepysGrowth || !pepysReferrals || !whooshlyProduct || !productProof || !quoteSweepClicks) throw new Error('Growth story proof is missing');
@@ -256,6 +263,17 @@ export default async function handler(req, res) {
   const relevantHistory = projectTurn ? [] : safeHistory;
   if (/\b(?:can you hear me|are you there|is this working)\b/i.test(question)) return json(res, 200, outcome("Yep, your question came through. Ask me about one of my projects and I'll take it from there.", [], 'answered'));
   if (/\b(?:who are you|are you (?:an? )?(?:ai|human|ankur)|is this (?:an? )?(?:ai|bot|ankur))\b/i.test(question)) return json(res, 200, outcome("I'm Ankur's AI Twin. I answer in his voice using information he's chosen to share here. If you'd like to reach Ankur himself, use the links below.", [], 'answered'));
+  if (PRICING.test(question) && !/\b(?:what did|did you|your brands?|pepys|whooshly|quotesweep|tough trucks|amped rides)\b/i.test(question)) {
+    const askedSearch = SEARCH_NEED.test(question);
+    const askedProduct = PRODUCT_NEED.test(question);
+    const recentUser = relevantHistory.filter((turn) => turn.role === 'user').at(-1)?.content || '';
+    const search = askedSearch || (!askedProduct && (SEARCH_NEED.test(recentUser) || page === '/seo-ai-search/'));
+    const product = askedProduct || (!askedSearch && (PRODUCT_NEED.test(recentUser) || page === '/product-development/'));
+    const name = search && !product ? 'Search-led GTM' : product && !search ? 'Product Development Sprint' : 'Both Product Development Sprint and Search-led GTM';
+    const sources = (search && !product ? [offerPriceRecords.search] : product && !search ? [offerPriceRecords.product] : Object.values(offerPriceRecords))
+      .map(({ title, url }) => ({ title, url }));
+    return json(res, 200, outcome(`${name} ${search && !product || product && !search ? 'starts' : 'start'} at $6,000 per month with a 90-day minimum. I'll agree the exact scope with you before we start.`, sources));
+  }
   if (UNAPPROVED_STORY.test(question) && !knowledge.some((record) => record.id.startsWith('personal-') && record.topics?.some((topic) => hasPhrase(question, topic))))
     return json(res, 200, outcome("I haven't shared that story here yet. Ask me directly using the links below – I'd rather tell it properly than make something up.", [], 'refused'));
   if (PERSONAL.test(question) && !WHY_ANKUR.test(question)) return json(res, 200, outcome('You can book a 30-minute call with me using the link below, or email me directly.', [], 'refused'));

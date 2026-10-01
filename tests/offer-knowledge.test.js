@@ -18,6 +18,13 @@ test('offer copy becomes page-cited knowledge without pricing language', () => {
   assert.doesNotMatch(records[2].text, /price/i);
 });
 
+test('only explicitly approved offer pricing enters the knowledge corpus', () => {
+  const html = fixture.replace('<p>We agree on price after scoping.</p>', '<p data-approved-offer-price>Starts at $6,000/month. 90-day minimum.</p><p>We agree on price after scoping.</p>');
+  const records = offerRecords(html, offerPages[0]);
+  assert.match(records[2].text, /Starts at \$6,000\/month/);
+  assert.doesNotMatch(records[2].text, /agree on price after scoping/);
+});
+
 test('the shared AI Twin mounts once on a static offer page', () => {
   const portfolio = '<div class="ask-ankur" id="ask-ankur"></div><dialog id="ask-ankur-dialog"></dialog>';
   const mounted = mountAssistantOnOfferPage(fixture, portfolio);
@@ -43,4 +50,10 @@ test('voice call shows a booking link and tells the agent not to narrate its URL
   assert.match(page, /ask-ankur__call-after[^>]*><a href="https:\/\/cal\.com\/ankur-kmf\/30min"/);
   assert.match(prompt, /Never speak, spell, or dictate the booking URL/);
   assert.match(prompt, /Click the booking link below/);
+});
+
+test('end call icon stays on one line in the mobile call interface', () => {
+  const css = readFileSync(new URL('../styles/assistant.css', import.meta.url), 'utf8');
+  assert.match(css, /\.ask-ankur__end-call\{[^}]*display:inline-flex;align-items:center;[^}]*white-space:nowrap/);
+  assert.match(css, /\.ask-ankur__end-call svg\{display:block;flex:none\}/);
 });
