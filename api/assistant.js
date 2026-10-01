@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v28';
+const PROMPT_VERSION = 'ankur-ai-twin-v29';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -16,7 +16,7 @@ const GUARANTEE_REQUEST = /\b(?:guarantee|guaranteed|promise|promised)\b/i;
 const INJECTION = /(?:ignore|disregard|override|reveal|print|show|repeat|bypass|forget|encode|decode).{0,70}(?:prompt|instructions?|rules?|system|developer|above|previous|safety)|(?:act as|pretend to be|you are now|new system prompt|roleplay as).{0,55}(?:unrestricted|uncensored|developer|system|another ai|different assistant)|\b(?:jailbreak|developer mode|api key|secret key|system prompt|hidden instructions|do anything now|DAN mode)\b|<\|im_start\|>\s*system/i;
 const TOPIC = /\b(?:ankur|site|portfolio|project|product|build|builder|pepys|whooshly|quotesweep|linnet|twinsona|software|brand|commerce|code|search|seo|geo|aeo|chatgpt|perplexity|citation|referral|traffic|mvp|offer|service|consulting)\b/i;
 const SENSITIVE_OFF_TOPIC = /\b(?:suicid\w*|self.harm|overdose|chest pain|medical advice|diagnos\w*|legal advice|lawsuit|invest(?:ment|ing)? advice|stock tip|tax advice)\b/i;
-const UNAPPROVED_STORY = /\b(?:ryan reynolds|hobb(?:y|ies)|family|spouse|partner|children|where (?:do you|does ankur) live|where (?:were you|was ankur) born)\b/i;
+const UNAPPROVED_STORY = /\b(?:ryan reynolds|hobb(?:y|ies)|family|spouse|partner|children|where (?:do you|does ankur) live|where (?:were you|was ankur) born|pronounc\w*|pronunc\w*)\b/i;
 const SALES_INTENT = /\b(?:which (?:service|offer|product)|right (?:service|offer|product)|what (?:do you|does ankur) do|what can you (?:do|help)|what (?:kind of )?(?:products?|apps?|websites?) can you build|can you (?:help|build)|could you (?:help|build)|help (?:me|us|our)|do you (?:offer|do)|need (?:help|someone)|looking for (?:help|someone)|hire (?:you|ankur)|your services?|your offers?|work with you|build (?:my|our) (?:app|product|site|website)|improve (?:my|our) (?:seo|search|visibility))\b/i;
 const PRODUCT_NEED = /\b(?:build|develop|ship|shipping|prototype|rebuild|full[ -]?stack|mvp|product development|software development)\b/i;
 const SEARCH_NEED = /\b(?:seo|ai search|ai overviews|chatgpt|perplexity|search visibility|search|aeo|geo|rank|citation|content|traffic|discover(?:ed|y|ability)?|found|google)\b/i;
@@ -136,6 +136,7 @@ export function retrieve(question, section = '', page = '') {
     const body = tokens(record.text);
     let score = 0;
     for (const term of terms) score += (title.has(term) ? 4 : 0) + (body.has(term) ? 1 : 0);
+    if (record.id.startsWith('personal-') && record.topics.some((topic) => hasPhrase(question, topic))) score += 20;
     if (namedEntities.has(record.id)) score += 14;
     if (namedEntities.size && projectIds.has(record.id) && !namedEntities.has(record.id)) score -= 8;
     if (namedEntities.size && record.page === '/product-development/' && !PRODUCT_NEED.test(question)) score -= 8;
@@ -267,11 +268,14 @@ export default async function handler(req, res) {
   const asksPepysAiTraffic = /\bpepys\b/i.test(question) && /\b(?:chatgpt|ai)\b/i.test(question)
     && /\b(?:referrals?|traffic|sessions?|growth|grew)\b/i.test(question);
   const retrievedFacts = retrieve(contextQuestion.replace(/\bcode[\s-]?sweep\b/gi, 'QuoteSweep'), section, page);
+  const personalMatch = offerFacts.length ? null : retrievedFacts.find((record) => record.id.startsWith('personal-'));
   const searchOfferOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const otherFacts = offerFacts.length && !mentionsProject && !asksForProof && !SEARCH_NEED.test(question) ? []
     : searchOfferOnly && !mentionsProject && !asksForProof ? retrievedFacts.filter((record) => record.page === '/seo-ai-search/') : retrievedFacts;
-  const offTopic = !TOPIC.test(contextQuestion) && !offerFacts.length && !mentionsProject && !asksForProof && otherFacts.length <= 1;
-  const found = offTopic ? [] : asksWhyAnkur
+  const offTopic = !TOPIC.test(contextQuestion) && !offerFacts.length && !mentionsProject && !asksForProof && !personalMatch && otherFacts.length <= 1;
+  const found = offTopic ? [] : personalMatch && !mentionsProject
+    ? [personalMatch]
+    : asksWhyAnkur
     ? [growthStory]
     : asksPepysAiTraffic ? [pepysReferrals]
     : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
@@ -325,7 +329,7 @@ export default async function handler(req, res) {
             type: 'object', additionalProperties: false, properties: {
               answer: { type: 'string' }, source_ids: { type: 'array', items: found.length ? { type: 'string', enum: found.map((record) => record.id) } : { type: 'string' }, maxItems: 3 }, outcome: { type: 'string', enum: ['answered', 'refused'] },
             }, required: ['answer', 'source_ids', 'outcome'],
-          } } }, reasoning_effort: 'minimal', verbosity: 'low', max_completion_tokens: 400,
+          } } }, reasoning_effort: 'minimal', verbosity: 'low', max_completion_tokens: 600,
           providerOptions: { gateway: { zeroDataRetention: true, disallowPromptTraining: true } },
           }), signal: AbortSignal.timeout(15000),
         });
@@ -365,6 +369,7 @@ export default async function handler(req, res) {
     if (process.env.NODE_ENV !== 'test') console.warn('assistant_model_failure', error instanceof Error ? error.message.slice(0, 120) : 'unknown');
     if (asksWhyAnkur) return json(res, 200, outcome("I've built the products I talk about. Pepys signups grew 8.2× from August to September 2026, while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If that mix of building and getting found is what you need, book a call below.", [], 'answered', 'guard'));
     if (asksPepysAiTraffic) return json(res, 200, outcome("I tracked ChatGPT-entry sessions to Pepys rising from 190 in July to 1,637 in September 2026. They peaked early in September, then slowed later that month. That's referral traffic, not proof of AI citations or signup attribution.", [], 'answered', 'guard'));
+    if (personalMatch && !mentionsProject) return json(res, 200, outcome(personalMatch.text, [], 'answered', 'guard'));
     if (searchOnly) return json(res, 200, outcome("I’d start with the questions your buyers actually ask, then check whether your pages answer them and can be found in search. Send me your site and target buyer, and I’ll tell you where I’d look first.", [{ title: 'SEO and AI search', url: '/seo-ai-search/' }], 'answered', 'guard'));
     if (offerFacts.length && offerFacts.every((record) => record.page === '/product-development/'))
       return json(res, 200, outcome("I’d start by defining the user journey and the smallest useful version to ship. Tell me what the product needs to do and what already exists, and I’ll suggest the first build boundary.", [{ title: 'Full-stack product development', url: '/product-development/' }], 'answered', 'guard'));

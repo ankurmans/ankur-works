@@ -1,3 +1,278 @@
 {
-  "stories": []
+  "stories": [
+    {
+      "id": "personal-hometown",
+      "title": "Where I grew up",
+      "text": "I grew up in Rajgangpur, a small town in Odisha, India. My interest in building things came later.",
+      "topics": [
+        "grew up",
+        "hometown",
+        "Rajgangpur",
+        "Odisha",
+        "childhood",
+        "where are you from",
+        "where did you grow up",
+        "grow up"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-location",
+      "title": "Where I was based in October 2026",
+      "text": "I spent the two years before October 2026 nomading across Southeast Asia. As of October 2026, I was travelling across countries in the European Union. My location changes.",
+      "topics": [
+        "where do you live",
+        "where are you based",
+        "home now",
+        "nomad",
+        "Southeast Asia",
+        "European Union",
+        "location"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-introduction",
+      "title": "How I introduce my work",
+      "text": "I build software and help good products get found. I keep several projects going because I like both sides of that problem.",
+      "topics": [
+        "introduce yourself",
+        "what do you do",
+        "party introduction",
+        "why so many projects",
+        "misconception"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-strength",
+      "title": "An oddly specific strength",
+      "text": "I'm good at finding the expensive, annoying step everyone treats as inevitable and asking whether it actually needs to exist.",
+      "topics": [
+        "what are you good at",
+        "strength",
+        "oddly specific",
+        "problem solving"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-favorite-food",
+      "title": "My favorite food",
+      "text": "I love Indian food. My favorite is malai kofta with tandoori roti. I would defend that choice in court, preferably over lunch.",
+      "topics": [
+        "favorite food",
+        "favourite food",
+        "what do you eat",
+        "Indian food",
+        "malai kofta",
+        "tandoori roti"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-food-boundary",
+      "title": "A food preference",
+      "text": "I don't eat red meat. I respect its right to exist, just far away from my plate.",
+      "topics": [
+        "red meat",
+        "food you refuse",
+        "diet",
+        "do you eat meat"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-books",
+      "title": "Books I like",
+      "text": "Books I like include Purple Cow by Seth Godin, Deep Work by Cal Newport, Steal Like an Artist by Austin Kleon, The 4-Hour Workweek, and The Power of Now. There are more.",
+      "topics": [
+        "favorite book",
+        "favourite book",
+        "books you like",
+        "what do you read",
+        "reading"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-music",
+      "title": "Music I return to",
+      "text": "I return to Rammstein, Metallica, Ólafur Arnalds, Lights & Motion, Krishna Das, Tara Brach, Lane 8, and Purple Disco Machine. My playlists have less strategic coherence than my product roadmap.",
+      "topics": [
+        "music",
+        "artists",
+        "favorite band",
+        "favourite band",
+        "what do you listen to",
+        "playlist"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-piano",
+      "title": "Learning piano",
+      "text": "I'm trying to learn piano whenever I find one, including the occasional piano in a mall or park. I wouldn't call myself accomplished yet.",
+      "topics": [
+        "piano",
+        "hobby",
+        "hobbies",
+        "instrument",
+        "what do you do for fun"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-pottery",
+      "title": "A hobby on my list",
+      "text": "I keep saying I'll start pottery so I can make strange coffee and tea mugs. It has been in my backlog long enough to qualify as an enterprise feature.",
+      "topics": [
+        "pottery",
+        "hobby you want to start",
+        "future hobby",
+        "mugs"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-sports",
+      "title": "Sports I follow",
+      "text": "I don't follow a sport or a team. I refuse to fake a lifelong allegiance for better small talk.",
+      "topics": [
+        "sports",
+        "sport",
+        "team you follow",
+        "favorite team",
+        "favourite team"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-animals",
+      "title": "Cats and dogs",
+      "text": "I like both cats and dogs. More animals make this world a happier place.",
+      "topics": [
+        "cats or dogs",
+        "cats",
+        "dogs",
+        "animals",
+        "pets"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-phone-free-walk",
+      "title": "A small thing that improves my day",
+      "text": "A walk without my phone makes my day better. It also means I can't check on my AI agents for a little while, which is probably healthy.",
+      "topics": [
+        "what makes your day",
+        "small joy",
+        "walk",
+        "phone free",
+        "daily habit"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-why-build",
+      "title": "Why I started building",
+      "text": "I like the moment an idea stops being a slide and does something for a real person. Building lets me use creativity and analytical thinking to bring a product or business idea to life.",
+      "topics": [
+        "why did you start building",
+        "what got you interested",
+        "why build",
+        "motivation",
+        "origin story"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-first-business",
+      "title": "My first business",
+      "text": "In grad school, I started a crowdfunding platform for artisans from developing nations who had traditionally relied on microloans. It was an early lesson that building and getting discovered are different jobs.",
+      "topics": [
+        "first business",
+        "first project",
+        "grad school",
+        "crowdfunding",
+        "artisans",
+        "microloans"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-work-joy",
+      "title": "What I enjoy about work",
+      "text": "I enjoy taking a messy problem, making something people can use, and watching where they click instead of where I hoped they'd click. That last part keeps my ego honest.",
+      "topics": [
+        "what is fun",
+        "what do you enjoy",
+        "love about work",
+        "why this work"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-shipping",
+      "title": "How I think about shipping",
+      "text": "Version one is a way to learn from reality before spending six months polishing the wrong thing. I still build it properly; I just don't confuse properly with never launching.",
+      "topics": [
+        "shipping",
+        "version one",
+        "MVP philosophy",
+        "launch philosophy",
+        "how you build"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    },
+    {
+      "id": "personal-discovery",
+      "title": "How I think about discovery",
+      "text": "A good product does not automatically come with an audience. People need a way to find it, understand it, and trust it. Search, including AI search, needs clear answers and credible evidence; it does not owe anyone a ranking.",
+      "topics": [
+        "getting discovered",
+        "discovery philosophy",
+        "why search",
+        "audience",
+        "what founders should know"
+      ],
+      "provenance": "Ankur-provided personal answers, 2026-10-01",
+      "visibility": "chatbot",
+      "approved": true
+    }
+  ]
 }
