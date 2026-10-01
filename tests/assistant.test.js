@@ -152,6 +152,20 @@ test('a short sales follow-up stays in the fit conversation', async () => {
   });
 });
 
+test('a named project question leaves an earlier sales pitch behind', async () => {
+  await withModel('I built Pepys to turn recordings into useful text.', ['pepys'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'What did you build with Pepys?', history: [
+      { role: 'user', content: 'I already have a product. Can you help me get discovered?' },
+      { role: 'assistant', content: 'I can help you get found in search. What is your site?' },
+    ] }), res);
+    assert.equal(res.statusCode, 200);
+    const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
+    assert.ok(ids.includes('pepys'));
+    assert.ok(!ids.some((id) => id.startsWith('offer-search-5') || id.startsWith('offer-search-6')));
+  });
+});
+
 test('existing product and discovery selects search facts and passes corrections to the model', async () => {
   const history = [
     { role: 'user', content: "I already have a product and I'm not getting discovered" },
