@@ -252,6 +252,14 @@ test('booking questions return the in-chat handoff without a model call', async 
   assert.deepEqual(res.body.sources, []);
 });
 
+test('asking to book opens the in-chat Cal booking experience', async () => {
+  const res = response();
+  await handler(request({ question: 'Can I book a call with you?' }), res);
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.action, 'booking');
+  assert.match(res.body.answer, /Choose a time in the calendar here/);
+});
+
 test('sales questions use the model with the relevant offer facts', async () => {
   for (const [question, expectedIds, answer, citation] of [
     ['Can you help me build my app?', ['offer-product-5', 'offer-product-6'], 'I can help scope and build a first version.', 'offer-product-6'],

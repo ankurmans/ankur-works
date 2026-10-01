@@ -24,6 +24,9 @@ const callCaptions = document.getElementById('ask-ankur-call-captions');
 const callHistory = document.getElementById('ask-ankur-call-history');
 const callHistoryLabel = document.getElementById('ask-ankur-call-history-label');
 const endCallButton = document.getElementById('ask-ankur-end-call');
+const bookingPanel = document.getElementById('ask-ankur-booking');
+const bookingBack = document.getElementById('ask-ankur-booking-back');
+const bookingStatus = document.getElementById('ask-ankur-booking-status');
 const body = document.getElementById('ask-ankur-body');
 const welcome = document.getElementById('ask-ankur-welcome');
 const messages = document.getElementById('ask-ankur-messages');
@@ -69,6 +72,7 @@ let scrollTimer = null;
 let callTurnCount = 0;
 let voiceReady = false;
 let realtimeConversation = null;
+let calEmbedStarted = false;
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
   const controller = new AbortController();
@@ -197,6 +201,56 @@ function openChat() {
   root.classList.remove('is-scrolling');
   input.focus();
 }
+function mountBookingCalendar() {
+  if (calEmbedStarted) return;
+  calEmbedStarted = true;
+  // Cal.com's official embed queue keeps the inline booking UI lazy until needed.
+  ((C, A, L) => {
+    const queue = (api, args) => api.q.push(args);
+    C.Cal = C.Cal || function calEmbed() {
+      const cal = C.Cal;
+      const args = arguments;
+      if (!cal.loaded) {
+        cal.ns = {};
+        cal.q ||= [];
+        const script = C.document.createElement('script');
+        script.src = A;
+        script.async = true;
+        script.onerror = () => { bookingStatus.textContent = 'The calendar could not load. Use the booking page link below.'; };
+        C.document.head.append(script);
+        cal.loaded = true;
+      }
+      if (args[0] === L) {
+        const api = function namespacedCal() { queue(api, arguments); };
+        api.q = [];
+        const namespace = args[1];
+        if (typeof namespace === 'string') { cal.ns[namespace] = api; queue(api, args); }
+        else queue(cal, args);
+        return;
+      }
+      queue(cal, args);
+    };
+  })(window, 'https://app.cal.com/embed/embed.js', 'init');
+  window.Cal('init', 'ankur-chat', { origin: 'https://cal.com' });
+  window.Cal.ns['ankur-chat']('inline', {
+    elementOrSelector: '#ask-ankur-cal-inline', calLink: 'ankur-kmf/30min',
+    config: { layout: 'month_view' },
+  });
+}
+function showBooking() {
+  if (voiceModeActive) endVoiceMode();
+  if (!dialog.open) openChat();
+  bookingPanel.hidden = false;
+  dialog.classList.add('is-booking');
+  bookingBack.focus();
+  mountBookingCalendar();
+}
+function backFromBooking() {
+  bookingPanel.hidden = true;
+  dialog.classList.remove('is-booking');
+  renderChat();
+  input.focus();
+}
 function stopAudio() {
   clearTimeout(resumeListeningTimer);
   resumeListeningTimer = null;
@@ -223,6 +277,8 @@ function listenAgain(message = 'Listening again in a moment…') {
 }
 function closeChat() {
   endVoiceMode();
+  bookingPanel.hidden = true;
+  dialog.classList.remove('is-booking');
   if (dialog.open) dialog.close();
 }
 function appendSources(item, sources = []) {
@@ -477,6 +533,7 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
     appendLocalUsage(reply.parentElement, data.usage);
     const playButton = appendPlayback(reply.parentElement, data.answer, data.voiceToken);
     persistMessage('assistant', data.answer, data.sources, false, chatId, data.voiceToken);
+    if (data.action === 'booking' && !spoken) showBooking();
     if (spoken && data.voiceToken) void speak(data.answer, data.voiceToken, playButton);
     else if (spoken) {
       setVoiceStatus('Voice playback is unavailable. The reply is in conversation history.', 4500);
@@ -494,7 +551,7 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
   } finally {
     busy = false;
     send.disabled = false;
-    if (!form.hidden && dialog.open && !spoken) input.focus();
+    if (!form.hidden && dialog.open && !spoken && !dialog.classList.contains('is-booking')) input.focus();
     body.scrollTop = body.scrollHeight;
   }
 }
@@ -778,6 +835,13 @@ dockCall.addEventListener('click', toggleCall);
 call.addEventListener('click', toggleCall);
 endVoiceButton.addEventListener('click', endVoiceMode);
 endCallButton.addEventListener('click', () => { endVoiceMode(); renderChat(); input.focus(); });
+bookingBack.addEventListener('click', backFromBooking);
+dialog.addEventListener('click', (event) => {
+  const link = event.target.closest?.('a[data-chat-booking]');
+  if (!link) return;
+  event.preventDefault();
+  showBooking();
+});
 close.addEventListener('click', closeChat);
 hide.addEventListener('click', closeChat);
 dialog.addEventListener('close', () => {
