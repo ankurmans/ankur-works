@@ -67,6 +67,7 @@ let activityContext = null;
 let activityInterval = null;
 let scrollTimer = null;
 let callTurnCount = 0;
+let voiceReady = false;
 
 function loadChatState() {
   try {
@@ -210,7 +211,7 @@ function listenAgain(message = 'Listening again in a moment…') {
   resumeListeningTimer = setTimeout(() => {
     resumeListeningTimer = null;
     if (voiceModeActive && dialog.open) void startRecording('call', input);
-  }, 600);
+  }, 300);
 }
 function closeChat() {
   endVoiceMode();
@@ -508,9 +509,10 @@ async function startRecording(mode, target) {
   }
   setRecordingStatus(mode, target, 'Connecting…');
   try {
-    const status = await (await fetch('/api/assistant-voice')).json();
+    const status = voiceReady ? { ready: true } : await (await fetch('/api/assistant-voice')).json();
     if (session !== voiceSession || (mode === 'call' && !dialog.open)) return;
     if (!status.ready) throw new Error('Voice is being set up. Please type your question for now.');
+    voiceReady = true;
     if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) throw new Error('This browser cannot record audio here. Please type your question.');
     let microphoneTimedOut = false;
     const microphoneRequest = navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {

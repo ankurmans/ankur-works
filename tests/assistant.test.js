@@ -228,12 +228,16 @@ test('commerce result is scoped to both brands and its two-year period', async (
   assert.deepEqual(res.body.sources, [{ title: 'Commerce brands', url: '/#work' }]);
 });
 
-test('commerce claim does not answer a per-brand or profit question', async () => {
+test('commerce claim sends per-brand and profit questions to the model with scoped evidence', async () => {
   for (const question of ['What was Amped Rides annual revenue?', 'Did the eCommerce revenue mean profit?']) {
-    const res = response();
-    await handler(request({ question }), res);
-    assert.equal(res.body.outcome, 'refused');
-    assert.deepEqual(res.body.sources, []);
+    await withModel('I shared combined revenue for both brands over two years, but not the per-brand figure or profit.', ['commerce'], async (calls) => {
+      const res = response();
+      await handler(request({ question }), res);
+      assert.equal(res.statusCode, 200);
+      assert.equal(res.body.outcome, 'answered');
+      assert.equal(calls.length, 1);
+      assert.ok(JSON.parse(calls[0].messages[1].content).SITE_CONTENT.some((record) => record.id === 'commerce'));
+    });
   }
 });
 
@@ -300,18 +304,29 @@ test('server signs its own reply for voice playback when voice is configured', a
   }
 });
 
-test('unpublished guarantees are not inferred from nearby site copy', async () => {
+test('business guarantees are refused without inventing a result', async () => {
   const res = response();
   await handler(request({ question: 'Does Ankur guarantee a result?' }), res);
   assert.equal(res.statusCode, 200);
   assert.equal(res.body.outcome, 'refused');
   assert.deepEqual(res.body.sources, []);
-  const revenue = response();
-  await handler(request({ question: 'What is Pepys revenue?' }), revenue);
-  assert.equal(revenue.body.outcome, 'refused');
-  const growth = response();
-  await handler(request({ question: 'How fast has QuoteSweep grown?' }), growth);
-  assert.equal(growth.body.outcome, 'refused');
+});
+
+test('metric words reach grounded evidence and the model', async () => {
+  for (const [question, answer, sourceId] of [
+    ['How fast has QuoteSweep grown?', 'My Search Console clicks rose from 96 in April to 988 in August 2026 for QuoteSweep.', 'offer-search-evidence'],
+    ['How many people used Pepys in September?', 'In September, 3,828 distinct users completed transcriptions in Pepys.', 'offer-search-evidence'],
+    ['What is Pepys revenue?', 'I have not shared Pepys revenue. Pepys is live and turns audio and video into useful text.', 'pepys'],
+  ]) {
+    await withModel(answer, [sourceId], async (calls) => {
+      const res = response();
+      await handler(request({ question }), res);
+      assert.equal(res.statusCode, 200, `${question}: ${res.body.error || ''}`);
+      assert.equal(res.body.answer, answer);
+      assert.equal(res.body.outcome, 'answered');
+      assert.equal(calls.length, 1);
+    });
+  }
 });
 
 test('invalid requests and untrusted origins are rejected', async () => {

@@ -11,8 +11,8 @@ test('voice turn waits for speech and does not end on initial silence or a short
   assert.equal(detector.heardSpeech(), true);
   assert.equal(detector.update(0.003, 3300), false);
   assert.equal(detector.update(0.04, 3400), false);
-  assert.equal(detector.update(0.003, 4800), false);
-  assert.equal(detector.update(0.003, 5000), true);
+  assert.equal(detector.update(0.003, 4300), false);
+  assert.equal(detector.update(0.003, 4500), true);
 });
 
 test('a brief noise burst does not count as a spoken turn', () => {
