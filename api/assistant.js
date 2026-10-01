@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v26';
+const PROMPT_VERSION = 'ankur-ai-twin-v27';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -106,9 +106,10 @@ const entityAliases = {
   commerce: ['commerce', 'ecommerce', 'e-commerce', 'ecomm', 'tough trucks', 'amped rides'],
 };
 const pepysGrowth = knowledge.find((record) => record.id === 'pepys-product-growth-2026');
+const pepysReferrals = knowledge.find((record) => record.id === 'pepys-chatgpt-referrals-2026');
 const quoteSweepProof = knowledge.find((record) => record.id === 'offer-search-evidence');
 const quoteSweepClicks = quoteSweepProof?.text.match(/Monthly clicks rose from 96 in April to 988 in August 2026\./)?.[0];
-if (!pepysGrowth || !quoteSweepClicks) throw new Error('Growth story proof is missing');
+if (!pepysGrowth || !pepysReferrals || !quoteSweepClicks) throw new Error('Growth story proof is missing');
 const growthStory = {
   id: 'growth-story', title: 'Growth from products I built', url: null,
   text: `I build products and help them get found. Pepys and QuoteSweep are my own products. ${pepysGrowth.text} QuoteSweep Search Console observation: ${quoteSweepClicks} These are separate product-use and search-discovery results; neither proves that search caused Pepys signups.`,
@@ -270,6 +271,7 @@ export default async function handler(req, res) {
   const offTopic = !TOPIC.test(contextQuestion) && !offerFacts.length && !mentionsProject && !asksForProof && otherFacts.length <= 1;
   const found = offTopic ? [] : asksWhyAnkur
     ? [growthStory]
+    : asksPepysAiTraffic ? [pepysReferrals]
     : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = relevantHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
@@ -278,7 +280,7 @@ export default async function handler(req, res) {
   const fitGuidance = asksWhyAnkur
     ? 'The visitor is asking why they should work with me. Lead with one or two concrete before-and-after results from the supplied Pepys and QuoteSweep proof. Prefer Pepys signups rising 8.2× from August to September 2026 alongside about 2.1× growth in completed transcriptions or QuoteSweep Google clicks rising from 96 in April to 988 in August 2026. Cite the matching supplied proof record. Say what those measures are; never imply search or AI referrals caused signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
     : asksPepysAiTraffic
-      ? 'Answer in two short sentences. Lead with ChatGPT-entry sessions rising from 190 in July to 1,637 in September 2026, then note the late-September pullback. These are referral sessions, not AI citations or proof that ChatGPT caused signups or revenue. Skip visitor IDs, pageviews, and landing paths unless explicitly asked.'
+      ? 'Answer in two short sentences. Start with "I tracked". Lead with ChatGPT-entry sessions rising from 190 in July to 1,637 in September 2026, then note the late-September pullback. These are referral sessions, not AI citations or proof that ChatGPT caused signups or revenue. Skip visitor IDs, pageviews, and landing paths unless explicitly asked.'
     : searchOnly
     ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${alreadyAskedForSite ? 'The previous answer already asked for the site and buyer. Do not ask for either again or repeat the offer. Acknowledge the correction, then give one concrete first diagnostic from the supplied search facts that the visitor can consider without giving you more information.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
     : offerFacts.some((record) => record.page === '/product-development/') && offerFacts.some((record) => record.page === '/seo-ai-search/')
@@ -358,6 +360,7 @@ export default async function handler(req, res) {
   } catch (error) {
     if (process.env.NODE_ENV !== 'test') console.warn('assistant_model_failure', error instanceof Error ? error.message.slice(0, 120) : 'unknown');
     if (asksWhyAnkur) return json(res, 200, outcome("I've built the products I talk about. Pepys signups grew 8.2× from August to September 2026, while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If that mix of building and getting found is what you need, book a call below.", [], 'answered', 'guard'));
+    if (asksPepysAiTraffic) return json(res, 200, outcome("I tracked ChatGPT-entry sessions to Pepys rising from 190 in July to 1,637 in September 2026. They peaked early in September, then slowed later that month. That's referral traffic, not proof of AI citations or signup attribution.", [], 'answered', 'guard'));
     return json(res, 503, { error: 'I could not check that answer right now. Please email me directly.' });
   }
 }
