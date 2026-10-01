@@ -443,13 +443,40 @@ test('a later ordinary question is not trapped by an earlier injection attempt',
 });
 
 test('unapproved personal and celebrity work is not invented', async () => {
-  for (const question of ['Tell me about the Ryan Reynolds work', 'What are your hobbies?']) {
+  for (const question of ['Tell me about the Ryan Reynolds work', 'How do I pronounce your name?']) {
     const res = response();
     await handler(request({ question }), res);
     assert.equal(res.statusCode, 200);
     assert.equal(res.body.outcome, 'refused');
     assert.deepEqual(res.body.sources, []);
   }
+});
+
+test('Ankur-provided personal answers are retrieved without unrelated site copy', async () => {
+  for (const [question, id, answer] of [
+    ["What's your favorite food?", 'personal-favorite-food', 'I love malai kofta with tandoori roti.'],
+    ['Where did you grow up?', 'personal-hometown', 'I grew up in Rajgangpur, Odisha.'],
+    ['Do you have a hobby?', 'personal-piano', "I'm trying to learn piano."],
+  ]) {
+    await withModel(answer, [id], async (calls) => {
+      const res = response();
+      await handler(request({ question }), res);
+      assert.equal(res.statusCode, 200, question);
+      assert.equal(res.body.outcome, 'answered');
+      assert.deepEqual(JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id), [id]);
+    });
+  }
+});
+
+test('an approved personal answer survives a model outage', async () => {
+  const original = global.fetch;
+  global.fetch = async () => { throw new Error('model unavailable'); };
+  try {
+    const res = response();
+    await handler(request({ question: 'Do you like malai kofta?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body.answer, /malai kofta with tandoori roti/);
+  } finally { global.fetch = original; }
 });
 
 test('server signs its own reply for voice playback when voice is configured', async () => {
