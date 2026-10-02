@@ -112,8 +112,8 @@ const pepysReferrals = knowledge.find((record) => record.id === 'pepys-chatgpt-r
 const whooshlyProduct = knowledge.find((record) => record.id === 'whooshly');
 const productProof = knowledge.find((record) => record.id === 'offer-product-proof');
 const offerPriceRecords = {
-  product: knowledge.find((record) => record.id === 'offer-product-1'),
-  search: knowledge.find((record) => record.id === 'offer-search-1'),
+  product: knowledge.find((record) => record.page === '/product-development/' && record.text.includes('Starts at $6,000/month')),
+  search: knowledge.find((record) => record.page === '/seo-ai-search/' && record.text.includes('Starts at $6,000/month')),
 };
 if (Object.values(offerPriceRecords).some((record) => !record?.text.includes('Starts at $6,000/month') || !record.text.includes('90-day minimum')))
   throw new Error('Approved offer pricing is missing from the published offer pages');
