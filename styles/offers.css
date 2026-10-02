@@ -88,7 +88,6 @@
 .proof-velocity strong{display:block;font:700 27px/.95 var(--display);letter-spacing:-.07em;color:#ffc451}
 .proof-velocity span{display:block;margin-top:5px;font-size:10px;line-height:1.3;color:#e4dcfb}
 .product-proof>a,.search-proof>a{margin-top:auto;align-self:flex-start;border-bottom:1px solid currentColor;padding-bottom:5px;font-weight:700;font-size:13px}
-.proof-disclaimer{font-size:12px;line-height:1.45;color:#716b61;margin-top:20px}
 .offer-dark{background:#242723;color:#f8f5ec;width:100%;max-width:none}
 .offer-dark .offer-section-intro h2 em{color:#d7eead}
 .offer-dark .offer-section-intro>p:last-child{color:#c9c9bd}
