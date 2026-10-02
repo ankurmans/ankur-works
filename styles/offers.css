@@ -205,6 +205,7 @@
 .product-live-head img{width:44px;height:44px;object-fit:contain}
 .product-live-screen{height:340px;overflow:hidden;background:#302b68;border:8px solid #fff8ed;border-radius:10px;box-shadow:0 14px 30px #33221e36}
 .product-live-screen img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block}
+.product-live-screen img[src$="pepys-import-sources.webp"]{object-fit:contain;object-position:center;background:#191814}
 .product-live-bottom{padding:19px 4px 0;letter-spacing:0}
 .product-live-bottom strong{font:700 32px/1 var(--display);letter-spacing:-.07em}
 .product-live-bottom span{font-size:13px}
