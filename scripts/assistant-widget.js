@@ -27,6 +27,19 @@ const endCallButton = document.getElementById('ask-ankur-end-call');
 const bookingPanel = document.getElementById('ask-ankur-booking');
 const bookingBack = document.getElementById('ask-ankur-booking-back');
 const bookingStatus = document.getElementById('ask-ankur-booking-status');
+const leadPanel = document.getElementById('ask-ankur-lead');
+const leadBack = document.getElementById('ask-ankur-lead-back');
+const leadForm = document.getElementById('ask-ankur-lead-form');
+const leadScope = document.getElementById('ask-ankur-lead-scope');
+const leadIntro = document.getElementById('ask-ankur-lead-intro');
+const leadOffer = document.getElementById('ask-ankur-lead-offer');
+const leadContext = document.getElementById('ask-ankur-lead-context');
+const leadPreview = document.getElementById('ask-ankur-lead-preview');
+const leadInclude = document.getElementById('ask-ankur-lead-include');
+const leadIncludeLabel = document.getElementById('ask-ankur-lead-include-label');
+const leadStatus = document.getElementById('ask-ankur-lead-status');
+const leadSend = document.getElementById('ask-ankur-lead-send');
+const emailChat = document.getElementById('ask-ankur-email-chat');
 const body = document.getElementById('ask-ankur-body');
 const welcome = document.getElementById('ask-ankur-welcome');
 const messages = document.getElementById('ask-ankur-messages');
@@ -73,6 +86,7 @@ let callTurnCount = 0;
 let voiceReady = false;
 let realtimeConversation = null;
 let calEmbedStarted = false;
+let leadSubmissionId = crypto.randomUUID();
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
   const controller = new AbortController();
@@ -240,6 +254,8 @@ function mountBookingCalendar() {
 function showBooking() {
   if (voiceModeActive) endVoiceMode();
   if (!dialog.open) openChat();
+  leadPanel.hidden = true;
+  dialog.classList.remove('is-lead');
   bookingPanel.hidden = false;
   dialog.classList.add('is-booking');
   bookingBack.focus();
@@ -250,6 +266,72 @@ function backFromBooking() {
   dialog.classList.remove('is-booking');
   renderChat();
   input.focus();
+}
+function recentLeadContext() {
+  return (currentChat()?.messages || []).filter((message) => !message.error)
+    .slice(-8).map(({ role, content }) => ({ role, content: content.slice(0, 600) }));
+}
+function showLeadForm() {
+  if (voiceModeActive) endVoiceMode();
+  if (!dialog.open) openChat();
+  bookingPanel.hidden = true;
+  dialog.classList.remove('is-booking');
+  if (leadForm.classList.contains('is-sent')) {
+    leadForm.classList.remove('is-sent');
+    leadScope.value = '';
+    leadStatus.textContent = '';
+    leadSend.disabled = false;
+  }
+  const context = recentLeadContext();
+  const userMessages = context.filter((message) => message.role === 'user');
+  if (!leadScope.value && userMessages.length) leadScope.value = userMessages.slice(-3).map((message) => message.content).join('\n\n').slice(0, 1800);
+  leadIntro.textContent = userMessages.length
+    ? 'I pulled your recent questions into an editable project note. Review it before sending, and choose whether to include the chat.'
+    : 'Tell me what you are working on. You can also include recent chat messages for context.';
+  leadOffer.value = page === '/product-development/' ? 'product_development' : page === '/seo-ai-search/' ? 'seo_ai_search' : 'exploring';
+  leadContext.textContent = context.map((message) => `${message.role === 'user' ? 'You' : 'AI Twin'}: ${message.content}`).join('\n\n');
+  leadPreview.hidden = !context.length;
+  leadIncludeLabel.hidden = !context.length;
+  leadInclude.disabled = !context.length;
+  leadInclude.checked = Boolean(context.length);
+  leadPanel.hidden = false;
+  dialog.classList.add('is-lead');
+  document.getElementById('ask-ankur-lead-name').focus();
+}
+function backFromLead() {
+  leadPanel.hidden = true;
+  dialog.classList.remove('is-lead');
+  renderChat();
+  input.focus();
+}
+async function sendLead(event) {
+  event.preventDefault();
+  if (!leadForm.reportValidity() || leadSend.disabled) return;
+  leadSend.disabled = true;
+  leadStatus.textContent = 'Sending your note…';
+  const fields = new FormData(leadForm);
+  const payload = Object.fromEntries(['name', 'email', 'website', 'brief', 'companyFax'].map((key) => [key, String(fields.get(key) || '')]));
+  Object.assign(payload, { offer: leadOffer.value, source: 'chat', page: window.location.pathname,
+    conversationId: currentChat()?.id, submissionId: leadSubmissionId,
+    context: leadInclude.checked ? recentLeadContext() : [] });
+  const attribution = new URLSearchParams(window.location.search);
+  for (const key of ['utm_source', 'utm_medium', 'utm_campaign']) payload[key] = attribution.get(key) || '';
+  try {
+    const response = await fetchWithTimeout('/api/offer-inquiry', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    }, 20000);
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error || 'Your note could not be sent. Please try again.');
+    leadForm.classList.add('is-sent');
+    leadStatus.textContent = result.confirmationSent
+      ? 'Sent. I have your project note, and a confirmation is on its way to your inbox.'
+      : 'Sent. I have your project note, but I could not confirm by email right now.';
+    leadSubmissionId = crypto.randomUUID();
+  } catch (error) {
+    leadStatus.textContent = error instanceof Error && error.name !== 'AbortError'
+      ? error.message : 'The connection timed out. Please try again or use the email link below.';
+    leadSend.disabled = false;
+  }
 }
 function stopAudio() {
   clearTimeout(resumeListeningTimer);
@@ -279,6 +361,8 @@ function closeChat() {
   endVoiceMode();
   bookingPanel.hidden = true;
   dialog.classList.remove('is-booking');
+  leadPanel.hidden = true;
+  dialog.classList.remove('is-lead');
   if (dialog.open) dialog.close();
 }
 function appendSources(item, sources = []) {
@@ -534,6 +618,7 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
     const playButton = appendPlayback(reply.parentElement, data.answer, data.voiceToken);
     persistMessage('assistant', data.answer, data.sources, false, chatId, data.voiceToken);
     if (data.action === 'booking' && !spoken) showBooking();
+    if (data.action === 'email' && !spoken) showLeadForm();
     if (spoken && data.voiceToken) void speak(data.answer, data.voiceToken, playButton);
     else if (spoken) {
       setVoiceStatus('Voice playback is unavailable. The reply is in conversation history.', 4500);
@@ -845,6 +930,9 @@ call.addEventListener('click', toggleCall);
 endVoiceButton.addEventListener('click', endVoiceMode);
 endCallButton.addEventListener('click', () => { endVoiceMode(); renderChat(); input.focus(); });
 bookingBack.addEventListener('click', backFromBooking);
+leadBack.addEventListener('click', backFromLead);
+emailChat.addEventListener('click', showLeadForm);
+leadForm.addEventListener('submit', sendLead);
 dialog.addEventListener('click', (event) => {
   const link = event.target.closest?.('a[data-chat-booking]');
   if (!link) return;
