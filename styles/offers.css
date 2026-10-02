@@ -148,12 +148,12 @@
 .ai-referral-chart{max-width:650px;margin:24px 0 0;padding:17px 18px 14px;border:1px solid #c5b8d4;border-radius:13px;background:#faf7ff}
 .ai-referral-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;font:700 10px var(--display);letter-spacing:.065em}
 .ai-referral-heading strong{color:#643e9d;white-space:nowrap}
-.ai-referral-bars{height:165px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:16px;padding:20px 7px 0;border-bottom:1px solid #c5b8d4}
-.ai-referral-bars div{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px}
-.ai-referral-bars b{font:700 13px var(--display);color:#422765}
-.ai-referral-bars i{display:block;width:min(100%,105px);height:calc(111px * var(--bar));min-height:10px;border-radius:7px 7px 0 0;background:#8062b0}
+.ai-referral-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:20px 7px 0}
+.ai-referral-bars div{position:relative;min-width:0;height:165px}
+.ai-referral-bars b{position:absolute;right:0;bottom:calc(33px + 111px * var(--bar));left:0;text-align:center;font:700 13px var(--display);color:#422765}
+.ai-referral-bars i{position:absolute;bottom:28px;left:50%;display:block;width:min(100%,105px);height:calc(111px * var(--bar));min-height:10px;transform:translateX(-50%);border-radius:7px 7px 0 0;background:#8062b0}
 .ai-referral-bars div:last-child i{background:#ef704b}
-.ai-referral-bars span{font:700 10px var(--display);letter-spacing:.08em;padding-bottom:4px;color:#62566e}
+.ai-referral-bars span{box-sizing:border-box;position:absolute;right:0;bottom:0;left:0;height:28px;border-top:1px solid #c5b8d4;padding-top:7px;text-align:center;font:700 10px var(--display);letter-spacing:.08em;color:#62566e}
 .ai-referral-chart figcaption{margin-top:10px;font-size:11px;line-height:1.35;color:#62566e}
 .proof-extra{margin-top:18px;padding-top:17px;border-top:1px solid #b8c8b6;font-size:15px;line-height:1.45;font-weight:700}
 .search-work-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
