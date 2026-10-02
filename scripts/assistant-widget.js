@@ -88,6 +88,19 @@ let realtimeConversation = null;
 let calEmbedStarted = false;
 let leadSubmissionId = crypto.randomUUID();
 
+function resizeComposer(field) {
+  field.style.height = 'auto';
+  const styles = getComputedStyle(field);
+  const naturalHeight = field.scrollHeight;
+  const maxHeight = parseFloat(styles.maxHeight);
+  field.style.height = `${Math.min(naturalHeight, maxHeight)}px`;
+  field.style.overflowY = naturalHeight > maxHeight ? 'auto' : 'hidden';
+  if (field === dockInput) {
+    const oneLineHeight = Math.max(parseFloat(styles.minHeight), parseFloat(styles.lineHeight) + parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom));
+    dock.classList.toggle('is-expanded', Boolean(field.value) && naturalHeight > oneLineHeight + 2);
+  }
+}
+
 async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -594,6 +607,8 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
   welcome.hidden = true;
   input.value = '';
   dockInput.value = '';
+  resizeComposer(input);
+  resizeComposer(dockInput);
   stopAudio();
   addMessage(question, 'user');
   persistMessage('user', question, [], false, chatId);
@@ -626,7 +641,10 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
     }
   } catch (error) {
     reply.textContent = error instanceof Error ? error.message : "I can't answer right now. You can email me directly.";
-    if (!spoken) input.value = question;
+    if (!spoken) {
+      input.value = question;
+      resizeComposer(input);
+    }
     persistMessage('assistant', reply.textContent, [], true, chatId);
     if (voiceModeActive && spoken) addCallHistory('assistant', reply.textContent);
     if (spoken) {
@@ -865,12 +883,14 @@ async function startRecording(mode, target) {
         if (session !== voiceSession || (mode === 'call' ? !voiceModeActive || !dialog.open : recordingMode !== 'dictation')) return;
         if (mode === 'call') {
           input.value = data.text;
+          resizeComposer(input);
           setVoiceStatus('Got it. One sec…');
           await ask(data.text, true);
         } else {
           const transcript = data.text?.trim();
           if (!transcript) throw new Error('I could not hear that. Please try again.');
           target.value = [target.value.trim(), transcript].filter(Boolean).join(' ');
+          resizeComposer(target);
           target.dataset.dictated = 'true';
           target.focus();
           recordingMode = null;
@@ -922,6 +942,16 @@ function onScroll() {
 }
 
 if (!currentChat()) createChat();
+for (const field of [dockInput, input]) {
+  field.addEventListener('input', () => resizeComposer(field));
+  field.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+      event.preventDefault();
+      field.form.requestSubmit();
+    }
+  });
+  resizeComposer(field);
+}
 dock.addEventListener('submit', (event) => { event.preventDefault(); const question = dockInput.value.trim(); const channel = dockInput.dataset.dictated === 'true' ? 'dictation' : 'chat'; delete dockInput.dataset.dictated; openChat(); if (question) ask(question, false, channel); });
 dockVoice.addEventListener('click', () => toggleDictation(dockInput));
 voice.addEventListener('click', () => toggleDictation(input));
