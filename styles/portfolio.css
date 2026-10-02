@@ -205,8 +205,8 @@
 /* Put the two ways to work together and their owned-product proof in the first screen. */
 .hero{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);align-items:center;gap:36px;min-height:690px;padding:82px 0 88px;overflow:visible}
 .hero-copy{min-width:0}
-.hero h1{font-size:clamp(50px,5.2vw,76px);line-height:.98;letter-spacing:-.083em;white-space:normal;margin:27px 0 25px}
-.hero h1 em{color:var(--ink)}
+.hero h1{font-size:clamp(66px,6.2vw,90px);line-height:.94;letter-spacing:-.09em;white-space:normal;margin:27px 0 28px}
+.hero h1 em{color:#a43d25}
 .hero .lede{max-width:620px;font-size:19px}
 .hero-actions{gap:21px;flex-wrap:wrap;margin-top:29px}
 .hero-actions .button{gap:18px}
@@ -229,11 +229,11 @@
 .hero-proof-search>span{font:700 17px/1.12 var(--display)}
 .hero-proof-search>small{font:700 9px/1.25 var(--display);margin-top:auto}
 .offers-home{padding-top:44px}
-@media(max-width:1100px){.hero{display:block;min-height:0}.hero h1{font-size:clamp(50px,7vw,76px)}.hero-proof{width:min(100%,600px);height:460px;margin:50px auto 0}}
+@media(max-width:1100px){.hero{display:block;min-height:0}.hero h1{font-size:clamp(60px,8vw,88px)}.hero-proof{width:min(100%,600px);height:460px;margin:50px auto 0}}
 @media(max-width:760px){
   .hero{padding:48px 0 38px}
   .hero-intro .hero-eyebrow{font-size:10px}
-  .hero h1{font-size:clamp(35px,7.7vw,52px);line-height:1.02;letter-spacing:-.08em;white-space:normal;margin:22px 0}
+  .hero h1{font-size:clamp(45px,11.5vw,64px);line-height:.98;letter-spacing:-.09em;white-space:normal;margin:22px 0}
   .hero h1 br{display:block}
   .hero .lede{font-size:17px;line-height:1.48}
   .hero-actions{display:flex;align-items:flex-start;gap:12px;margin-top:25px}
@@ -241,4 +241,4 @@
   .hero-proof{display:none}
   .offers-home{padding:34px 0 60px}
 }
-@media(max-width:390px){.hero h1{font-size:clamp(31px,8.7vw,35px)}.hero-actions .button{font-size:13px}}
+@media(max-width:390px){.hero h1{font-size:clamp(43px,12.8vw,50px)}.hero-actions .button{font-size:13px}}
