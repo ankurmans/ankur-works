@@ -209,7 +209,7 @@
 .hero h1 em{color:var(--ink)}
 .hero .lede{max-width:620px;font-size:19px}
 .hero-actions{gap:21px;flex-wrap:wrap;margin-top:29px}
-.hero-actions .button{gap:18px;background:#171715}
+.hero-actions .button{gap:18px}
 .hero-actions .underlink{min-height:44px;display:inline-flex;align-items:center}
 .hero-work-link{display:inline-block;margin-top:20px;color:#6a655c;font-size:13px;font-weight:700;border-bottom:1px solid #aaa397;padding-bottom:3px}
 .hero-work-link:hover{color:var(--orange)}
