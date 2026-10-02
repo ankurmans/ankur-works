@@ -60,10 +60,26 @@
 .ask-ankur__call-portrait img{width:124px;height:124px;border-radius:50%;object-fit:cover}
 .ask-ankur__call-screen h2{margin:0;color:var(--ink);font:700 clamp(24px,4vw,31px)/1.15 var(--display)}
 .ask-ankur__call-intro{max-width:390px;margin:7px 0 0;color:#655d55;font:13px/1.45 var(--body)}
-.ask-ankur__call-wave{display:flex;align-items:center;justify-content:center;gap:4px;height:38px;margin-top:12px}
-.ask-ankur__call-wave i{width:4px;height:8px;border-radius:5px;background:var(--orange);opacity:.58;transition:height .2s ease}
-.ask-ankur__call-screen[data-phase="listening"] .ask-ankur__call-wave i,.ask-ankur__call-screen[data-phase="speaking"] .ask-ankur__call-wave i{animation:ask-call-wave .85s ease-in-out infinite alternate}
-.ask-ankur__call-wave i:nth-child(3n+1){animation-delay:-.55s}.ask-ankur__call-wave i:nth-child(3n+2){animation-delay:-.28s}
+.ask-ankur__call-wave{display:flex;align-items:center;justify-content:center;gap:3px;height:42px;margin-top:12px}
+.ask-ankur__call-wave i{width:4px;height:var(--bar-height);border-radius:999px;background:var(--orange);opacity:.72;transform-origin:center;animation-delay:var(--offset);animation-duration:var(--pace);animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-direction:alternate}
+.ask-ankur__call-wave i:nth-child(1){--bar-height:6px;--pace:1.12s;--offset:-.4s}
+.ask-ankur__call-wave i:nth-child(2){--bar-height:11px;--pace:.86s;--offset:-.7s}
+.ask-ankur__call-wave i:nth-child(3){--bar-height:18px;--pace:1.2s;--offset:-.2s}
+.ask-ankur__call-wave i:nth-child(4){--bar-height:10px;--pace:.94s;--offset:-.8s}
+.ask-ankur__call-wave i:nth-child(5){--bar-height:23px;--pace:1.08s;--offset:-.3s}
+.ask-ankur__call-wave i:nth-child(6){--bar-height:15px;--pace:.8s;--offset:-.6s}
+.ask-ankur__call-wave i:nth-child(7){--bar-height:28px;--pace:1.16s;--offset:-.1s}
+.ask-ankur__call-wave i:nth-child(8){--bar-height:19px;--pace:.9s;--offset:-.7s}
+.ask-ankur__call-wave i:nth-child(9){--bar-height:31px;--pace:1.02s;--offset:-.4s}
+.ask-ankur__call-wave i:nth-child(10){--bar-height:14px;--pace:1.22s;--offset:-.2s}
+.ask-ankur__call-wave i:nth-child(11){--bar-height:26px;--pace:.84s;--offset:-.6s}
+.ask-ankur__call-wave i:nth-child(12){--bar-height:17px;--pace:1.1s;--offset:-.3s}
+.ask-ankur__call-wave i:nth-child(13){--bar-height:21px;--pace:.98s;--offset:-.8s}
+.ask-ankur__call-wave i:nth-child(14){--bar-height:10px;--pace:1.18s;--offset:-.2s}
+.ask-ankur__call-wave i:nth-child(15){--bar-height:6px;--pace:.92s;--offset:-.5s}
+.ask-ankur__call-screen[data-phase="listening"] .ask-ankur__call-wave i{animation-name:ask-call-listen}
+.ask-ankur__call-screen[data-phase="speaking"] .ask-ankur__call-wave i{animation-name:ask-call-speak;opacity:1}
+.ask-ankur__call-screen[data-phase="thinking"] .ask-ankur__call-wave i,.ask-ankur__call-screen[data-phase="connecting"] .ask-ankur__call-wave i{opacity:.48}
 .ask-ankur__call-status{min-height:20px;margin:0;color:#54483f;font:700 13px/1.4 var(--display)}
 .ask-ankur__call-captions{width:min(100%,430px);margin-top:12px;text-align:left}
 .ask-ankur__call-captions summary{width:max-content;margin:auto;padding:7px 12px;border:1px solid #e0d0c1;border-radius:999px;background:#fffaf2dd;color:#62574f;font:700 11px var(--display);cursor:pointer;list-style:none}
@@ -79,7 +95,8 @@
 .ask-ankur__end-call:hover{background:#95291c}
 .ask-ankur__call-after{display:grid;gap:7px;justify-items:center;margin:9px 0 0;color:#766b60;font:11px/1.3 var(--body)}
 .ask-ankur__call-after a{color:var(--ink);font:700 12px var(--display);text-underline-offset:3px}
-@keyframes ask-call-wave{from{height:7px;opacity:.55}to{height:28px;opacity:1}}
+@keyframes ask-call-listen{from{transform:scaleY(.58)}to{transform:scaleY(1.05)}}
+@keyframes ask-call-speak{from{transform:scaleY(.65)}to{transform:scaleY(1.3)}}
 .ask-ankur__body{flex:1;min-height:0;overflow-y:auto;padding:22px clamp(17px,4vw,35px);scrollbar-color:#c1b7a8 transparent}
 .ask-ankur__welcome p{margin:0 0 20px;font:500 16px/1.5 var(--body);color:#4c4840}
 .ask-ankur__welcome .ask-ankur__voice-hint{margin:-9px 0 17px;color:#71685f;font:12px/1.4 var(--body)}
