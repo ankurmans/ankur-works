@@ -31,7 +31,9 @@ for (const form of document.querySelectorAll('.offer-inquiry-form')) {
       const result = await response.json().catch(() => ({}));
       if (!response.ok || !result.ok) throw new Error(result.error || 'The form could not send your note. Please use the email link below.');
       form.classList.add('is-sent');
-      status.textContent = 'Got it. I’ll read your note and reply by email. If you’d rather talk, book a call below.';
+      status.textContent = result.confirmationSent
+        ? 'Got it. A confirmation is on its way to your inbox. I’ll read your note and reply personally.'
+        : 'Got it. I’ll read your note and reply personally. I could not send a confirmation email just now.';
       const link = document.createElement('a');
       link.href = 'https://cal.com/ankur-kmf/30min';
       link.target = '_blank';

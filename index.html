@@ -63,6 +63,23 @@
     <div class="ask-ankur__booking-calendar" id="ask-ankur-cal-inline"></div>
     <p class="ask-ankur__booking-fallback">Calendar not loading? <a href="https://cal.com/ankur-kmf/30min" target="_blank" rel="noopener noreferrer">Open my booking page</a>.</p>
   </section>
+  <section class="ask-ankur__lead" id="ask-ankur-lead" aria-label="Email Ankur from this chat" hidden>
+    <div class="ask-ankur__booking-head"><button type="button" id="ask-ankur-lead-back">Back to chat</button><strong>Send me your project note</strong></div>
+    <p id="ask-ankur-lead-intro">Review your project note before sending. You can include the recent conversation for context.</p>
+    <form id="ask-ankur-lead-form">
+      <label for="ask-ankur-lead-name">Your name<input id="ask-ankur-lead-name" name="name" autocomplete="name" maxlength="80" required></label>
+      <label for="ask-ankur-lead-email">Your email<input id="ask-ankur-lead-email" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+      <label for="ask-ankur-lead-website">Product or site URL (optional)<input id="ask-ankur-lead-website" name="website" type="url" inputmode="url" placeholder="https://" maxlength="300"></label>
+      <label for="ask-ankur-lead-offer">What do you need help with?<select id="ask-ankur-lead-offer" name="offer"><option value="exploring">Let's figure it out</option><option value="product_development">Product development</option><option value="seo_ai_search">Search-led GTM</option></select></label>
+      <label for="ask-ankur-lead-scope">What are you working on?<textarea id="ask-ankur-lead-scope" name="brief" minlength="12" maxlength="1800" rows="4" required></textarea></label>
+      <label class="ask-ankur__lead-include" id="ask-ankur-lead-include-label"><input id="ask-ankur-lead-include" type="checkbox" checked> Include recent chat messages in my email</label>
+      <details id="ask-ankur-lead-preview"><summary>Review chat context</summary><pre id="ask-ankur-lead-context"></pre></details>
+      <label class="sr-only" for="ask-ankur-lead-fax">Company fax<input id="ask-ankur-lead-fax" name="companyFax" tabindex="-1" autocomplete="off"></label>
+      <button type="submit" id="ask-ankur-lead-send">Email my note to Ankur</button>
+      <p id="ask-ankur-lead-status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="ask-ankur__booking-fallback">Prefer your email app? <a href="mailto:ankur@kmfv.cc">Write to me directly</a>.</p>
+  </section>
   <div class="ask-ankur__body" id="ask-ankur-body">
     <div class="ask-ankur__welcome" id="ask-ankur-welcome">
       <p>Ask me what I've built, how I work, or what we could build together. My AI Twin answers from this site.</p><p class="ask-ankur__voice-hint">Mic fills the text box. Phone starts a live conversation.</p>
@@ -83,6 +100,6 @@
     <button type="submit" id="ask-ankur-send" aria-label="Send question"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </form>
   <div class="ask-ankur__voice-controls" id="ask-ankur-voice-controls" hidden><span id="ask-ankur-voice-status" role="status" aria-live="polite"></span><button type="button" id="ask-ankur-end-voice" hidden>End voice</button></div>
-  <div class="ask-ankur__foot"><span><a href="https://cal.com/ankur-kmf/30min" data-chat-booking>Book a 30-minute call</a> · <a href="mailto:ankur@kmfv.cc">Email Ankur</a></span><small>Mic to type · Phone to talk. I may review chat and call transcripts. This site doesn't keep raw audio.</small><div class="ask-ankur__actions"><button type="button" id="ask-ankur-show-history" aria-expanded="false" aria-controls="ask-ankur-history">History</button><button type="button" id="ask-ankur-new-chat">New chat</button><button type="button" id="ask-ankur-hide">Minimize</button></div></div>
+  <div class="ask-ankur__foot"><span><a href="https://cal.com/ankur-kmf/30min" data-chat-booking>Book a 30-minute call</a> · <button type="button" id="ask-ankur-email-chat">Email this chat</button></span><small>Mic to type · Phone to talk. I may review chat and call transcripts. This site doesn't keep raw audio.</small><div class="ask-ankur__actions"><button type="button" id="ask-ankur-show-history" aria-expanded="false" aria-controls="ask-ankur-history">History</button><button type="button" id="ask-ankur-new-chat">New chat</button><button type="button" id="ask-ankur-hide">Minimize</button></div></div>
 </dialog>
 <script type="module" src="/scripts/contributions.js"></script><script type="module" src="/scripts/offer-intent.js"></script><script type="module" src="/scripts/assistant-widget.js"></script></body></html>

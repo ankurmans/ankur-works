@@ -279,6 +279,9 @@ export default async function handler(req, res) {
     || /\b(?:have|set up|arrange)\s+(?:a\s+)?call\b/i.test(question)
     || /\bcan\s+we\s+(?:call|talk)\b/i.test(question))
     return json(res, 200, { ...outcome("Of course. Choose a time in the calendar here, and you'll book directly with me.", [], 'answered'), action: 'booking' });
+  if (/\b(?:email|send)\b.{0,35}\b(?:you|ankur|this|chat|conversation|brief|scope|project)\b/i.test(question)
+    || /\b(?:send|share)\s+(?:my|our|the)\s+(?:project|brief|scope)\b/i.test(question))
+    return json(res, 200, { ...outcome("Yes. You can review what you've shared and email me the project note from this chat.", [], 'answered'), action: 'email' });
   if (UNAPPROVED_STORY.test(question) && !knowledge.some((record) => record.id.startsWith('personal-') && record.topics?.some((topic) => hasPhrase(question, topic))))
     return json(res, 200, outcome("I haven't shared that story here yet. Ask me directly using the links below – I'd rather tell it properly than make something up.", [], 'refused'));
   if (PERSONAL.test(question) && !WHY_ANKUR.test(question)) return json(res, 200, outcome('You can book a 30-minute call with me using the link below, or email me directly.', [], 'refused'));

@@ -268,6 +268,14 @@ test('asking to book opens the in-chat Cal booking experience', async () => {
   assert.match(res.body.answer, /Choose a time in the calendar here/);
 });
 
+test('asking to email a project opens the in-chat inquiry form', async () => {
+  const res = response();
+  await handler(request({ question: 'Can I email you this project scope?' }), res);
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.action, 'email');
+  assert.match(res.body.answer, /review what you've shared/);
+});
+
 test('sales questions use the model with the relevant offer facts', async () => {
   for (const [question, expectedIds, answer, citation] of [
     ['Can you help me build my app?', ['offer-product-5', 'offer-product-6'], 'I can help scope and build a first version.', 'offer-product-6'],
