@@ -32,6 +32,12 @@ test('the shared AI Twin mounts once on a static offer page', () => {
   assert.match(mounted, /scripts\/assistant-widget\.js/);
   assert.match(mounted, /id="ask-ankur"/);
   assert.equal(mountAssistantOnOfferPage(mounted, portfolio), mounted);
+  for (const path of ['product-development/index.html', 'seo-ai-search/index.html']) {
+    const source = readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+    assert.match(source, /<script type="module" src="\/scripts\/assistant-widget\.js"><\/script>/);
+    const withWidget = mountAssistantOnOfferPage(source, portfolio);
+    assert.equal((withWidget.match(/src="\/scripts\/assistant-widget\.js"/g) || []).length, 1);
+  }
 });
 
 test('portfolio and chat controls use stable icons instead of emoji-prone glyphs', () => {
