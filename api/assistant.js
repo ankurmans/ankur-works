@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v32';
+const PROMPT_VERSION = 'ankur-ai-twin-v33';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -15,12 +15,13 @@ const PRICING = /\b(?:price|pricing|rates?|cost|budget|fees?|how much)\b|\$6(?:,
 const WHY_ANKUR = /\b(?:why (?:should|would) (?:i|we) (?:work with|hire)|what (?:have you|has ankur) (?:achieved|delivered)|why (?:you|ankur))\b/i;
 const GUARANTEE_REQUEST = /\b(?:guarantee|guaranteed|promise|promised)\b/i;
 const INJECTION = /(?:ignore|disregard|override|reveal|print|show|repeat|bypass|forget|encode|decode).{0,70}(?:prompt|instructions?|rules?|system|developer|above|previous|safety)|(?:act as|pretend to be|you are now|new system prompt|roleplay as).{0,55}(?:unrestricted|uncensored|developer|system|another ai|different assistant)|\b(?:jailbreak|developer mode|api key|secret key|system prompt|hidden instructions|do anything now|DAN mode)\b|<\|im_start\|>\s*system/i;
-const TOPIC = /\b(?:ankur|site|portfolio|project|product|build|builder|pepys|whooshly|quotesweep|linnet|twinsona|software|brand|commerce|code|search|seo|geo|aeo|chatgpt|perplexity|citation|referral|traffic|mvp|offer|service|consulting)\b/i;
+const TOPIC = /\b(?:ankur|site|portfolio|project|product|build|builder|pepys|whooshly|quotesweep|linnet|twinsona|software|brand|branding|mascot|character|animation|film|commerce|code|search|seo|geo|aeo|chatgpt|perplexity|citation|referral|traffic|mvp|offer|service|consulting)\b/i;
 const SENSITIVE_OFF_TOPIC = /\b(?:suicid\w*|self.harm|overdose|chest pain|medical advice|diagnos\w*|legal advice|lawsuit|invest(?:ment|ing)? advice|stock tip|tax advice)\b/i;
 const UNAPPROVED_STORY = /\b(?:ryan reynolds|hobb(?:y|ies)|family|spouse|partner|children|where (?:do you|does ankur) live|where (?:were you|was ankur) born|pronounc\w*|pronunc\w*)\b/i;
 const SALES_INTENT = /\b(?:which (?:service|offer|product)|right (?:service|offer|product)|what (?:do you|does ankur) do|what can you (?:do|help)|what (?:kind of )?(?:products?|apps?|websites?) can you build|can you (?:help|build)|could you (?:help|build)|help (?:me|us|our)|do you (?:offer|do)|need (?:help|someone)|looking for (?:help|someone)|hire (?:you|ankur)|your services?|your offers?|work with you|build (?:my|our) (?:app|product|site|website)|improve (?:my|our) (?:seo|search|visibility))\b/i;
 const PRODUCT_NEED = /\b(?:build|develop|ship|shipping|prototype|rebuild|full[ -]?stack|mvp|product development|software development)\b/i;
 const SEARCH_NEED = /\b(?:seo|ai search|ai overviews|chatgpt|perplexity|search visibility|search|aeo|geo|rank|citation|content|traffic|discover(?:ed|y|ability)?|found|google)\b/i;
+const CHARACTER_NEED = /\b(?:mascots?|brand characters?|character[- ]led marketing|character design|animated (?:mascot|character)|brand avatars?|product avatars?|short films?|launch films?|recurring (?:content|characters?)|brand storytelling)\b/i;
 const EXISTING_PRODUCT = /\b(?:already have|have an?|existing|live|launched|built)\b.{0,45}\b(?:product|app|software|website|site)\b/i;
 const DISCOVERY_PROBLEM = /\b(?:not|can't|cannot|struggl\w*|need(?: help| to)?)\b.{0,45}\b(?:get(?:ting)? (?:found|discovered)|discover(?:ed|y|ability)?|visibility|search|find)\b|\b(?:nobody|no one|buyers|customers)\b.{0,45}\b(?:find|finds|finding|discover)\b/i;
 const localStore = new Map();
@@ -65,6 +66,7 @@ function offerContext(question, history, page) {
   const namedProject = /\b(?:pepys|whooshly|quotesweep|twinsona|linnet|commerce|ecommerce|tough trucks|amped rides)\b/i.test(question);
   const inFitConversation = SALES_INTENT.test(recentUser) && question.length < 80 && !namedProject;
   const isOfferQuestion = SALES_INTENT.test(question) || DISCOVERY_PROBLEM.test(question)
+    || CHARACTER_NEED.test(question)
     || (EXISTING_PRODUCT.test(question) && SEARCH_NEED.test(question))
     || (PRODUCT_NEED.test(question) && /\b(?:how|start|first|scope|approach)\b/i.test(question)) || inFitConversation
     || (page && /\b(?:how|what|start|measure|approach|work|help)\b/i.test(question));
@@ -73,8 +75,13 @@ function offerContext(question, history, page) {
   const existingProduct = EXISTING_PRODUCT.test(context);
   const search = SEARCH_NEED.test(context) || DISCOVERY_PROBLEM.test(context) || page === '/seo-ai-search/';
   const product = PRODUCT_NEED.test(context) || page === '/product-development/';
-  const focus = search && (existingProduct || !product) ? ['search'] : product && !search ? ['product'] : ['product', 'search'];
-  const ids = focus.flatMap((offer) => [`offer-${offer}-5`, `offer-${offer}-6`]);
+  const character = CHARACTER_NEED.test(context) || page === '/mascot-branding/';
+  const comparingCharacterAndSearch = character && search && /\b(?:or|both|which|compare)\b/i.test(question);
+  const focus = comparingCharacterAndSearch ? ['character', 'search'] : character ? ['character']
+    : search && (existingProduct || !product) ? ['search'] : product && !search ? ['product'] : ['product', 'search', 'character'];
+  const ids = focus.flatMap((offer) => offer === 'character'
+    ? ['offer-character-1', 'offer-character-characters', 'offer-character-5']
+    : [`offer-${offer}-5`, `offer-${offer}-6`]);
   return knowledge.filter((record) => ids.includes(record.id));
 }
 function allowedOrigin(req) {
@@ -249,7 +256,7 @@ export default async function handler(req, res) {
   catch { return json(res, 400, { error: 'That request was not valid JSON.' }); }
   const question = typeof body?.question === 'string' ? body.question.trim() : '';
   const section = typeof body?.section === 'string' && /^(?:top|work|story|contact)$/.test(body.section) ? body.section : '';
-  const page = typeof body?.page === 'string' && ['/product-development/', '/seo-ai-search/'].includes(body.page) ? body.page : '';
+  const page = typeof body?.page === 'string' && ['/product-development/', '/seo-ai-search/', '/mascot-branding/'].includes(body.page) ? body.page : '';
   if (!validQuestion(question)) return json(res, 400, { error: 'Ask a shorter question.' });
   const history = Array.isArray(body?.history) ? body.history : [];
   if (history.length > 4 || history.some((turn) => !turn || !['user', 'assistant'].includes(turn.role) || typeof turn.content !== 'string' || turn.content.length > 600))
@@ -266,13 +273,21 @@ export default async function handler(req, res) {
   if (PRICING.test(question) && !/\b(?:what did|did you|your brands?|pepys|whooshly|quotesweep|tough trucks|amped rides)\b/i.test(question)) {
     const askedSearch = SEARCH_NEED.test(question);
     const askedProduct = PRODUCT_NEED.test(question);
+    const askedCharacter = CHARACTER_NEED.test(question);
     const recentUser = relevantHistory.filter((turn) => turn.role === 'user').at(-1)?.content || '';
     const search = askedSearch || (!askedProduct && (SEARCH_NEED.test(recentUser) || page === '/seo-ai-search/'));
     const product = askedProduct || (!askedSearch && (PRODUCT_NEED.test(recentUser) || page === '/product-development/'));
+    const character = askedCharacter || (!askedSearch && !askedProduct && (CHARACTER_NEED.test(recentUser) || page === '/mascot-branding/'));
+    const characterSource = knowledge.find((record) => record.id === 'offer-character-1');
+    if (character && !askedSearch && !askedProduct) return json(res, 200, outcome(
+      "I don't have a fixed public price for character-led marketing. I'd scope the character, animation, assets and usage rights with you first.",
+      characterSource ? [{ title: characterSource.title, url: characterSource.url }] : []));
     const name = search && !product ? 'Search-led GTM' : product && !search ? 'Product Development Sprint' : 'Both Product Development Sprint and Search-led GTM';
     const sources = (search && !product ? [offerPriceRecords.search] : product && !search ? [offerPriceRecords.product] : Object.values(offerPriceRecords))
       .map(({ title, url }) => ({ title, url }));
-    return json(res, 200, outcome(`${name} ${search && !product || product && !search ? 'starts' : 'start'} at $6,000 per month with a 90-day minimum. I'll agree the exact scope with you before we start.`, sources));
+    const characterNote = !askedSearch && !askedProduct && characterSource
+      ? ' Character-led marketing is scoped separately and has no published fixed price.' : '';
+    return json(res, 200, outcome(`${name} ${search && !product || product && !search ? 'starts' : 'start'} at $6,000 per month with a 90-day minimum. I'll agree the exact scope with you before we start.${characterNote}`, sources));
   }
   if (/\b(?:book|booking|schedule|meeting|calendar)\b/i.test(question)
     || /\b(?:call|talk)\s+(?:with|to)\s+(?:you|ankur)\b/i.test(question)
@@ -293,6 +308,7 @@ export default async function handler(req, res) {
   const offerFacts = offerContext(question, relevantHistory, page);
   const asksForProof = /\b(?:result|metric|proof|case study|growth|grew|clicks|impressions|revenue)\b/i.test(question);
   const asksWhyAnkur = WHY_ANKUR.test(question);
+  const asksCharacterProof = asksWhyAnkur && CHARACTER_NEED.test(question);
   const asksProductProof = asksWhyAnkur && PRODUCT_NEED.test(question) && !SEARCH_NEED.test(question);
   const asksPepysAiTraffic = /\bpepys\b/i.test(question) && /\b(?:chatgpt|ai)\b/i.test(question)
     && /\b(?:referrals?|traffic|sessions?|growth|grew)\b/i.test(question);
@@ -308,6 +324,8 @@ export default async function handler(req, res) {
     ? [personalMatch]
     : asksProductProof
     ? [whooshlyProduct, productProof]
+    : asksCharacterProof
+    ? knowledge.filter((record) => ['offer-character-1', 'offer-character-characters'].includes(record.id))
     : asksWhyAnkur
     ? [growthStory]
     : asksPepysAiTraffic ? [pepysReferrals]
@@ -315,11 +333,13 @@ export default async function handler(req, res) {
     : [...new Map([...offerFacts, ...otherFacts].map((record) => [record.id, record])).values()].slice(0, 8);
   const searchOnly = offerFacts.length > 0 && offerFacts.every((record) => record.page === '/seo-ai-search/');
   const lastAssistant = relevantHistory.filter((turn) => turn.role === 'assistant').at(-1)?.content || '';
-  const selectedOffers = projectTurn ? [] : salesOffers.offers.filter((offer) => offerFacts.some((record) => record.page === (offer.id === 'search' ? '/seo-ai-search/' : '/product-development/')));
+  const selectedOffers = projectTurn ? [] : salesOffers.offers.filter((offer) => offerFacts.some((record) => record.page === ({ search: '/seo-ai-search/', product: '/product-development/', character: '/mascot-branding/' })[offer.id]));
   const modelContent = found.map(({ id, title, text, page, evidence_type, provenance, claims }) =>
     ({ id, title, text, ...(page ? { page } : {}), ...(evidence_type ? { evidence_type } : {}), ...(provenance ? { provenance } : {}), ...(claims ? { claims } : {}) }));
   const alreadyAskedForSite = /\b(?:site|url)\b/i.test(lastAssistant) && /\b(?:buyer|audience)\b/i.test(lastAssistant);
-  const fitGuidance = asksProductProof
+  const fitGuidance = asksCharacterProof
+    ? 'The visitor asks why to work with me on a mascot or character. Use the supplied Whooshly and Pepys examples from my own products. Describe the creative work, not an unmeasured growth or client result. Keep it under 65 words and ask what the character needs to help their product explain.'
+    : asksProductProof
     ? 'The visitor asks why to hire me for product development. Lead with Whooshly as a concrete product I designed and shipped: editable links and QR codes, UTM-tagged destinations, bio and landing pages, and shared reporting. This demonstrates the breadth and coherence of the build, not a measured business outcome. If useful, mention Pepys as another shipped product. Keep it under 65 words and invite a relevant next question or call. Cite the supplied product records.'
     : asksWhyAnkur
     ? 'The visitor is asking why they should work with me. Lead with one or two concrete before-and-after results from the supplied Pepys and QuoteSweep proof. Prefer Pepys signups rising 8.2× from August to September 2026 alongside about 2.1× growth in completed transcriptions or QuoteSweep Google clicks rising from 96 in April to 988 in August 2026. Cite the matching supplied proof record. Say what those measures are; never imply search or AI referrals caused signup growth. Keep it conversational and under 65 words. End with a natural invitation to talk using the booking link below. Do not state a call duration. Do not ask the generic ship-or-get-found question.'
@@ -329,8 +349,10 @@ export default async function handler(req, res) {
       ? 'Answer the visitor directly in at most 55 words. Recommend checking buyer questions, retrievable passages and the source ecosystem, then measuring whether answers actually mention or cite them. Do not promise placement or treat Google clicks as AI visibility. Cite the supplied search records and ask one practical follow-up only if useful.'
     : searchOnly
     ? `The visitor has a product and needs discovery. Never pitch product development or a rebuild here. ${alreadyAskedForSite ? 'The previous answer already asked for the site and buyer. Do not ask for either again or repeat the offer. Acknowledge the correction, then give one concrete first diagnostic from the supplied search facts that the visitor can consider without giving you more information.' : 'Briefly acknowledge that the product already exists and search is relevant. Then ask for the site and target buyer. Do not list a long SEO process.'}`
+    : offerFacts.some((record) => record.page === '/mascot-branding/') && offerFacts.every((record) => record.page === '/mascot-branding/')
+      ? 'Describe Character-led marketing in at most 55 words: a character sprint, launch kit, or recurring content depending on what they already have. Use Whooshly or Pepys only as examples from my own products. Ask what the character should help people understand. Do not promise reach or imply the characters caused product growth.'
     : offerFacts.some((record) => record.page === '/product-development/') && offerFacts.some((record) => record.page === '/seo-ai-search/')
-      ? 'For this general services question, name the two offers in at most 45 words, then ask whether the visitor needs to ship something or get found. Do not list process steps or proof.'
+      ? 'For this general services question, name my three offers in at most 55 words: Product Development Sprint, Search-led GTM, and Character-led marketing. Ask whether the visitor needs to ship a product, get found, or make an existing product more memorable. Do not list process steps or proof.'
       : '';
   if (offTopic && SENSITIVE_OFF_TOPIC.test(question)) return json(res, 200, outcome("I can't give advice on that. Please speak with a qualified professional who can help you directly.", [], 'refused'));
   if (!found.length && !offTopic) return json(res, 200, outcome("I haven't covered that here. You can email me using the link below.", [], 'refused'));
@@ -409,10 +431,13 @@ export default async function handler(req, res) {
   } catch (error) {
     if (process.env.NODE_ENV !== 'test') console.warn('assistant_model_failure', error instanceof Error ? error.message.slice(0, 120) : 'unknown');
     if (asksProductProof) return json(res, 200, outcome("I designed and shipped Whooshly as a connected campaign toolkit – editable links and QR codes, landing pages and measurement in one product. If that kind of end-to-end build is what you need, book a call below and tell me what you're building.", [{ title: 'Whooshly product build', url: '/product-development/#proof' }], 'answered', 'guard'));
+    if (asksCharacterProof) return json(res, 200, outcome("I've made characters for my own products: Whooshly has a cast and short product film, and Pepys has a quill character used across product stories. I can show you that work and talk through what a character could do for your product.", [{ title: 'Character-led marketing', url: '/mascot-branding/#characters' }], 'answered', 'guard'));
     if (asksWhyAnkur) return json(res, 200, outcome("I've built the products I talk about. Pepys signups grew 8.2× from August to September 2026, while completed transcriptions grew about 2.1×. QuoteSweep Google clicks rose from 96 in April to 988 in August 2026. If that mix of building and getting found is what you need, book a call below.", [], 'answered', 'guard'));
     if (asksPepysAiTraffic) return json(res, 200, outcome("I tracked ChatGPT-entry sessions to Pepys rising from 190 in July to 1,637 in September 2026. They peaked early in September, then slowed later that month. That's referral traffic, not proof of AI citations or signup attribution.", [], 'answered', 'guard'));
     if (personalMatch && !mentionsProject) return json(res, 200, outcome(personalMatch.text, [], 'answered', 'guard'));
     if (searchOnly) return json(res, 200, outcome("I’d start with the questions your buyers actually ask, then check whether your pages answer them and can be found in search. Send me your site and target buyer, and I’ll tell you where I’d look first.", [{ title: 'SEO and AI search', url: '/seo-ai-search/' }], 'answered', 'guard'));
+    if (offerFacts.length && offerFacts.every((record) => record.page === '/mascot-branding/'))
+      return json(res, 200, outcome("I can help give your product a character with a job to do, then use it in a launch or recurring content. What should that character help people understand?", [{ title: 'Character-led marketing', url: '/mascot-branding/' }], 'answered', 'guard'));
     if (offerFacts.length && offerFacts.every((record) => record.page === '/product-development/'))
       return json(res, 200, outcome("I’d start by defining the user journey and the smallest useful version to ship. Tell me what the product needs to do and what already exists, and I’ll suggest the first build boundary.", [{ title: 'Full-stack product development', url: '/product-development/' }], 'answered', 'guard'));
     if (SEARCH_NEED.test(question) && found.some((record) => record.id.startsWith('search-')))

@@ -16,6 +16,14 @@
       "starting_price_per_month_usd": 6000,
       "minimum_months": 3,
       "boundary": "The published $6,000/month starting price has a 90-day minimum. Exact scope is agreed before work begins. Do not claim a ranking, citation, traffic, lead, or revenue result without specific evidence. Mention price only when asked."
+    },
+    {
+      "id": "character",
+      "name": "Character-led marketing",
+      "fit": "A software or founder-led product needs a mascot or brand character to explain the product, support a launch, or carry recurring content. Work can begin with a character sprint, launch kit, or content engine.",
+      "starting_price_per_month_usd": null,
+      "minimum_months": null,
+      "boundary": "No fixed public price or minimum term has been published for character-led marketing. Scope depends on concepts, animation, assets, and usage rights. Whooshly and Pepys are Ankur's own product examples, not client outcomes. Do not promise reach, conversions, viral distribution, or legal/IP clearance."
     }
   ],
   "handoff": "The booking link is displayed inside the chat. The rest of the portfolio keeps its existing mailto contact routes."
