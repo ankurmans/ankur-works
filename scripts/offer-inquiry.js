@@ -1,6 +1,6 @@
 import posthog from './analytics.js';
 
-const allowedOffers = new Set(['product_development', 'seo_ai_search']);
+const allowedOffers = new Set(['product_development', 'seo_ai_search', 'character_marketing']);
 const attribution = new URLSearchParams(window.location.search);
 
 for (const form of document.querySelectorAll('.offer-inquiry-form')) {

@@ -1,6 +1,6 @@
 import posthog from './analytics.js';
 
-const validIntents = new Set(['product_development', 'seo_ai_search']);
+const validIntents = new Set(['product_development', 'seo_ai_search', 'character_marketing']);
 const outboundCategories = {
   'pepys.co': 'product',
   'whooshly.co': 'product',

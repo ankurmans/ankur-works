@@ -1,0 +1,5 @@
+event,trigger,fields,delivery,verification
+character_page_view,new offer page script runs,intent|source,CustomEvent plus optional dataLayer/Plausible,LOCAL_CODE_ONLY_NO_COLLECTOR_CONFIRMED
+offer_intent,click on attributed service link,intent|placement,CustomEvent plus optional dataLayer/Plausible,LOCAL_CODE_AND_EXISTING_SCRIPT
+character_video_play,Whooshly film play event,intent|asset|placement,CustomEvent plus optional dataLayer/Plausible,LOCAL_CODE_ONLY_NO_COLLECTOR_CONFIRMED
+offer_lead,server accepts inquiry,intent|placement,CustomEvent plus optional dataLayer/Plausible,SERVER_VALIDATION_TESTED_INGESTION_NOT_VERIFIED

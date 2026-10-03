@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 export const offerPages = [
   { path: '/product-development/', file: 'product-development/index.html', id: 'offer-product' },
   { path: '/seo-ai-search/', file: 'seo-ai-search/index.html', id: 'offer-search' },
+  { path: '/mascot-branding/', file: 'mascot-branding/index.html', id: 'offer-character' },
 ];
 
 function plain(value) {

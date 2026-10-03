@@ -1,0 +1,8 @@
+source,destination,anchor_or_control,placement
+/,/mascot-branding/,Meet the characters,Work with me card
+/mascot-branding/,/product-development/,See the product work,Why me
+/mascot-branding/,/seo-ai-search/,See the search work,Why me
+/mascot-branding/,/product-development/,Product development,Footer
+/mascot-branding/,/seo-ai-search/,SEO + AI Search,Footer
+/product-development/,/mascot-branding/,Character-led marketing,Footer
+/seo-ai-search/,/mascot-branding/,Character-led marketing,Footer

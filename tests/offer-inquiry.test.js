@@ -13,9 +13,10 @@ function valid(overrides = {}) {
   return { offer: 'product_development', name: 'Casey Founder', email: 'casey@example.com', website: 'https://example.com', brief: 'I need help shipping a working first release.', submissionId: crypto.randomUUID(), ...overrides };
 }
 
-test('inquiry validation keeps two offer routes and rejects unsafe or incomplete data', () => {
+test('inquiry validation keeps all offer routes and rejects unsafe or incomplete data', () => {
   assert.equal(validateInquiry(valid()).offer, 'product_development');
   assert.equal(validateInquiry(valid({ offer: 'seo_ai_search' })).offer, 'seo_ai_search');
+  assert.equal(validateInquiry(valid({ offer: 'character_marketing' })).offer, 'character_marketing');
   assert.equal(validateInquiry(valid({ offer: 'unknown' })), null);
   assert.equal(validateInquiry(valid({ website: 'javascript:alert(1)' })), null);
   assert.equal(validateInquiry(valid({ name: 'A\nB' })), null);
@@ -43,6 +44,10 @@ test('valid inquiry emails Ankur with offer attribution and never logs the lead 
     await handler(request(data), duplicate);
     assert.equal(duplicate.code, 200);
     assert.equal(sent.length, 1);
+    const character = response();
+    await handler(request(valid({ offer: 'character_marketing' })), character);
+    assert.equal(character.code, 200);
+    assert.match(sent[1].Message.Body.Text.Data, /Character-led marketing inquiry/);
   } finally {
     for (const [key, value] of Object.entries(original)) if (value === undefined) delete process.env[key]; else process.env[key] = value;
   }
