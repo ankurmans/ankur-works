@@ -1,3 +1,5 @@
+import posthog from './analytics.js';
+
 const allowedOffers = new Set(['product_development', 'seo_ai_search']);
 const attribution = new URLSearchParams(window.location.search);
 
@@ -41,6 +43,7 @@ for (const form of document.querySelectorAll('.offer-inquiry-form')) {
       link.textContent = 'Book a call with me';
       status.append(document.createElement('br'), link);
       const detail = { intent: offer, placement: 'offer_form' };
+      posthog.capture('offer_lead', detail);
       window.dispatchEvent(new CustomEvent('ankur:offer-lead', { detail }));
       if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'offer_lead', offer_intent: offer });
       if (typeof window.plausible === 'function') window.plausible('Offer Lead', { props: detail });

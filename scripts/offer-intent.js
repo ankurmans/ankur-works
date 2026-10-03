@@ -1,3 +1,5 @@
+import posthog from './analytics.js';
+
 const validIntents = new Set(['product_development', 'seo_ai_search']);
 
 document.addEventListener('click', (event) => {
@@ -9,6 +11,7 @@ document.addEventListener('click', (event) => {
   const placement = link.dataset.offerPlacement || 'unspecified';
   const detail = { intent, placement };
 
+  posthog.capture('offer_intent', detail);
   window.dispatchEvent(new CustomEvent('ankur:offer-intent', { detail }));
   if (Array.isArray(window.dataLayer)) {
     window.dataLayer.push({ event: 'offer_intent', offer_intent: intent, placement });
