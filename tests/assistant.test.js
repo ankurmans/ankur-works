@@ -79,6 +79,20 @@ test('mascot pricing is scoped separately from the two monthly offers', async ()
   assert.match(general.body.answer, /Character-led marketing is scoped separately/);
 });
 
+test('mascot proof stays grounded in the published product characters if the model fails', async () => {
+  const original = global.fetch;
+  global.fetch = async () => { throw new Error('Gateway unavailable'); };
+  try {
+    const res = response();
+    await handler(request({ question: 'Why should I hire you for a mascot?' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body.answer, /Whooshly has Quincy/);
+    assert.match(res.body.answer, /Pepys has a quill character/);
+    assert.doesNotMatch(res.body.answer, /signups|clicks|conversion|revenue/i);
+    assert.equal(res.body.sources[0].url, '/mascot-branding/#characters');
+  } finally { global.fetch = original; }
+});
+
 test('named-entity retrieval keeps its own card and approved claim metadata', () => {
   const records = retrieve('What did you build with Amped Rides?');
   assert.equal(records[0].id, 'commerce');
