@@ -66,6 +66,19 @@ test('published starting prices answer product, search, and general pricing ques
   assert.equal(followUp.body.sources[0].url, '/seo-ai-search/');
 });
 
+test('mascot pricing is scoped separately from the two monthly offers', async () => {
+  const mascot = response();
+  await handler(request({ question: 'How much does a brand mascot cost?', page: '/mascot-branding/' }), mascot);
+  assert.equal(mascot.statusCode, 200);
+  assert.match(mascot.body.answer, /fixed public price for character-led marketing/i);
+  assert.doesNotMatch(mascot.body.answer, /\$6,000|90-day/i);
+  assert.equal(mascot.body.sources[0].url, '/mascot-branding/');
+
+  const general = response();
+  await handler(request({ question: 'What is your pricing?' }), general);
+  assert.match(general.body.answer, /Character-led marketing is scoped separately/);
+});
+
 test('named-entity retrieval keeps its own card and approved claim metadata', () => {
   const records = retrieve('What did you build with Amped Rides?');
   assert.equal(records[0].id, 'commerce');
@@ -280,7 +293,8 @@ test('sales questions use the model with the relevant offer facts', async () => 
   for (const [question, expectedIds, answer, citation] of [
     ['Can you help me build my app?', ['offer-product-5', 'offer-product-6'], 'I can help scope and build a first version.', 'offer-product-6'],
     ['Can you help us with SEO and AI search?', ['offer-search-5', 'offer-search-6'], 'I can start with buyer questions and search evidence.', 'offer-search-6'],
-    ['Which service is right for us?', ['offer-product-5', 'offer-search-5'], 'I work on products and search. What is stuck?', 'offer-product-5'],
+    ['Can you make a mascot for our app?', ['offer-character-1', 'offer-character-characters', 'offer-character-5'], 'I can build a character around what your app needs to explain.', 'offer-character-5'],
+    ['Which service is right for us?', ['offer-product-5', 'offer-search-5', 'offer-character-5'], 'I build products, help them get found, and give them memorable characters. What is stuck?', 'offer-product-5'],
   ]) {
     await withModel(answer, [citation], async (calls) => {
       const res = response();
@@ -291,7 +305,7 @@ test('sales questions use the model with the relevant offer facts', async () => 
       const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
       for (const id of expectedIds) assert.ok(ids.includes(id), `${question}: missing ${id}`);
       assert.match(calls[0].messages[0].content, /Do not repeat a previous pitch/);
-      if (question === 'Which service is right for us?') assert.match(calls[0].messages[0].content, /at most 45 words/);
+      if (question === 'Which service is right for us?') assert.match(calls[0].messages[0].content, /name my three offers/);
     });
   }
 });
@@ -300,6 +314,7 @@ test('offer-page questions carry the page-specific facts into the model', async 
   for (const [question, page, cited, answer] of [
     ['How do you approach SEO and AI search?', '/seo-ai-search/', 'offer-search-5', 'I inspect the site and buyer questions before changing pages.'],
     ['How would we start an MVP?', '/product-development/', 'offer-product-6', 'I start with the user journey and MVP boundary.'],
+    ['How would you make a character for my product?', '/mascot-branding/', 'offer-character-5', 'I start with the role the character needs to play.'],
   ]) {
     await withModel(answer, [cited], async (calls) => {
       const res = response();
