@@ -324,6 +324,17 @@ test('sales questions use the model with the relevant offer facts', async () => 
   }
 });
 
+test('a direct comparison retrieves product, search, and character offer facts', async () => {
+  await withModel('I can help build the product, get it found, or give it a character. Which problem comes first?', ['offer-product-5', 'offer-search-5', 'offer-character-5'], async (calls) => {
+    const res = response();
+    await handler(request({ question: 'Do I need a product builder, search help, or a mascot?' }), res);
+    assert.equal(res.statusCode, 200);
+    const ids = JSON.parse(calls[0].messages[1].content).SITE_CONTENT.map((record) => record.id);
+    for (const id of ['offer-product-5', 'offer-search-5', 'offer-character-5']) assert.ok(ids.includes(id), id);
+    assert.match(calls[0].messages[0].content, /name my three offers/);
+  });
+});
+
 test('offer-page questions carry the page-specific facts into the model', async () => {
   for (const [question, page, cited, answer] of [
     ['How do you approach SEO and AI search?', '/seo-ai-search/', 'offer-search-5', 'I inspect the site and buyer questions before changing pages.'],

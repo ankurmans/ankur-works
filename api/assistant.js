@@ -7,7 +7,7 @@ import { signVoice } from './assistant-voice-token.js';
 import { conversationMeta, recordConversationTurn } from './conversation-logging.js';
 import { getAssistantCache, putAssistantCache } from './assistant-cache.js';
 
-const PROMPT_VERSION = 'ankur-ai-twin-v33';
+const PROMPT_VERSION = 'ankur-ai-twin-v34';
 const MODEL = process.env.ASSISTANT_MODEL || 'openai/gpt-5-mini';
 const DAILY_CAP = Math.max(1, Number.parseInt(process.env.ASSISTANT_DAILY_CAP || '100', 10) || 100);
 const PERSONAL = /\b(?:hire|hiring|available|availability|rate|rates|budget|quote|proposal|consult|contract|meeting|call|book|booking|schedule|collaborat|work with (?:you|ankur)|contact|email|get in touch|reach (?:you|ankur)|talk to (?:you|ankur))\b/i;
@@ -19,7 +19,7 @@ const TOPIC = /\b(?:ankur|site|portfolio|project|product|build|builder|pepys|who
 const SENSITIVE_OFF_TOPIC = /\b(?:suicid\w*|self.harm|overdose|chest pain|medical advice|diagnos\w*|legal advice|lawsuit|invest(?:ment|ing)? advice|stock tip|tax advice)\b/i;
 const UNAPPROVED_STORY = /\b(?:ryan reynolds|hobb(?:y|ies)|family|spouse|partner|children|where (?:do you|does ankur) live|where (?:were you|was ankur) born|pronounc\w*|pronunc\w*)\b/i;
 const SALES_INTENT = /\b(?:which (?:service|offer|product)|right (?:service|offer|product)|what (?:do you|does ankur) do|what can you (?:do|help)|what (?:kind of )?(?:products?|apps?|websites?) can you build|can you (?:help|build)|could you (?:help|build)|help (?:me|us|our)|do you (?:offer|do)|need (?:help|someone)|looking for (?:help|someone)|hire (?:you|ankur)|your services?|your offers?|work with you|build (?:my|our) (?:app|product|site|website)|improve (?:my|our) (?:seo|search|visibility))\b/i;
-const PRODUCT_NEED = /\b(?:build|develop|ship|shipping|prototype|rebuild|full[ -]?stack|mvp|product development|software development)\b/i;
+const PRODUCT_NEED = /\b(?:build|builder|develop|ship|shipping|prototype|rebuild|full[ -]?stack|mvp|product development|software development)\b/i;
 const SEARCH_NEED = /\b(?:seo|ai search|ai overviews|chatgpt|perplexity|search visibility|search|aeo|geo|rank|citation|content|traffic|discover(?:ed|y|ability)?|found|google)\b/i;
 const CHARACTER_NEED = /\b(?:mascots?|brand characters?|character[- ]led marketing|character design|animated (?:mascot|character)|brand avatars?|product avatars?|short films?|launch films?|recurring (?:content|characters?)|brand storytelling)\b/i;
 const EXISTING_PRODUCT = /\b(?:already have|have an?|existing|live|launched|built)\b.{0,45}\b(?:product|app|software|website|site)\b/i;
@@ -76,8 +76,8 @@ function offerContext(question, history, page) {
   const search = SEARCH_NEED.test(context) || DISCOVERY_PROBLEM.test(context) || page === '/seo-ai-search/';
   const product = PRODUCT_NEED.test(context) || page === '/product-development/';
   const character = CHARACTER_NEED.test(context) || page === '/mascot-branding/';
-  const comparingCharacterAndSearch = character && search && /\b(?:or|both|which|compare)\b/i.test(question);
-  const focus = comparingCharacterAndSearch ? ['character', 'search'] : character ? ['character']
+  const comparingOffers = character && /\b(?:or|both|which|compare)\b/i.test(question);
+  const focus = comparingOffers ? [...(product ? ['product'] : []), ...(search ? ['search'] : []), 'character'] : character ? ['character']
     : search && (existingProduct || !product) ? ['search'] : product && !search ? ['product'] : ['product', 'search', 'character'];
   const ids = focus.flatMap((offer) => offer === 'character'
     ? ['offer-character-1', 'offer-character-characters', 'offer-character-5']
