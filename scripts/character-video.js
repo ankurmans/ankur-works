@@ -11,7 +11,7 @@ if (typeof window.plausible === 'function') window.plausible('Character Page Vie
 
 for (const video of document.querySelectorAll('.offer-character video')) {
   video.addEventListener('play', () => {
-    const detail = { intent: 'character_marketing', asset: 'whooshly_quincy_film', placement: 'case_study' };
+    const detail = { intent: 'character_marketing', asset: video.dataset.videoAsset, placement: 'case_study' };
     window.dispatchEvent(new CustomEvent('ankur:character-video-play', { detail }));
     if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'character_video_play', ...detail });
     if (typeof window.plausible === 'function') window.plausible('Character Video Play', { props: detail });
