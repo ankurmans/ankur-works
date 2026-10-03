@@ -1,4 +1,5 @@
 import { createVoiceTurnDetector } from './voice-turn-detector.js';
+import posthog from './analytics.js';
 
 const root = document.getElementById('ask-ankur');
 const dock = document.getElementById('ask-ankur-dock');
@@ -85,6 +86,7 @@ let scrollTimer = null;
 let callTurnCount = 0;
 let voiceReady = false;
 let realtimeConversation = null;
+let realtimeConnectedAt = 0;
 let calEmbedStarted = false;
 let leadSubmissionId = crypto.randomUUID();
 
@@ -165,7 +167,7 @@ function refreshStarters() {
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = text;
-    button.addEventListener('click', () => ask(text));
+    button.addEventListener('click', () => ask(text, false, 'chat', 'starter'));
     starters.append(button);
   }
 }
@@ -223,6 +225,7 @@ function openChat() {
     refreshStarters();
     renderChat();
     dialog.showModal();
+    posthog.capture('ai_twin_opened', { page: window.location.pathname });
   }
   root.classList.add('is-open');
   root.classList.remove('is-scrolling');
@@ -259,6 +262,10 @@ function mountBookingCalendar() {
     };
   })(window, 'https://app.cal.com/embed/embed.js', 'init');
   window.Cal('init', 'ankur-chat', { origin: 'https://cal.com' });
+  window.Cal.ns['ankur-chat']('on', {
+    action: 'bookingSuccessfulV2',
+    callback: () => posthog.capture('booking_completed', { source: 'ai_twin_embed' }),
+  });
   window.Cal.ns['ankur-chat']('inline', {
     elementOrSelector: '#ask-ankur-cal-inline', calLink: 'ankur-kmf/30min',
     config: { layout: 'month_view' },
@@ -271,6 +278,7 @@ function showBooking() {
   dialog.classList.remove('is-lead');
   bookingPanel.hidden = false;
   dialog.classList.add('is-booking');
+  posthog.capture('booking_calendar_opened', { source: 'ai_twin' });
   bookingBack.focus();
   mountBookingCalendar();
 }
@@ -302,6 +310,7 @@ function showLeadForm() {
     ? 'I pulled your recent questions into an editable project note. Review it before sending, and choose whether to include the chat.'
     : 'Tell me what you are working on. You can also include recent chat messages for context.';
   leadOffer.value = page === '/product-development/' ? 'product_development' : page === '/seo-ai-search/' ? 'seo_ai_search' : 'exploring';
+  posthog.capture('offer_form_opened', { intent: leadOffer.value, source: 'ai_twin' });
   leadContext.textContent = context.map((message) => `${message.role === 'user' ? 'You' : 'AI Twin'}: ${message.content}`).join('\n\n');
   leadPreview.hidden = !context.length;
   leadIncludeLabel.hidden = !context.length;
@@ -339,6 +348,7 @@ async function sendLead(event) {
     leadStatus.textContent = result.confirmationSent
       ? 'Sent. I have your project note, and a confirmation is on its way to your inbox.'
       : 'Sent. I have your project note, but I could not confirm by email right now.';
+    posthog.capture('offer_lead', { intent: leadOffer.value, placement: 'chat_lead_form', source: 'ai_twin' });
     leadSubmissionId = crypto.randomUUID();
   } catch (error) {
     leadStatus.textContent = error instanceof Error && error.name !== 'AbortError'
@@ -588,11 +598,12 @@ async function speak(text, token, button = null) {
     else setVoiceStatus(message);
   }
 }
-async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call' : 'chat') {
+async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call' : 'chat', entry = 'composer') {
   const question = raw.trim();
   if (!question || busy) return;
   busy = true;
   send.disabled = true;
+  posthog.capture('ai_twin_question_submitted', { channel, entry });
   const chatId = currentChat()?.id || createChat().id;
   const turnId = crypto.randomUUID();
   const priorMessages = currentChat()?.messages || [];
@@ -632,6 +643,11 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
     appendLocalUsage(reply.parentElement, data.usage);
     const playButton = appendPlayback(reply.parentElement, data.answer, data.voiceToken);
     persistMessage('assistant', data.answer, data.sources, false, chatId, data.voiceToken);
+    posthog.capture('ai_twin_answer_received', {
+      channel,
+      action: ['booking', 'email'].includes(data.action) ? data.action : 'answer',
+      has_sources: Boolean(data.sources?.length),
+    });
     if (data.action === 'booking' && !spoken) showBooking();
     if (data.action === 'email' && !spoken) showLeadForm();
     if (spoken && data.voiceToken) void speak(data.answer, data.voiceToken, playButton);
@@ -640,6 +656,7 @@ async function ask(raw, spoken = voiceModeActive, channel = spoken ? 'voice_call
       listenAgain('Listening for your next question…');
     }
   } catch (error) {
+    posthog.capture('ai_twin_answer_failed', { channel });
     reply.textContent = error instanceof Error ? error.message : "I can't answer right now. You can email me directly.";
     if (!spoken) {
       input.value = question;
@@ -716,6 +733,13 @@ function endVoiceMode() {
   voiceModeActive = false;
   const session = realtimeConversation;
   realtimeConversation = null;
+  if (session && realtimeConnectedAt) {
+    posthog.capture('ai_twin_call_ended', {
+      duration_seconds: Math.round((Date.now() - realtimeConnectedAt) / 1000),
+      question_count: callTurnCount,
+    }, { transport: 'sendBeacon', send_instantly: true });
+  }
+  realtimeConnectedAt = 0;
   if (session) {
     const vendorConversationId = session.getId();
     const conversationId = currentChat()?.id;
@@ -769,6 +793,9 @@ async function startRealtimeCall() {
       onMessage: ({ role, message }) => {
         if (session !== voiceSession || !message?.trim()) return;
         const kind = role === 'user' ? 'user' : 'assistant';
+        posthog.capture(kind === 'user' ? 'ai_twin_question_submitted' : 'ai_twin_answer_received', {
+          channel: 'realtime_voice',
+        });
         addCallHistory(kind, message);
         addMessage(message, kind);
         persistMessage(kind, message, [], false, chatId);
@@ -785,9 +812,14 @@ async function startRealtimeCall() {
       new Promise((_, reject) => setTimeout(() => reject(new Error('Microphone connection timed out. Please check browser permission and try again.')), 15000)),
     ]);
     if (session !== voiceSession || !voiceModeActive) await conversation.endSession();
-    else realtimeConversation = conversation;
+    else {
+      realtimeConversation = conversation;
+      realtimeConnectedAt = Date.now();
+      posthog.capture('ai_twin_call_started', { source: 'ai_twin' });
+    }
   } catch (error) {
     if (session !== voiceSession) return;
+    posthog.capture('ai_twin_call_failed', { source: 'ai_twin' });
     endVoiceMode();
     const message = error instanceof TypeError || error?.name === 'AbortError' || /(?:loading failed|failed to fetch|dynamically imported)/i.test(String(error?.message || ''))
       ? 'The live call could not load on this connection. Try again or switch networks.'
@@ -962,6 +994,9 @@ endCallButton.addEventListener('click', () => { endVoiceMode(); renderChat(); in
 bookingBack.addEventListener('click', backFromBooking);
 leadBack.addEventListener('click', backFromLead);
 emailChat.addEventListener('click', showLeadForm);
+leadForm.addEventListener('input', () => {
+  posthog.capture('offer_form_started', { intent: leadOffer.value, source: 'ai_twin' });
+}, { once: true });
 leadForm.addEventListener('submit', sendLead);
 dialog.addEventListener('click', (event) => {
   const link = event.target.closest?.('a[data-chat-booking]');

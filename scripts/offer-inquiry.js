@@ -9,6 +9,9 @@ for (const form of document.querySelectorAll('.offer-inquiry-form')) {
   const status = form.querySelector('.offer-form-feedback');
   const button = form.querySelector('button[type="submit"]');
   let submissionId = crypto.randomUUID();
+  form.addEventListener('focusin', () => {
+    posthog.capture('offer_form_started', { intent: offer, source: 'offer_page' });
+  }, { once: true });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -42,7 +45,7 @@ for (const form of document.querySelectorAll('.offer-inquiry-form')) {
       link.rel = 'noopener noreferrer';
       link.textContent = 'Book a call with me';
       status.append(document.createElement('br'), link);
-      const detail = { intent: offer, placement: 'offer_form' };
+      const detail = { intent: offer, placement: 'offer_form', source: 'offer_page' };
       posthog.capture('offer_lead', detail);
       window.dispatchEvent(new CustomEvent('ankur:offer-lead', { detail }));
       if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'offer_lead', offer_intent: offer });
