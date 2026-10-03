@@ -7,7 +7,8 @@
 | Positioning | PASS | Hero explains brand mascots and product content in one glance; owned product art is visible in the first viewport. Costume/team ambiguity is narrowed by “for product brands”. |
 | Differentiation | PASS | Shows Quincy, the Meet Quincy film and Pepys mascot feature executions, then the create/codify/activate/compound system. Does not claim the category is unique. |
 | Proof permission | PASS | Only owned Whooshly/Pepys assets shown. The unapproved prospect is `PUBLIC_SHARING_PERMISSION_PENDING`; source and built page have no identifying name, logo, reaction or video. No fabricated client outcomes. |
-| Mobile and desktop | PASS | Captured 320, 390, 768 and 1440-pixel renders; no horizontal overflow. Inspected hero, proof cases, homepage card, offers and form. |
+| Mobile and desktop | PASS | Captured 320, 390, 768 and 1440-pixel renders; no horizontal overflow. Inspected full-body hero, proof cases, homepage card, offers and form. |
+| Character motion | PASS | Pepys and Quincy enter the hero and cross two sections once when scrolled into view. Browser checks confirmed both crossings trigger; reduced-motion emulation showed static, visible art. |
 | Navigation and CTAs | PASS | Homepage card, related-offer footer links, page anchors, email link and direct form route are present. Character form enum passes the existing server validator test. |
 | Accessibility basics | PASS | One H1; H2 section structure; form labels; descriptive image alt text; skip link; video controls; no autoplay; reduced-motion rule. Formal screen-reader audit not run. |
 | SEO basics | PASS | Canonical, title, description, 1200×630 OG image, Service/Person JSON-LD, sitemap entry and internal links in source/build. Search ranking/indexation not inferred. |

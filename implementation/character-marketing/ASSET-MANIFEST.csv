@@ -1,8 +1,9 @@
 asset,role,format,bytes,dimensions_or_duration,load_strategy
 public/character-marketing/quincy.svg,hero homepage and Whooshly case,SVG,2267,132x142,eager on offer page lazy in case/homepage
-public/character-marketing/pepys-mascot.svg,hero homepage and Pepys case,SVG,3508,240x268,eager on offer page lazy in case/homepage
+public/character-marketing/pepys-full-body.svg,hero homepage and section walkers,SVG,21822,320x620,eager in hero lazy in walkways/homepage
+public/character-marketing/pepys-mascot.svg,Pepys case badge,SVG,3508,240x268,lazy
 public/character-marketing/pepys-review.webp,Pepys proof case,WebP,17926,720x520,lazy
 public/character-marketing/pepys-languages.webp,Pepys proof case,WebP,17778,720x520,lazy
 public/character-marketing/quincy-poster.png,film poster,PNG,305163,16x9,poster
 public/character-marketing/quincy-film.mp4,Meet Quincy film,H264/AAC MP4,1002875,25s,preload none user play
-public/og-character-marketing.png,social card,PNG,118070,1200x630,metadata only
+public/og-character-marketing.png,social card,PNG,143066,1200x630,metadata only

@@ -17,3 +17,19 @@ for (const video of document.querySelectorAll('.offer-character video')) {
     if (typeof window.plausible === 'function') window.plausible('Character Video Play', { props: detail });
   });
 }
+
+// Each pair crosses its section once when it comes into view. The artwork stays
+// visible at its destination when motion is unavailable or disabled.
+if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const walker = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('is-walking');
+      walker.unobserve(entry.target);
+    }
+  }, { threshold: 0.3 });
+  for (const lane of document.querySelectorAll('[data-mascot-walk]')) {
+    lane.classList.add('walk-ready');
+    walker.observe(lane);
+  }
+}
