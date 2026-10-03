@@ -4,11 +4,11 @@ Date: 2026-10-03. Branch: `codex/character-marketing`. This worktree was cut fro
 
 ## Built
 
-- `/mascot-branding/`: a visual service page with the real Whooshly cast, a 32-second click-to-play character film, Pepys illustrations, the create/codify/activate/compound system, three ways to work, and a direct inquiry form.
+- `/mascot-branding/`: a visual service page with Whooshly’s Quincy, a 25-second click-to-play Meet Quincy film, Pepys’s illustrated scribe and feature scenes, the create/codify/activate/compound system, three ways to work, and a direct inquiry form.
 - Homepage: a third path in “Work with me”, using owned character art. No new top-level navigation item.
 - SEO: canonical URL, title, description, social image, Service-to-Person schema, sitemap entry, descriptive alt text, and cross-links from the two existing offer pages.
 - Measurement hooks: page view with source, offer-intent click, film play, accepted inquiry. The offer is accepted by client and server form validation and listed in the existing chat inquiry chooser.
-- Optimized assets: WebP character art, a 1.75 MB click-to-play MP4 with a poster, and a 1200×630 PNG social image.
+- Optimized assets: SVG mascots and WebP proof art, a 1.00 MB click-to-play MP4 with a poster, and a 1200×630 PNG social image.
 - AI Twin knowledge extraction includes the new public offer page and excludes the unapproved prospect concept.
 
 ## Category decision

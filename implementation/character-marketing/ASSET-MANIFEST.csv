@@ -1,10 +1,8 @@
 asset,role,format,bytes,dimensions_or_duration,load_strategy
-public/character-marketing/whooshly-owner.webp,hero and homepage,WebP,45116,550x550,eager on offer page lazy on homepage
-public/character-marketing/pepys-avatar.webp,hero and homepage,WebP,2406,512x512,eager on offer page lazy on homepage
-public/character-marketing/whooshly-cast.webp,proof case,WebP,165636,1200x775,lazy
-public/character-marketing/pepys-review.webp,proof case,WebP,17926,720x520,lazy
-public/character-marketing/pepys-languages.webp,proof case,WebP,17778,720x520,lazy
-public/character-marketing/whooshly-owner-poster.webp,film poster,WebP,29426,960x540,poster
-public/character-marketing/whooshly-owner-film.mp4,character film,H264/AAC MP4,1752065,32.17s,preload none user play
-public/character-marketing/whooshly-clamp-cop.webp,approved spare character cutout,WebP,56748,550x550,not loaded by current page
-public/og-character-marketing.png,social card,PNG,170314,1200x630,metadata only
+public/character-marketing/quincy.svg,hero homepage and Whooshly case,SVG,2267,132x142,eager on offer page lazy in case/homepage
+public/character-marketing/pepys-mascot.svg,hero homepage and Pepys case,SVG,3508,240x268,eager on offer page lazy in case/homepage
+public/character-marketing/pepys-review.webp,Pepys proof case,WebP,17926,720x520,lazy
+public/character-marketing/pepys-languages.webp,Pepys proof case,WebP,17778,720x520,lazy
+public/character-marketing/quincy-poster.png,film poster,PNG,305163,16x9,poster
+public/character-marketing/quincy-film.mp4,Meet Quincy film,H264/AAC MP4,1002875,25s,preload none user play
+public/og-character-marketing.png,social card,PNG,118070,1200x630,metadata only

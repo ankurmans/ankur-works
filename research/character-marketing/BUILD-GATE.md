@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | Market and intent research | PASS | DataForSEO US plus UK/Canada/Australia rows; 10 requested SERPs attempted, one search-engine error disclosed |
 | Positioning and route decision | PASS | Scorecard and category decision |
-| Owned visual proof | PASS | Whooshly cast/film and Pepys product illustrations in asset ledger |
+| Owned visual proof | PASS | Whooshly Quincy/film and Pepys mascot/product illustrations in asset ledger |
 | Prospect permission | PENDING | PUBLIC_SHARING_PERMISSION_PENDING; no unapproved prospect asset or public claim in page |
 | Page, homepage path, metadata and measurement | BUILT | Implementation files and scripts |
 | Responsive, accessibility, performance, form and live QA | PENDING FINAL QA | See implementation QA report |

@@ -5,7 +5,7 @@
 | Area | Result | Evidence / limit |
 | --- | --- | --- |
 | Positioning | PASS | Hero explains brand mascots and product content in one glance; owned product art is visible in the first viewport. Costume/team ambiguity is narrowed by “for product brands”. |
-| Differentiation | PASS | Shows Whooshly cast/film and Pepys feature executions, then the create/codify/activate/compound system. Does not claim the category is unique. |
+| Differentiation | PASS | Shows Quincy, the Meet Quincy film and Pepys mascot feature executions, then the create/codify/activate/compound system. Does not claim the category is unique. |
 | Proof permission | PASS | Only owned Whooshly/Pepys assets shown. The unapproved prospect is `PUBLIC_SHARING_PERMISSION_PENDING`; source and built page have no identifying name, logo, reaction or video. No fabricated client outcomes. |
 | Mobile and desktop | PASS | Captured 320, 390, 768 and 1440-pixel renders; no horizontal overflow. Inspected hero, proof cases, homepage card, offers and form. |
 | Navigation and CTAs | PASS | Homepage card, related-offer footer links, page anchors, email link and direct form route are present. Character form enum passes the existing server validator test. |

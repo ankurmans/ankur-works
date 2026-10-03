@@ -10,9 +10,9 @@ Live draft: [mascot-branding/index.html](../../mascot-branding/index.html). This
 
 **Primary CTA:** Build my character. **Secondary CTA:** See the characters.
 
-**Proof 1:** A whole world for a link toolkit. Whooshly's cast gives a dry subject a human story: the business owner wants working links; the Link Landlord wants another monthly bill.
+**Proof 1:** Meet Quincy. A QR code with a personality. Whooshly's sticker mascot works as a product guide and a recurring face for links and QR codes, including in a short launch film.
 
-**Proof 2:** A quill with more than one line. Pepys's little scribe can move from a review to a language feature without losing its personality.
+**Proof 2:** A scribe with more than one line. Pepys's little scribe can move from a review to a language feature without losing its personality.
 
 **Turn:** Your logo identifies you. Your character can do things.
 

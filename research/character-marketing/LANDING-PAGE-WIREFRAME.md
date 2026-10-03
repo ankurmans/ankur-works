@@ -1,7 +1,7 @@
 # Landing-page wireframe
 
 1. **Hero, one screen:** left headline, one-sentence explanation and two CTAs; right overlapping actual Whooshly and Pepys characters. No autoplay payload.
-2. **Visual proof immediately:** Whooshly cast sheet plus user-triggered short film; Pepys feature illustrations. Short captions state what each execution does.
+2. **Visual proof immediately:** Whooshly Quincy artwork plus user-triggered Meet Quincy film; Pepys feature illustrations. Short captions state what each execution does.
 3. **Principle:** a black typographic pause explaining why a character is a repeatable creative tool.
 4. **System:** four colored blocks for create, codify, activate, compound.
 5. **Offer:** three clear engagement shapes, no prices.
