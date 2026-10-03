@@ -4,9 +4,9 @@ Live draft: [mascot-branding/index.html](../../mascot-branding/index.html). This
 
 **Eyebrow:** Character-led marketing / for product brands
 
-**H1:** Give your product a face people want to see again
+**H1:** Mascots people remember
 
-**Explainer:** I make brand mascots, give them a point of view, then put them to work in product launches, films and content people can recognise.
+**Explainer:** I create brand mascots that explain your product, carry launches, and show up again in content people recognise.
 
 **Primary CTA:** Build my character. **Secondary CTA:** See the characters.
 
