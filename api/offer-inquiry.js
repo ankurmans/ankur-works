@@ -4,6 +4,7 @@ import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 const offers = {
   product_development: 'Product Development Sprint',
   seo_ai_search: 'Search-led GTM',
+  character_marketing: 'Character-led marketing',
   exploring: 'Project inquiry',
 };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

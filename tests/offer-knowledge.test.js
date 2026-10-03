@@ -40,8 +40,19 @@ test('the shared AI Twin mounts once on a static offer page', () => {
   }
 });
 
+test('character offer enters the approved page knowledge with its own route', () => {
+  const page = offerPages.find((offer) => offer.path === '/mascot-branding/');
+  assert.ok(page);
+  const html = readFileSync(new URL('../mascot-branding/index.html', import.meta.url), 'utf8');
+  const records = offerRecords(html, page);
+  assert.ok(records.length >= 5);
+  assert.equal(records[0].url, '/mascot-branding/');
+  assert.match(records[0].text, /brand mascots/i);
+  assert.doesNotMatch(records.map((record) => record.text).join(' '), /unapproved prospect/i);
+});
+
 test('portfolio and chat controls use stable icons instead of emoji-prone glyphs', () => {
-  for (const path of ['index.html', 'product-development/index.html', 'scripts/assistant-widget.js', 'styles/assistant.css']) {
+  for (const path of ['index.html', 'product-development/index.html', 'mascot-branding/index.html', 'scripts/assistant-widget.js', 'styles/assistant.css']) {
     const source = readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
     assert.doesNotMatch(source, /[↘↗▶▸▾✳〰]/u, path);
   }

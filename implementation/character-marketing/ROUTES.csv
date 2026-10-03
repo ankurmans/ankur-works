@@ -1,0 +1,6 @@
+route,purpose,source,build_status,production_status
+/,homepage third commercial path,index.html,BUILT,NOT_VERIFIED
+/mascot-branding/,character-led marketing offer,mascot-branding/index.html,BUILT,NOT_DEPLOYED
+/product-development/,related product offer,product-development/index.html,EXISTING_LINK_UPDATED,EXISTING
+/seo-ai-search/,related search offer,seo-ai-search/index.html,EXISTING_LINK_UPDATED,EXISTING
+/api/offer-inquiry,existing inquiry endpoint with character_marketing enum,api/offer-inquiry.js,TESTED_WITH_MOCK_MAILER,PRODUCTION_DELIVERY_NOT_VERIFIED
