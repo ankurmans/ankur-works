@@ -147,6 +147,7 @@ function pageShell(meta, content, { index = false } = {}) {
 <header class="header wrap"><a class="logo" href="/"><span class="logo-mark" aria-hidden="true"></span>ankur<i>.</i>works</a><nav aria-label="Main navigation"><a href="/#work">The work</a><a href="/product-development/">Build</a><a href="/seo-ai-search/">Search</a><a href="/build-log/" aria-current="page">The Build Log</a></nav><a class="nav-cta" href="mailto:ankur@kmfv.cc">Let's talk</a></header>
 <main id="main" class="log-main wrap">${body}</main>
 <footer class="footer wrap"><a class="logo" href="/">ankur<i>.</i>works</a><span>Build / ship / repeat</span><a href="/build-log/">The Build Log</a></footer>
+<script type="module" src="/scripts/build-log-analytics.js"></script>
 ${index ? '' : '<script defer src="/scripts/build-log-actions.js"></script>'}
 </body></html>`;
 }
