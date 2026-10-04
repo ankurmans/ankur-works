@@ -216,13 +216,15 @@
 }
 
 /* Put the two ways to work together and their owned-product proof in the first screen. */
-.hero{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);align-items:center;gap:36px;min-height:690px;padding:82px 0 88px;overflow:visible}
+.hero{--hero-accent:#e15f3e;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);align-items:center;gap:36px;min-height:690px;padding:82px 0 88px;overflow:visible}
 .hero-copy{min-width:0}
 .hero h1{font-size:clamp(66px,6.2vw,90px);line-height:.94;letter-spacing:-.09em;white-space:normal;margin:27px 0 28px}
-.hero h1 em{color:#a43d25}
+.hero h1 em{color:var(--hero-accent)}
+.hero h1 em:after{background:var(--hero-accent)}
 .hero .lede{max-width:620px;font-size:19px}
 .hero-actions{gap:21px;flex-wrap:wrap;margin-top:29px}
 .hero-actions .button{gap:18px}
+.hero-actions .button:hover{background:var(--hero-accent)}
 .hero-actions .underlink{min-height:44px;display:inline-flex;align-items:center}
 .hero-work-link{display:inline-block;margin-top:20px;color:#6a655c;font-size:13px;font-weight:700;border-bottom:1px solid #aaa397;padding-bottom:3px}
 .hero-work-link:hover{color:var(--orange)}
