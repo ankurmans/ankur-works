@@ -1,0 +1,84 @@
+export const meta = {
+  slug: 'mvp-development-cost',
+  title: 'What does an MVP cost? First decide what it will not do.',
+  seoTitle: 'MVP development cost: how to scope the first release',
+  description: 'Get to a useful MVP estimate by defining the first user, the job they must finish and what stays out of the first release.',
+  date: '2026-10-03',
+  category: 'Build',
+  summaryGeneral: 'A useful MVP estimate starts with one job a real user can finish. Decide whether you need a clickable prototype, a working product or a production release you can support. Then define the user, core workflow, necessary integrations and what stays out of the first release. Those choices make the cost discussion concrete.',
+  summaryBullets: [
+    'A prototype tests whether people understand the idea; a working MVP lets a real user finish the core job.',
+    'A production release adds reliability, recovery and support for ongoing use.',
+    'User roles, integrations and failure paths are major drivers of scope and cost.',
+    'The published ankur.works engagement starts at $6,000 per month with a 90-day minimum; it is not a general market price.'
+  ],
+  offer: '/product-development/'
+}
+
+The fastest way to get a useful MVP estimate is to describe the first job a user must finish. Then say what the first release can leave out.
+
+"How much does an MVP cost?" sounds like a request for a number. Usually it is a request for a boundary.
+
+I can put a price on a defined build. I cannot give a useful one to "an app where users can do everything," because the word *everything* hides the work. Logins, payments, permissions, integrations, support, edge cases, speed, the thing that happens when a file is too large. Each one is a decision with a cost.
+
+I build my own products, including [Pepys](https://pepys.co/) and [Whooshly](https://whooshly.co/). One turns recordings into useful text. The other connects links, QR codes, bio pages, landing pages and measurement. Both are good reminders that the first version has to complete a job. It does not have to contain the whole future roadmap.
+
+<ScopeMap />
+
+## Which of these are you buying?
+
+A prototype answers "Can people understand and react to this?" It can be clickable without a real backend. It can expose a bad workflow before you pay to automate it.
+
+A working MVP answers "Can a real user finish the core job?" Data persists. The critical path works. There is enough design and reliability for a small group to use it and tell you what breaks.
+
+A production release adds the things that make ongoing use and support possible: monitoring, recovery paths, billing or access controls where needed, support surfaces, and a way to change the product without breaking it.
+
+These are not fixed industry price tiers. They are different promises. Two founders can say "MVP" and expect different ones.
+
+## Make the first job painfully specific
+
+Before asking for a quote, write one sentence:
+
+> "A [specific user] can [complete one job] and know it worked because [observable result]."
+
+For a transcription product, that might be: a person uploads a recording and gets text they can correct and export. For a campaign toolkit: a marketer creates a destination and can tell whether a link or QR code was used.
+
+Those are illustrations of the kind of job, not a claim about how the current Pepys or Whooshly roadmap was ordered.
+
+Now list the minimum pieces that make that sentence true. Then put every other feature into "later" until a real user or constraint pulls it forward. This is where cost gets clearer: fewer parallel user journeys, fewer integrations, fewer permission states and fewer exceptional paths.
+
+## Four questions that move the estimate
+
+Start with the user journeys. One role completing one task is different from buyers, admins and partners each needing their own experience.
+
+Count the outside systems. An integration may need authentication, rate-limit handling, retries, field mapping and support when the other service changes.
+
+Ask what can go wrong. A throwaway demo can tolerate failures that a paid product cannot. A production build needs to make bad inputs and interrupted work recoverable.
+
+Name the person who makes the calls. Work slows when no one can decide what ships. A small build needs someone who can say yes, no and "not yet."
+
+The cheapest first release is rarely the one with the least code. It is the one that creates a usable answer to the central question without taking on work the product has not earned.
+
+## My own offer, for context
+
+My current [product development engagement](/product-development/) starts at **$6,000 per month with a 90-day minimum**. The scope is agreed together before work starts. That is the price of *my published engagement*, not a market average or a quote for your product.
+
+I would begin by mapping the user, core workflow, existing assets and what "launched" means in your case. Then I would divide the work into the first release and the things we are explicitly not building yet. If the budget and required scope don't match, that conversation is useful before a sprint begins.
+
+The honest answer to "What does an MVP cost?" is a scoped one. Tell me who the first user is and what they need to finish. I can help turn that into a release worth pricing.
+
+[Send me the messy version](/product-development/#inquiry). A sketch and a problem are enough.
+
+## Sources and checks
+
+<References
+  entries={[
+    { author: 'ankur.works', title: 'Product development engagement', url: '/product-development/', type: 'Published offer', use: 'Source of the quoted starting price and minimum term.' }
+  ]}
+  noteTitle="Checks before publication"
+  notes={[
+    'Confirm the current engagement price and minimum term against the live offer.',
+    'Add an original annotated scope worksheet.',
+    'Treat the prototype, MVP and production-release examples as a scoping framework, not market pricing data.'
+  ]}
+/>

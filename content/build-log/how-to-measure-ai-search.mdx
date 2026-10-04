@@ -1,0 +1,101 @@
+export const meta = {
+  slug: 'how-to-measure-ai-search',
+  title: 'How I measured Pepys’s 8.6× ChatGPT referral growth',
+  seoTitle: 'How to measure AI search: Pepys’s 8.6× ChatGPT referral growth',
+  description: 'Pepys had 8.6× as many ChatGPT-referred sessions in September as July. Here is how I separate AI appearances, referrals, citations and product actions.',
+  date: '2026-10-03',
+  category: 'Search',
+  summaryGeneral: 'Pepys had 8.6× as many ChatGPT-referred sessions in September as July 2026, measured in PostHog across complete UTC months. That is referral growth, not proof of more AI citations or product conversions. Search Console measures Google AI appearances, repeated captures measure observed answers, and product analytics measures what visitors do next.',
+  summaryBullets: [
+    'Pepys had 8.6× as many ChatGPT-referred sessions in September as July 2026; the same PostHog rule was used for both complete months.',
+    'Use Search Console for appearances in Google AI features, not visits from every assistant.',
+    'Track citations with repeated prompts and dated captures, not a single screenshot.',
+    'Measure signups or product use separately before making a growth claim.'
+  ],
+  offer: '/seo-ai-search/'
+}
+
+Pepys had **8.6× as many ChatGPT-referred sessions in September 2026 as in July**. That is a useful growth story. It is also easy to tell it badly.
+
+A founder sees a screenshot of their brand in an AI answer. Someone on the team sees ChatGPT in their referrer report. Search Console shows another number. By Friday, all three are in the same slide, labeled "AI visibility."
+
+I would throw out that slide.
+
+An appearance, a visit and a useful product action are different events. They happen in different places, and they need different instruments. I've had to keep them separate while looking at search for QuoteSweep and Pepys, two products I build.
+
+<SignalMap />
+
+## Start with the question behind the number
+
+If the question is "Are our pages appearing in Google's AI features?", use Search Console. Google now has a [Generative AI performance report](https://support.google.com/webmasters/answer/16984139?hl=en-GB) for impressions in AI Overviews and AI Mode. It can show which pages earned those impressions, and how the count changed over time. Google says it rolled the report out globally on 31 August 2026, although an individual property may still lack access or enough data.
+
+That update retired an easy talking point. Saying "GSC doesn't show AI search" is now too broad. It does show one important part of *Google* AI search.
+
+An impression still isn't a visit. And Google's report does not cover what happened inside ChatGPT, Claude or Perplexity. For those, I look elsewhere.
+
+<figure className="log-proof-shot">
+  <a href="/proof/build-log/quotesweep-gsc-generative-ai-2026-09-29.png" target="_blank" rel="noopener noreferrer" aria-label="Open the full QuoteSweep Search Console Generative AI screenshot">
+    <img src="/proof/build-log/quotesweep-gsc-generative-ai-2026-09-29.png" width="1512" height="770" loading="lazy" alt="QuoteSweep Search Console Generative AI features report showing 141K impressions in the three-month period ending September 29, 2026" />
+  </a>
+  <figcaption><strong>Inside Search Console:</strong> QuoteSweep's Generative AI report shows 141K impressions in the selected three-month view, June 30–September 29, 2026. That is Google's rounded display value. These are appearances in Google's AI features, not visits or a citation count across other assistants. Captured October 4, 2026. Open the image to read the report.</figcaption>
+</figure>
+
+## A ChatGPT referrer is a visit, not a citation
+
+[PostHog's web analytics](https://posthog.com/docs/web-analytics/dashboard) can break sessions down by entry referrer. For Pepys, the published case file counts pageview sessions whose entry referring domain was `chatgpt.com` or `chat.openai.com`.
+
+Using that definition, the current [ankur.works case file](/seo-ai-search/#evidence) reports **8.6 times as many ChatGPT-referred sessions in September 2026 as in July**. Useful? Yes. Proof that Pepys appeared in 8.6 times as many AI answers? No. The session data cannot tell us which answer sent each person, and some AI-influenced visits may arrive without a usable referrer.
+
+The definition is the point. A chart without the referrer rule, timezone and complete date range is an attractive guess. I reran the PostHog query for complete UTC months: **190 sessions in July, 948 in August and 1,637 in September**. September is 8.6 times July after rounding.
+
+<figure className="log-proof-shot">
+  <a href="/proof/build-log/pepys-posthog-chatgpt-sessions-2026-q3.png" target="_blank" rel="noopener noreferrer" aria-label="Open the full Pepys PostHog referral screenshot">
+    <img src="/proof/build-log/pepys-posthog-chatgpt-sessions-2026-q3.png" width="1290" height="685" loading="lazy" alt="Pepys PostHog SQL editor and bar chart showing ChatGPT-referred pageview sessions rising from July to September 2026, with the UTC date, referring-domain and Pepys hostname filters visible" />
+  </a>
+  <figcaption><strong>Inside PostHog:</strong> The actual session query and monthly chart. It includes sessions with a pageview, a Pepys entry hostname and an entry referring domain of <code>chatgpt.com</code> or <code>chat.openai.com</code>. Complete UTC months, July–September 2026; captured October 4. These are referred sessions, not answer citations. Open the image to inspect the query.</figcaption>
+</figure>
+
+## If you want citations, collect citations
+
+I use a fixed set of buyer questions, then capture the answers on a schedule. Record the prompt, engine, date, location or account context where relevant, visible mention, linked source and screenshot. Repeat the same set. That gives you an observation series someone else can inspect.
+
+QuoteSweep has been observed in Google AI Overview comparisons around commercial raters, EZLynx alternatives and Bold Penguin alternatives, according to the dated captures described in the [case file](/seo-ai-search/#evidence). Those captures establish that the pages appeared in *those sampled answers*. They do not establish a global citation rate.
+
+One nice screenshot is worth keeping. It is not a denominator.
+
+## Follow the visitor into the product
+
+The last line on my scorecard is the one a buyer cares about: did anyone sign up, complete the core job or send an inquiry? Those actions live in product analytics or a CRM. They deserve their own definition.
+
+Pepys also grew in completed transcriptions during the same period as its ChatGPT referrals. I would show both trends. I would not claim the referred sessions caused the product growth without a joined journey that supports that conclusion.
+
+Here is the monthly scorecard I would actually use:
+
+| Question | Instrument | Reported unit |
+| --- | --- | --- |
+| Did we appear in Google's AI features? | Search Console Generative AI report | Impressions |
+| Did someone visit from an assistant? | PostHog entry referrer | Sessions |
+| Were we mentioned or cited in answers? | Repeated prompt captures | Observed answers in a defined sample |
+| Did the visit turn into use or demand? | Product analytics or CRM | Defined actions |
+
+You do not need a composite "AI score" to decide what to do next. If impressions rise and visits don't, inspect the page and question context. If visits rise and activation doesn't, inspect the landing experience. If the brand is absent from important comparison answers, make the underlying source material better and test again.
+
+Four honest lines beat one impressive number with no definition.
+
+If you want me to look at the question buyers ask before they find your product, [send me your site](/seo-ai-search/#inquiry). I'll tell you which of these measurements I would start with.
+
+## Sources and checks
+
+<References
+  entries={[
+    { author: 'Google Search Central', title: 'Generative AI performance report', url: 'https://support.google.com/webmasters/answer/16984139?hl=en-GB', type: 'Method documentation', use: 'Defines the Google AI impression measure.' },
+    { author: 'PostHog', title: 'Web analytics and referrers', url: 'https://posthog.com/docs/web-analytics/dashboard', type: 'Method documentation', use: 'Explains the session and entry-referrer instrument.' },
+    { author: 'ankur.works', title: 'Search case file', url: '/seo-ai-search/#evidence', type: 'Primary case file', use: 'Pepys and QuoteSweep figures and measurement notes.' }
+  ]}
+  noteTitle="Interpretation limits"
+  notes={[
+    'The Search Console screenshot reports QuoteSweep appearances in Google AI features; it is not a visit count.',
+    'The PostHog screenshot reports Pepys sessions referred by ChatGPT; it is not a citation count.',
+    'Dated answer captures establish appearances in sampled answers, not a global citation rate.'
+  ]}
+/>
