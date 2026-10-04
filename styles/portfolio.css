@@ -257,3 +257,7 @@
   .offers-home{padding:34px 0 60px}
 }
 @media(max-width:390px){.hero h1{font-size:clamp(43px,12.8vw,50px)}.hero-actions .button{font-size:13px}}
+
+/* Keep the main contact action consistent across the portfolio and offer pages. */
+.header .nav-cta{background:#ffc451;color:var(--ink);border-color:var(--ink)}
+.header .nav-cta:hover{background:var(--ink);color:var(--paper)}

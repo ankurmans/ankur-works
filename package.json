@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/generate-assistant-knowledge.js",
+    "predev": "node scripts/generate-assistant-knowledge.js && node scripts/build-build-log.js",
     "dev": "vite",
-    "prebuild": "node scripts/generate-assistant-knowledge.js",
+    "prebuild": "node scripts/generate-assistant-knowledge.js && node scripts/build-build-log.js",
     "build": "vite build && node scripts/inline-portfolio-css.js",
     "pretest": "node scripts/generate-assistant-knowledge.js",
     "test": "node --test tests/*.test.js",
@@ -14,6 +14,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@mdx-js/mdx": "^3.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remark-gfm": "^4.0.1",
     "vite": "^7.3.1"
   },
   "dependencies": {

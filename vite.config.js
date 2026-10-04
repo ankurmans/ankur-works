@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import contributions from './api/contributions.js';
 import assistant from './api/assistant.js';
@@ -17,6 +17,10 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: Object.fromEntries([
         ['home', resolve(import.meta.dirname, 'index.html')],
+        ['build-log', resolve(import.meta.dirname, 'build-log/index.html')],
+        ...readdirSync(resolve(import.meta.dirname, 'content/build-log'))
+          .filter((file) => file.endsWith('.mdx'))
+          .map((file) => [file.slice(0, -4), resolve(import.meta.dirname, 'build-log', file.slice(0, -4), 'index.html')]),
         ...offerPages.filter((page) => existsSync(resolve(import.meta.dirname, page.file)))
           .map((page) => [page.id, resolve(import.meta.dirname, page.file)]),
       ]),

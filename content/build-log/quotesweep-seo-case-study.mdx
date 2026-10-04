@@ -1,0 +1,80 @@
+export const meta = {
+  slug: 'quotesweep-seo-case-study',
+  title: 'QuoteSweep’s Google clicks grew 929% from April to August',
+  seoTitle: 'QuoteSweep SEO case study: 929% Google click growth',
+  description: '929% Google click growth from April to August while QuoteSweep was still in closed beta. The chart is real; what drove it needs a closer look.',
+  date: '2026-10-03',
+  category: 'Search',
+  summaryGeneral: 'QuoteSweep’s monthly Google clicks grew 929% from April to August 2026 while the product was in closed beta, rising from 96 to 988. The chart shows growth in discovery. Page-level, query-level and product-action data are still needed to explain what drove it and whether those visits became demand.',
+  summaryBullets: [
+    'Google clicks grew 929% from April to August 2026, rising from 96 to 988 per month.',
+    'Search impressions grew 5.5× over the same period, from 44,149 to 244,510.',
+    'Observed AI answer appearances are separate evidence from Search Console clicks.',
+    'Page, query and product-action data are the next checks before crediting a tactic or claiming sales impact.'
+  ],
+  offer: '/seo-ai-search/'
+}
+
+A closed-beta product does not have to wait until launch day to be discoverable.
+
+QuoteSweep's Google clicks grew **929% from April to August 2026** while the product was still in closed beta. Search Console recorded **96 clicks in April and 988 in August**, or 10.3× the starting monthly count. Search impressions grew **5.5×**, from 44,149 to 244,510, over those same complete months.
+
+It's a strong chart. I also want the chart to say exactly what it is.
+
+<EvidenceBars values={[96, 130, 368, 716, 988]} labels={['APR', 'MAY', 'JUN', 'JUL', 'AUG']} title="QuoteSweep: Google clicks by month" source="Search Console · complete months · 2026" />
+
+## The question that made the growth worth watching
+
+A search program for a niche product can collect lots of visits from people who will never buy. That's why I care more about the *kind* of question than the graph shape.
+
+Commercial insurance buyers look for workflows, comparisons and alternatives before they reach a product page. A page that helps them understand a real quoting job has a different role from a generic "what is insurance" definition. The former can lead to a conversation about the product. The latter may never get close.
+
+That is the working thesis behind QuoteSweep's search work: meet people in the decision they are already trying to make, then give them a clear next step. The click graph is evidence of growing Google discovery. It does not, by itself, prove which page or tactic caused the lift.
+
+## What the numbers do and don't show
+
+The five bars above are the complete-month counts currently published in the [ankur.works search case file](/seo-ai-search/#evidence): 96, 130, 368, 716 and 988 clicks. August had roughly 5.5 times April's impressions. The site also reports that QuoteSweep pages were observed in repeated Google AI Overview checks for commercial-rater comparisons, EZLynx alternatives and Bold Penguin alternatives.
+
+Those are separate measures. The Search Console chart counts Google clicks. The answer captures record appearances in a defined sample. Neither is a count of sales, leads or revenue. Neither proves that an AI answer caused a specific click.
+
+<SourceNote>
+  <p><strong>Source boundary:</strong> This draft uses figures already published on ankur.works. Before publication, refresh the Search Console export and attach the dated query/page data and answer captures. The chronology of site changes needs its own source log.</p>
+</SourceNote>
+
+## The part I would investigate next
+
+I would split the growth into query and page classes.
+
+Which pages earned the additional clicks? How much came from the brand name, and how much from non-brand buyer questions? Did comparison pages grow, or did one glossary term account for most of the chart? Did people move from those pages to the product?
+
+These are answerable questions with a page/query export and on-site events. The aggregate chart cannot answer them. I would rather leave that section open than write a neat story about a particular tactic without the change log.
+
+The same goes for timing. A rise after a page change is a clue. To credit the change, I need the publication dates, URL history, query shifts and competing explanations. Search does not hand out clean causal experiments very often.
+
+## What a useful search case file looks like
+
+For a product like QuoteSweep, I would keep four things on one page:
+
+1. A complete-month discovery chart, with the exact Search Console filters.
+2. The pages and query classes that moved, including branded and non-branded splits.
+3. A dated record of what changed on the site.
+4. The next action: inquiry, beta request or product use, with its own source.
+
+That is the case file I want to keep improving. The 10.3× result earns attention. The page and query detail will tell us what to build next.
+
+If your product is getting impressions but you cannot tell which buyer questions matter, [send me the site and one question you care about](/seo-ai-search/#inquiry). That's where I'd start.
+
+## Sources and checks
+
+<References
+  entries={[
+    { author: 'ankur.works', title: 'QuoteSweep search case file', url: '/seo-ai-search/#evidence', type: 'Primary case file', use: 'Monthly click chart and current measurement notes.' },
+    { author: 'Google Search Central', title: 'Search Console performance report', url: 'https://support.google.com/webmasters/answer/7576553?hl=en', type: 'Method documentation', use: 'Definitions and filters for Search Console clicks.' }
+  ]}
+  noteTitle="Checks before publication"
+  notes={[
+    'Refresh the April–August complete-month Search Console export and verify every click and impression value.',
+    'Add page and query splits, plus a dated record of site changes.',
+    'Attach AI answer captures with prompt, engine and date before expanding the citation claim.'
+  ]}
+/>
