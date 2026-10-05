@@ -24,6 +24,7 @@ const callTimer = document.getElementById('ask-ankur-call-timer');
 const callCaptions = document.getElementById('ask-ankur-call-captions');
 const callHistory = document.getElementById('ask-ankur-call-history');
 const callHistoryLabel = document.getElementById('ask-ankur-call-history-label');
+const muteCallButton = document.getElementById('ask-ankur-mute-call');
 const endCallButton = document.getElementById('ask-ankur-end-call');
 const bookingPanel = document.getElementById('ask-ankur-booking');
 const bookingBack = document.getElementById('ask-ankur-booking-back');
@@ -86,6 +87,7 @@ let scrollTimer = null;
 let callTurnCount = 0;
 let voiceReady = false;
 let realtimeConversation = null;
+let callMicMuted = false;
 let realtimeConnectedAt = 0;
 let calEmbedStarted = false;
 let leadSubmissionId = crypto.randomUUID();
@@ -174,10 +176,14 @@ function refreshStarters() {
 function setVoiceStatus(text = '', clearAfter = 0) {
   clearTimeout(voiceStatusTimer);
   voiceStatus.textContent = text;
-  callStatus.textContent = text || 'Connecting…';
+  const routineCallStatus = !text || ['Listening…', 'Speaking…', 'Mic off'].includes(text);
+  callStatus.textContent = callMicMuted && routineCallStatus
+    ? (text === 'Speaking…' ? 'Speaking… · mic off' : 'Mic off')
+    : text || 'Connecting…';
   callScreen.hidden = !voiceModeActive;
   dialog.classList.toggle('is-calling', voiceModeActive);
   callScreen.dataset.phase = /playing|speaking/i.test(text) ? 'speaking'
+    : callMicMuted ? 'muted'
     : /listening/i.test(text) ? 'listening'
     : /moment|sec|thinking|answer/i.test(text) ? 'thinking' : 'connecting';
   endVoiceButton.hidden = !voiceModeActive;
@@ -189,6 +195,19 @@ function setVoiceStatus(text = '', clearAfter = 0) {
     button.setAttribute('aria-pressed', String(voiceModeActive));
   }
   if (text && clearAfter) voiceStatusTimer = setTimeout(() => setVoiceStatus(), clearAfter);
+}
+function updateCallMuteButton() {
+  muteCallButton.setAttribute('aria-pressed', String(callMicMuted));
+  muteCallButton.querySelector('span').textContent = callMicMuted ? 'Unmute mic' : 'Mute mic';
+  muteCallButton.title = callMicMuted ? 'Turn microphone on' : 'Turn microphone off';
+}
+function toggleCallMute() {
+  if (!voiceModeActive || !realtimeConversation) return;
+  callMicMuted = !callMicMuted;
+  realtimeConversation.setMicMuted(callMicMuted);
+  updateCallMuteButton();
+  setVoiceStatus(callMicMuted ? 'Mic off' : 'Listening…');
+  posthog.capture('ai_twin_call_mic_toggled', { muted: callMicMuted });
 }
 function addCallHistory(role, content) {
   const entry = document.createElement('p');
@@ -731,6 +750,9 @@ function cancelRecording() {
 }
 function endVoiceMode() {
   voiceModeActive = false;
+  callMicMuted = false;
+  muteCallButton.disabled = true;
+  updateCallMuteButton();
   const session = realtimeConversation;
   realtimeConversation = null;
   if (session && realtimeConnectedAt) {
@@ -769,6 +791,9 @@ async function startRealtimeCall() {
   startingVoice = true;
   const session = ++voiceSession;
   voiceModeActive = true;
+  callMicMuted = false;
+  muteCallButton.disabled = true;
+  updateCallMuteButton();
   callHistory.replaceChildren();
   callTurnCount = 0;
   callHistoryLabel.textContent = 'Conversation history';
@@ -788,6 +813,7 @@ async function startRealtimeCall() {
     if (session !== voiceSession || !voiceModeActive) return;
     const connection = Conversation.startSession({
       conversationToken: data.token,
+      connectionType: 'webrtc',
       onConnect: () => { if (session === voiceSession) setVoiceStatus('Listening…'); },
       onModeChange: ({ mode }) => { if (session === voiceSession) setVoiceStatus(mode === 'speaking' ? 'Speaking…' : 'Listening…'); },
       onMessage: ({ role, message }) => {
@@ -801,7 +827,14 @@ async function startRealtimeCall() {
         persistMessage(kind, message, [], false, chatId);
         welcome.hidden = true;
       },
-      onError: (message) => { if (session === voiceSession) setVoiceStatus(message || 'The call lost its connection.'); },
+      onError: (message) => {
+        if (session !== voiceSession) return;
+        if (message === 'Failed to set input muted state') {
+          callMicMuted = false;
+          updateCallMuteButton();
+        }
+        setVoiceStatus(message || 'The call lost its connection.');
+      },
       onDisconnect: () => { if (session === voiceSession && voiceModeActive) endVoiceMode(); },
     });
     void connection.then((lateSession) => {
@@ -814,6 +847,7 @@ async function startRealtimeCall() {
     if (session !== voiceSession || !voiceModeActive) await conversation.endSession();
     else {
       realtimeConversation = conversation;
+      muteCallButton.disabled = false;
       realtimeConnectedAt = Date.now();
       posthog.capture('ai_twin_call_started', { source: 'ai_twin' });
     }
@@ -991,6 +1025,7 @@ dockCall.addEventListener('click', toggleCall);
 call.addEventListener('click', toggleCall);
 endVoiceButton.addEventListener('click', endVoiceMode);
 endCallButton.addEventListener('click', () => { endVoiceMode(); renderChat(); input.focus(); });
+muteCallButton.addEventListener('click', toggleCallMute);
 bookingBack.addEventListener('click', backFromBooking);
 leadBack.addEventListener('click', backFromLead);
 emailChat.addEventListener('click', showLeadForm);
