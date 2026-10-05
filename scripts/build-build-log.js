@@ -140,7 +140,7 @@ function pageShell(meta, content, { index = false } = {}) {
 <meta name="robots" content="noindex,nofollow"><title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}">
 <meta property="og:type" content="${index ? 'website' : 'article'}"><meta property="og:site_name" content="ankur.works"><meta property="og:title" content="${escapeHtml(socialTitle)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${escapeHtml(url)}"><meta property="og:image" content="${escapeHtml(socialImage)}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${escapeHtml(socialImageAlt)}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeHtml(socialTitle)}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${escapeHtml(socialImage)}">
-<link rel="canonical" href="${escapeHtml(url)}"><link rel="icon" type="image/png" sizes="256x256" href="/favicon.png"><link rel="apple-touch-icon" href="/favicon.png">
+<link rel="canonical" href="${escapeHtml(url)}"><link rel="icon" type="image/jpeg" href="/favicon-headshot.jpeg?v=2">
 <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles/build-log.css"></head><body class="build-log-page">
 <a class="skip" href="#main">Skip to content</a>
