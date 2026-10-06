@@ -279,6 +279,41 @@ test('a harmless tangent gets a short model-generated reply without unrelated fa
   } finally { global.fetch = original; }
 });
 
+test('a second tangent can return to the visitor’s stated need without reviving an offer pitch', async () => {
+  const original = global.fetch;
+  const prompts = [];
+  global.fetch = async (url, options) => {
+    assert.equal(url, 'https://ai-gateway.vercel.sh/v1/chat/completions');
+    const payload = JSON.parse(options.body);
+    prompts.push(payload.messages[0].content);
+    assert.deepEqual(JSON.parse(payload.messages[1].content).SITE_CONTENT, []);
+    const answer = prompts.length === 1
+      ? 'Napoleon probably had bigger breakfast problems.'
+      : 'Pasta, garlic, olive oil, and lemon. Want to get back to why your product is not being found?';
+    return { ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify({ answer, source_ids: [], outcome: 'refused' }) } }] }) };
+  };
+  try {
+    const businessHistory = [
+      { role: 'user', content: 'I have a product and need help getting discovered.' },
+      { role: 'assistant', content: 'I would inspect the buyer questions and pages first.' },
+    ];
+    const first = response();
+    await handler(request({ question: 'What did Napoleon have for breakfast?', history: businessHistory }), first);
+    assert.equal(first.statusCode, 200);
+    assert.match(prompts[0], /Let this first tangent breathe/);
+
+    const second = response();
+    await handler(request({ question: 'Give me a pasta recipe', history: [
+      ...businessHistory,
+      { role: 'user', content: 'What did Napoleon have for breakfast?' },
+      { role: 'assistant', content: first.body.answer },
+    ] }), second);
+    assert.equal(second.statusCode, 200);
+    assert.match(prompts[1], /Add one light, optional question/);
+    assert.match(second.body.answer, /your product is not being found/);
+  } finally { global.fetch = original; }
+});
+
 test('booking questions return the in-chat handoff without a model call', async () => {
   const res = response();
   await handler(request({ question: 'How can I get in touch?' }), res);
