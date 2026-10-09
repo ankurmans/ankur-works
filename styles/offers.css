@@ -55,11 +55,14 @@
 .offer-section-intro h2,.offer-cta h2,.offer-note h2{font:700 clamp(50px,5.6vw,82px)/.98 var(--display);letter-spacing:-.08em}
 .offer-section-intro h2 em{font-style:normal;color:var(--orange)}
 .offer-section-intro>p:last-child{font-size:17px;color:#5a554d;line-height:1.5;max-width:460px}
-.product-proof-grid{display:grid;grid-template-columns:minmax(0,1.18fr) repeat(2,minmax(0,1fr));gap:17px}
+.product-proof-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
 .product-proof{min-width:0;border-radius:23px;padding:24px;min-height:495px;display:flex;flex-direction:column;overflow:hidden}
 .proof-pepys{background:#302b68;color:#fbf8ef}
 .proof-whooshly{background:#ffc451;color:#171715}
 .proof-quotesweep{background:#cce4dc;color:#1d392f}
+.proof-sniffington{background:#e5d3a7;color:#182b23}
+.proof-sniffington .proof-screen{border:1px solid #192c24;box-shadow:6px 7px 0 #192c24}
+.proof-sniffington .proof-system{background:#fff6df;border-color:#b29c67}
 .proof-top{display:flex;align-items:center;justify-content:space-between;gap:12px;font:700 10px var(--display);letter-spacing:.07em}
 .proof-top img{width:42px;height:42px;object-fit:contain;border-radius:9px}
 .product-proof h3{font:700 38px var(--display);letter-spacing:-.07em;margin:22px 0 10px}
@@ -291,16 +294,6 @@
 @media(max-width:760px){.search-journey-grid,.search-fit-grid{grid-template-columns:1fr}.search-gtm-flow{display:grid;grid-template-columns:1fr;gap:4px}.search-gtm-flow span{min-height:0;padding:14px 17px}.search-gtm-flow i{transform:rotate(90deg);line-height:1}.search-method-list{grid-template-columns:1fr}.search-method-list li,.search-method-list li:first-child,.search-method-list li:nth-child(4){border-left:0;border-bottom:1px solid #bcb4a8;padding:17px 0}.search-method-list li:last-child{border-bottom:0}.search-method-list span{margin-top:7px}.search-method-foot{display:block;padding:20px}.search-method-foot a{display:inline-block;margin-top:20px}}
 @media(max-width:760px){.engagement-price{display:block;padding:20px}.engagement-price .offer-pricing{margin-top:10px}}
 @media(max-width:480px){.proof-bridge .button{width:100%;justify-content:center}.answer-prompts li{font-size:10px}}
-
-/* Keep all three product proofs intentional at tablet widths. */
-@media(min-width:761px) and (max-width:1050px){
-  .proof-quotesweep{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.85fr);grid-template-rows:auto auto 1fr auto;column-gap:28px;min-height:300px}
-  .proof-quotesweep .proof-top{grid-column:1/-1}
-  .proof-quotesweep h3{grid-column:1;grid-row:2}
-  .proof-quotesweep>p{grid-column:1;grid-row:3;min-height:0;max-width:440px}
-  .proof-quotesweep .proof-search{grid-column:2;grid-row:2/5;align-self:center;height:180px;margin:0}
-  .proof-quotesweep>a{grid-column:1;grid-row:4;margin-top:10px}
-}
 
 /* Let phone cards size to their content and keep long offer names inside the grid. */
 @media(max-width:760px){

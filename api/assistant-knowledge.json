@@ -24,6 +24,12 @@
     "text": "QuoteSweep. Building tools for a better commercial insurance workflow, from messy inputs to clearer decisions. Status: ◌ Closed beta."
   },
   {
+    "id": "sniffington",
+    "title": "Sniffington",
+    "url": "/#work",
+    "text": "Sniffington. Social listening that finds real brand mentions across public platforms, filters namesakes, and shows why each post made the cut. Status: ● Live."
+  },
+  {
     "id": "twinsona",
     "title": "Twinsona",
     "url": "/#work",
@@ -146,7 +152,7 @@
     "title": "I've shipped the whole thing",
     "url": "/product-development/#proof",
     "page": "/product-development/",
-    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep BUILT IN THE OPEN I built Pepys for transcription, Whooshly for campaigns, and QuoteSweep for commercial insurance quoting. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. I built a connected campaign toolkit: editable short links and QR codes, UTM-tagged destinations, bio and landing pages, and reporting for clicks, scans and leads. One campaign, across the surfaces a marketer actually uses. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job.",
+    "text": "I've shipped the whole thing Pepys Whooshly QuoteSweep Sniffington BUILT IN THE OPEN I built Pepys for transcription, Whooshly for campaigns, QuoteSweep for commercial insurance quoting, and Sniffington for social listening. Audio and video become transcripts, captions and useful text. Product, interface, integrations and the less visible engineering behind them. I built a connected campaign toolkit: editable short links and QR codes, UTM-tagged destinations, bio and landing pages, and reporting for clicks, scans and leads. One campaign, across the surfaces a marketer actually uses. A commercial insurance workflow product for taking messy information toward clearer quoting decisions. A vertical product, built around a real job. A hosted social listening app that checks public platforms for brand mentions, filters out namesakes, and explains why each post was kept or ruled out.",
     "provenance": "Published copy from product-development/index.html; verify live publication separately"
   },
   {
@@ -266,7 +272,7 @@
     "title": "Mascots people remember",
     "url": "/mascot-branding/",
     "page": "/mascot-branding/",
-    "text": "Mascots people remember CHARACTER-LED MARKETING / FOR PRODUCT BRANDS I create brand mascots that explain your product, carry launches, and show up again in content people recognise. Two products. Two characters. Both in motion.",
+    "text": "Mascots people remember CHARACTER-LED MARKETING / FOR PRODUCT BRANDS I create brand mascots that explain your product, carry launches, and show up again in content people recognise. Real products. Characters with jobs to do.",
     "provenance": "Published copy from mascot-branding/index.html; verify live publication separately"
   },
   {
@@ -274,7 +280,7 @@
     "title": "They already have day jobs.",
     "url": "/mascot-branding/#characters",
     "page": "/mascot-branding/",
-    "text": "They already have day jobs. Meet Quincy. A QR code with a personality. A scribe with more than one line. THE CHARACTERS These aren't speculative clients. They're characters built around my own products, shown in the context they were made for. Quincy is Whooshly's sticker mascot: part product guide, part recurring face for links and QR codes. The same character works inside the product and in a short launch film. Pepys's little scribe can move from a review to a language feature without losing its personality. The same character carries a product film about the quote behind the wrong speaker label.",
+    "text": "They already have day jobs. Meet Quincy. A QR code with a personality. A scribe with more than one line. Meet the detective who checks the mentions. THE CHARACTERS These aren't speculative clients. They're characters built around my own products, shown in the context they were made for. Quincy is Whooshly's sticker mascot: part product guide, part recurring face for links and QR codes. The same character works inside the product and in a short launch film. Pepys's little scribe can move from a review to a language feature without losing its personality. The same character carries a product film about the quote behind the wrong speaker label. Sniffington gives a social listening product its own bloodhound detective. The character helps explain the core job: find posts about your brand, rule out namesakes, and show the reason behind each call.",
     "provenance": "Published copy from mascot-branding/index.html; verify live publication separately"
   },
   {
