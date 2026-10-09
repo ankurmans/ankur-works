@@ -1,0 +1,50 @@
+<svg class="snf pose-greet" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Sniffington the bloodhound" xmlns="http://www.w3.org/2000/svg"><style>.snf{overflow:visible}
+.snf .snf-ear-l{transform-box:view-box;transform-origin:72px 76px;animation:snf-sway-l 3.4s ease-in-out infinite}
+.snf .snf-ear-r{transform-box:view-box;transform-origin:128px 76px;animation:snf-sway-r 3.4s ease-in-out infinite .5s}
+.snf .snf-body{animation:snf-breathe 4.2s ease-in-out infinite}
+.snf .snf-lid{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(.42);animation:snf-blink 5.2s infinite}
+.snf .snf-nose{transform-box:fill-box;transform-origin:50% 50%;animation:snf-sniff 6s infinite 1.2s}
+.snf .snf-pupil{transform:translate(var(--px,0px),var(--py,0px));transition:transform .12s ease-out}
+.snf .snf-glass{transform-box:view-box;transform-origin:150px 170px;animation:snf-bob 3s ease-in-out infinite}
+.snf .snf-wave{transform-box:view-box;transform-origin:142px 176px;animation:snf-wave 1.4s ease-in-out infinite}
+.snf .snf-hat{transform-box:view-box;transform-origin:100px 66px}
+.snf .snf-spark{opacity:0;transition:opacity .2s}
+.snf.flap .snf-ear-l{animation:snf-flap-l .16s ease-in-out 8 alternate}
+.snf.flap .snf-ear-r{animation:snf-flap-r .16s ease-in-out 8 alternate}
+.snf.flap .snf-hat{animation:snf-hop .32s ease-out 2}
+.snf.sniffing .snf-nose{animation:snf-sniff-fast .3s ease-in-out infinite}
+.snf.sniffing .snf-glass{animation:snf-bob .6s ease-in-out infinite}
+.snf.found .snf-ear-l,.snf.pose-found .snf-ear-l{animation:none;transform:rotate(28deg)}
+.snf.found .snf-ear-r,.snf.pose-found .snf-ear-r{animation:none;transform:rotate(-28deg)}
+.snf.found .snf-lid,.snf.pose-found .snf-lid{animation:none;transform:scaleY(.04)}
+.snf.found .snf-hat{animation:snf-hop .4s ease-out 1}
+.snf.found .snf-spark,.snf.pose-found .snf-spark{opacity:1}
+.snf.pose-shrug .snf-brow{transform:translateY(-5px)}
+.snf.still *{animation:none!important}
+@keyframes snf-sway-l{0%,100%{transform:rotate(0)}50%{transform:rotate(4deg)}}
+@keyframes snf-sway-r{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}
+@keyframes snf-flap-l{from{transform:rotate(-4deg)}to{transform:rotate(34deg)}}
+@keyframes snf-flap-r{from{transform:rotate(4deg)}to{transform:rotate(-34deg)}}
+@keyframes snf-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(1.5px)}}
+@keyframes snf-blink{0%,93%,100%{transform:scaleY(.42)}96%{transform:scaleY(1)}}
+@keyframes snf-sniff{0%,78%,100%{transform:scale(1)}82%{transform:scale(1.14,1.08)}86%{transform:scale(1)}90%{transform:scale(1.14,1.08)}94%{transform:scale(1)}}
+@keyframes snf-sniff-fast{0%,100%{transform:scale(1)}50%{transform:scale(1.16,1.1)}}
+@keyframes snf-bob{0%,100%{transform:rotate(0)}50%{transform:rotate(-6deg)}}
+@keyframes snf-wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-20deg)}}
+@keyframes snf-hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+@media (prefers-reduced-motion:reduce){.snf *{animation:none!important;transition:none!important}}</style>
+<g stroke="#121212" stroke-width="4" stroke-linejoin="round"><g class="snf-body">
+<path d="M40 200 L56 152 Q100 134 144 152 L160 200 Z" fill="#0e6b52"/><path d="M72 147 L100 184 L128 147 L117 143 L100 164 L83 143 Z" fill="#0a5641"/>
+<g class="snf-ear-l"><path d="M66 70 Q38 100 44 150 Q50 172 70 167 Q84 132 82 90 Z" fill="#a8693a"/><path d="M60 104 Q56 130 62 150" fill="none" stroke-width="2.5" opacity=".35"/></g>
+<g class="snf-ear-r"><path d="M134 70 Q162 100 156 150 Q150 172 130 167 Q116 132 118 90 Z" fill="#a8693a"/><path d="M140 104 Q144 130 138 150" fill="none" stroke-width="2.5" opacity=".35"/></g>
+<ellipse cx="100" cy="100" rx="42" ry="50" fill="#f2b56b"/>
+<path d="M66 118 Q70 100 76 92 M134 118 Q130 100 124 92" fill="none" stroke-width="2.5" opacity=".3"/>
+<ellipse cx="100" cy="134" rx="31" ry="24" fill="#ffe2b0"/>
+<g class="snf-brow"><path d="M75 89 q9 -6 17 0" fill="none" stroke-linecap="round"/><path d="M108 89 q9 -6 17 0" fill="none" stroke-linecap="round"/></g>
+<circle cx="84" cy="102" r="8" fill="#ffffff"/><circle class="snf-pupil" cx="84" cy="103" r="4.6" fill="#121212" stroke="none"/><ellipse class="snf-lid" cx="84" cy="101.5" rx="9.6" ry="9.6" fill="#f2b56b" stroke="none"/><circle cx="116" cy="102" r="8" fill="#ffffff"/><circle class="snf-pupil" cx="116" cy="103" r="4.6" fill="#121212" stroke="none"/><ellipse class="snf-lid" cx="116" cy="101.5" rx="9.6" ry="9.6" fill="#f2b56b" stroke="none"/>
+<g class="snf-nose"><ellipse cx="100" cy="122" rx="15" ry="10.5" fill="#121212"/><ellipse cx="95" cy="118.5" rx="5" ry="3" fill="#ffffff" fill-opacity=".5" stroke="none"/></g>
+<path d="M100 133 V141 M88 143 Q100 153 112 143" fill="none" stroke-linecap="round" stroke-width="3.5"/>
+<g class="snf-hat"><path d="M56 66 Q60 30 100 28 Q140 30 144 66 Q100 58 56 66 Z" fill="#f2c14e"/><path d="M70 40 L68 62 M100 29 V60 M130 40 L132 62 M60 52 Q100 44 140 52" fill="none" stroke-width="2.5" opacity=".45"/><path d="M54 66 Q100 57 146 66 Q152 77 138 77 Q100 69 62 77 Q48 77 54 66 Z" fill="#d9a62f"/><path d="M92 28 q8 -10 16 0 q-8 5 -16 0 Z" fill="#d9a62f"/></g>
+<g class="snf-wave"><path d="M142 176 Q152 150 158 128" fill="none" stroke-width="13" stroke-linecap="round"/><path d="M142 176 Q152 150 158 128" fill="none" stroke="#0e6b52" stroke-width="7" stroke-linecap="round"/><ellipse cx="160" cy="120" rx="12" ry="11" fill="#f2b56b"/><path d="M154 112 v-5 M160 110 v-6 M166 112 v-5" fill="none" stroke-width="2.5" stroke-linecap="round"/></g>
+<g class="snf-spark" fill="none" stroke-linecap="round" stroke-width="3.5"><path d="M30 44 l-9 -8 M42 30 l-3 -11 M170 44 l9 -8 M158 30 l3 -11"/></g>
+</g></g></svg>
